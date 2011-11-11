@@ -1,54 +1,48 @@
 
+ LCTuple
+ -------
 
-Quick steps to build the LCTuple example:
-------------------------------------------
+ Marlin package that creates a ROOT TTree with a column wise ntuple
+ from LCIO collections.
+
+ F.Gaede, DESY, 2011
+
+-----------------------------------------------------
+
+
+
+  Build LCTuple
+  -------------
 
     . /path/to/ilcsoft/installation/v01-XX/init_ilcsoft.sh
     mkdir build
     cd build
     cmake -C $ILCSOFT/ILCSoft.cmake ..
     make install # this should create library: lib/libLCTuple.so
+    cd ..
 
 
-
-Quick steps to load LCTuple example into Marlin:
--------------------------------------------------
+ 
+ Running LCTuple
+ ---------------
 
     export MARLIN_DLL=$PWD/lib/libLCTuple.so
-    Marlin -x > mysteer.xml
-    grep LCTuple mysteer.xml # should display ... Loading shared library ... (lib/libLCTuple.so)
+    cd example
+    Marlin --global.LCIOInputFiles=./DST01-06_ppr004_6f_bbqqqq_500_ILD_00_0.001.slcio --global.MaxRecordNumber=1000 lctuple.xml
+    
+
+    // make plots with TTree:Draw(), e.g.
+    root -l 
+    x conversion.C("./lctuple.root")
 
 
+ 
+-------------------------------------------------------------------------------------------
 
-Quick steps to change this example into your own Marlin plugin:
----------------------------------------------------------------
+ Status:
+ -------
 
-    1.) rename source files:
-        
-        mv include/MyProcessor.h include/ChooseAReasonableNameForThisClass.h
-        mv src/MyProcessor.cc src/ChooseAReasonableNameForThisClass.cc
+    first version - creates CWNT for MCParticle collection
 
-    2.) change CMakeLists.txt:
-
-        PROJECT( ChooseAReasonableName )
-
-        Check DEPENDENCIES for additional required / optional packages
-
-
-    3.) compile your new plugin and load it into Marlin as described above
-
-
-
-
-Infos and support:
-------------------
-
-iLCSoft general documentation:
-http://ilcsoft.desy.de/portal/general_documentation/index_eng.html
-
-CMake website:
-http://www.cmake.org
-
-The Linear Collider Forum:
-http://forum.linearcollider.org
+     
 
