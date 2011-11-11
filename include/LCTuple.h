@@ -9,22 +9,21 @@
 using namespace lcio ;
 using namespace marlin ;
 
+class TTree ;
+class CWBranchesSet ;
 
-/**  Example processor for marlin.
- * 
- *  If compiled with MARLIN_USE_AIDA 
- *  it creates a histogram (cloud) of the MCParticle energies.
- * 
+/** Creates a simple column wise ntuple in a ROOT tree from LCIO collections.
+ 
  *  <h4>Input - Prerequisites</h4>
  *  Needs the collection of MCParticles.
  *
  *  <h4>Output</h4> 
- *  A histogram.
+ *  A ROOT TTree with LCIO data in column wise ntuple format
  * 
- * @param CollectionName Name of the MCParticle collection
+ * @param MCParticleCollection  Name of the MCParticle collection
  * 
  * @author F. Gaede, DESY
- * @version $Id: LCTuple.h,v 1.4 2005-10-11 12:57:39 gaede Exp $ 
+ * @version $Id$
  */
 
 class LCTuple : public Processor {
@@ -62,7 +61,11 @@ class LCTuple : public Processor {
 
   /** Input collection name.
    */
-  std::string _colName ;
+  std::string _mcpColName ;
+
+  TTree* _tree ;
+
+  CWBranchesSet* _mcpBranches ;
 
   int _nRun ;
   int _nEvt ;

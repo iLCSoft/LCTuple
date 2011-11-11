@@ -1,10 +1,15 @@
 #include "LCTuple.h"
 
+#include "TTree.h"
+
 #include <EVENT/LCCollection.h>
 #include <EVENT/MCParticle.h>
 
 // ----- include for verbosity dependend logging ---------
 #include "marlin/VerbosityLevels.h"
+
+#include "MCParticleBranches.h"
+
 
 
 using namespace lcio ;
@@ -24,7 +29,7 @@ LCTuple::LCTuple() : Processor("LCTuple") {
   registerInputCollection( LCIO::MCPARTICLE,
 			   "CollectionName" , 
 			   "Name of the MCParticle collection"  ,
-			   _colName ,
+			   _mcpColName ,
 			   std::string("MCParticle")
 			   );
 }
@@ -41,6 +46,10 @@ void LCTuple::init() {
     _nRun = 0 ;
     _nEvt = 0 ;
 
+    _tree = new TTree( "LCTuple" , "column wise ntuple with LCIO data") ;
+   
+    _mcpBranches =  new MCParticleBranches() ;
+
 }
 
 
@@ -56,41 +65,41 @@ void LCTuple::processEvent( LCEvent * evt ) {
 
   if( isFirstEvent() ) { 
     
-  }
-  LCCollection* col = evt->getCollection( _colName ) ;
-  
-  
-  // Alternativelly if you do not want Marlin to exit in case of a non-existing collection
-  // use the following (commented out) code:
-  //LCCollection* col = NULL;
-  //try{
-  //    col = evt->getCollection( _colName );
-  //}
-  //catch( lcio::DataNotAvailableException e )
-  //{
-  //    streamlog_out(WARNING) << _colName << " collection not available" << std::endl;
-  //    col = NULL;
-  //}
-  
-  // this will only be entered if the collection is available
-  if( col != NULL ){
-    
-    int nMCP = col->getNumberOfElements()  ;
-    
-    for(int i=0; i< nMCP ; i++){
-      
-      MCParticle* p = dynamic_cast<MCParticle*>( col->getElementAt( i ) ) ;
-      
-      // fill histogram from LCIO data :
-      //      hMCPEnergy->fill( p->getEnergy() ) ;
+    //=====================================================
+    //    initialize the branches 
 
-    } 
+    _mcpBranches->initBranches( _tree ) ;
   }
+
+  //=====================================================
+  //     add the collection index to the objects 
   
+  LCCollection* mcpCol = evt->getCollection( _mcpColName ) ;
   
+  int nmc  = mcpCol->getNumberOfElements() ;
+
+  for(int i=0 ; i < nmc ; ++i){
+    
+    lcio::MCParticle* mcp = static_cast<lcio::MCParticle*>( mcpCol->getElementAt(i) ) ;
+    
+    mcp->ext<CollIndex>() = i + 1 ;
+  }  
+
+
+  //================================================
+  //    fill the ntuple arrays 
   
-  //-- note: this will not be printed if compiled w/o MARLINDEBUG=1 !
+  _mcpBranches->fill( mcpCol , evt ) ;
+
+
+
+
+  //================================================
+  _tree->Fill() ;
+
+
   
+
   streamlog_out(DEBUG) << "   processing event: " << evt->getEventNumber() 
 		       << "   in run:  " << evt->getRunNumber() << std::endl ;
   
@@ -108,9 +117,10 @@ void LCTuple::check( LCEvent * evt ) {
 
 void LCTuple::end(){ 
   
-  //   std::cout << "LCTuple::end()  " << name() 
-  // 	    << " processed " << _nEvt << " events in " << _nRun << " runs "
-  // 	    << std::endl ;
+  streamlog_out( MESSAGE ) << " processed " << _nEvt << " events in " << _nRun << " runs "
+			   << std::endl ;
+
+  delete  _mcpBranches  ;
   
 }
 
