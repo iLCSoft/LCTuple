@@ -15,12 +15,15 @@ class CWBranchesSet ;
 /** Creates a simple column wise ntuple in a ROOT tree from LCIO collections.
  
  *  <h4>Input - Prerequisites</h4>
- *  Needs the collection of MCParticles.
+ *  Needs collections of MCParticles, ReconstructedParticles, Tracks, ....
+ *  There can only be one collection of every type (users should copy all collections
+ *  of a given type into one (subset) collection).
  *
  *  <h4>Output</h4> 
  *  A ROOT TTree with LCIO data in column wise ntuple format
  * 
  * @param MCParticleCollection  Name of the MCParticle collection
+ * @param RecoCollection        Name of the ReconstructedParticleParticle collection
  * 
  * @author F. Gaede, DESY
  * @version $Id$
@@ -62,10 +65,14 @@ class LCTuple : public Processor {
   /** Input collection name.
    */
   std::string _mcpColName ;
+  std::string _recColName ;
+  std::string _rmtColName ;
 
   TTree* _tree ;
 
   CWBranchesSet* _mcpBranches ;
+  CWBranchesSet* _recBranches ;
+  CWBranchesSet* _rmtBranches ;
 
   int _nRun ;
   int _nEvt ;

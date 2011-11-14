@@ -48,6 +48,7 @@ private:
   float  _mcmoy[ LCT_MCPARTICLE_MAX ] ;
   float  _mcmoz[ LCT_MCPARTICLE_MAX ] ;
   float  _mcmas[ LCT_MCPARTICLE_MAX ] ;
+  float  _mcene[ LCT_MCPARTICLE_MAX ] ;
   float  _mccha[ LCT_MCPARTICLE_MAX ] ;
   float  _mctim[ LCT_MCPARTICLE_MAX ] ;
   float  _mcspx[ LCT_MCPARTICLE_MAX ] ;

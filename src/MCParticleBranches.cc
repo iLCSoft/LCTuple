@@ -31,6 +31,7 @@ void MCParticleBranches::initBranches( TTree* tree, const std::string& pre){
   tree->Branch( (pre+"mcmoy").c_str() , _mcmoy , (pre+"mcmoy[nmcp]/F").c_str() ) ;
   tree->Branch( (pre+"mcmoz").c_str() , _mcmoz , (pre+"mcmoz[nmcp]/F").c_str() ) ;
   tree->Branch( (pre+"mcmas").c_str() , _mcmas , (pre+"mcmas[nmcp]/F").c_str() ) ;
+  tree->Branch( (pre+"mcene").c_str() , _mcene , (pre+"mcene[nmcp]/F").c_str() ) ;
   tree->Branch( (pre+"mccha").c_str() , _mccha , (pre+"mccha[nmcp]/F").c_str() ) ;
   tree->Branch( (pre+"mctim").c_str() , _mctim , (pre+"mctim[nmcp]/F").c_str() ) ;
   tree->Branch( (pre+"mcspx").c_str() , _mcspx , (pre+"mcspx[nmcp]/F").c_str() ) ;
@@ -45,6 +46,8 @@ void MCParticleBranches::initBranches( TTree* tree, const std::string& pre){
 
 void MCParticleBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* evt ){
   
+  if( !col ) return ;
+
   if( col->getTypeName() != lcio::LCIO::MCPARTICLE ){
 
     std::string exStr("MCParticleBranches::fill: invalid collection type : " ) ;
@@ -73,6 +76,7 @@ void MCParticleBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* ev
     _mcmoy[ i ] = mcp->getMomentum()[1] ;
     _mcmoz[ i ] = mcp->getMomentum()[2] ;
     _mcmas[ i ] = mcp->getMass() ;
+    _mcene[ i ] = mcp->getEnergy() ;
     _mccha[ i ] = mcp->getCharge() ;
     _mctim[ i ] = mcp->getTime() ;
     _mcspx[ i ] = mcp->getSpin()[0] ;

@@ -36,7 +36,11 @@
  <processor name="MyLCTuple" type="LCTuple">
  <!--LCTuple creates a ROOT TTRee with a column wise ntuple from LCIO collections ....-->
   <!--Name of the MCParticle collection-->
-  <parameter name="CollectionName" type="string" lcioInType="MCParticle">MCParticlesSkimmed </parameter>
+  <parameter name="MCParticleCollection" type="string" lcioInType="MCParticle">MCParticlesSkimmed </parameter>
+  <!--Name of the ReconstructedParticle collection-->
+  <parameter name="RecoParticleCollection" type="string" lcioInType="ReconstructedParticle"> PandoraPFOs</parameter>
+  <!--Name of the RecoMCTruth relation collection-->
+  <parameter name="RecoMCTruthCollection" type="string" lcioInType="LCRelation">RecoMCTruthLink </parameter>
   <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
   <!--parameter name="Verbosity" type="string">DEBUG </parameter-->
 </processor>
