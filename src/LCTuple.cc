@@ -2,16 +2,18 @@
 
 #include "TTree.h"
 
-#include <EVENT/LCCollection.h>
 #include <EVENT/MCParticle.h>
 #include <EVENT/ReconstructedParticle.h>
 #include <EVENT/LCRelation.h>
+#include <IMPL/LCCollectionVec.h>
 
 // ----- include for verbosity dependend logging ---------
 #include "marlin/VerbosityLevels.h"
 
+#include "EventBranches.h"
 #include "MCParticleBranches.h"
 #include "RecoParticleBranches.h"
+#include "PIDBranches.h"
 #include "LCRelationBranches.h"
 
 
@@ -23,20 +25,22 @@ using namespace marlin ;
 
 /** helper function to get collection safely */
 inline lcio::LCCollection* getCollection(lcio::LCEvent* evt, const std::string name ){
-
+  
   if( name.size() == 0 )
     return 0 ;
-
+  
   try{
     
     return evt->getCollection( name ) ;
     
   } catch( lcio::DataNotAvailableException& e ){
     
+    streamlog_out( DEBUG2 ) << "getCollection :  DataNotAvailableException : " << name <<  std::endl ;
+    
     return 0 ;
   }
 }
-
+//------------------------------------------------------------------------------------------------
 
 
 LCTuple aLCTuple ;
@@ -53,76 +57,138 @@ LCTuple::LCTuple() : Processor("LCTuple") {
 			   "MCParticleCollection" , 
 			   "Name of the MCParticle collection"  ,
 			   _mcpColName ,
-			   std::string("MCParticle")
+			   std::string("")
 			   );
-
+  
   registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE,
 			   "RecoParticleCollection" , 
 			   "Name of the ReconstructedParticle collection"  ,
 			   _recColName ,
-			   std::string("PandoraPFOs")
+			   std::string("")
 			   );
-
-  registerInputCollection( LCIO::LCRELATION,
-			   "RecoMCTruthCollection" , 
-			   "Name of the RecoMCTruth relation collection"  ,
-			   _rmtColName ,
-			   std::string("RecoMCTruthLink")
-			   );
+  
+  StringVec relColNames ;
+  registerInputCollections( LCIO::LCRELATION,
+			    "LCRelationCollections" , 
+			    "Names of LCRelation collections - need parallel prefix names in RelPrefixes"  ,
+			    _relColNames ,
+			    relColNames
+			    );
+  
+  StringVec relPrefixes ;
+  registerProcessorParameter( "LCRelationPrefixes" , 
+			      " Names of prefixes for variables from LCRelation collections - "
+			      "needs to be parallel to LCRelationCollections (one prefix per collection)"  ,
+			      _relPrefixes ,
+			      relPrefixes
+			      );
+  
+  
 }
 
-
+//============================================================================================================================
 
 void LCTuple::init() { 
+  
+  streamlog_out(DEBUG) << "   init called  " << std::endl ;
+  
+  // usually a good idea to
+  printParameters() ;
+  
+  _nRun = 0 ;
+  _nEvt = 0 ;
+  
+  _tree = new TTree( "LCTuple" , "columnwise ntuple with LCIO data") ;
+  
+  //=====================================================
+  //    initialize the branches 
+  
+  _evtBranches =  0 ;
+  _mcpBranches =  0 ;
+  _recBranches =  0 ; 
+  _pidBranches =  0 ;
+  
+  _evtBranches =  new EventBranches ;
+  _evtBranches->initBranches( _tree ) ;
+  
 
-    streamlog_out(DEBUG) << "   init called  " << std::endl ;
+  if( _mcpColName.size() )  {
+    _mcpBranches =  new MCParticleBranches ;
+    _mcpBranches->initBranches( _tree ) ;
+  }
+  
+  if( _recColName.size() ) {
+    
+    _recBranches =  new RecoParticleBranches ;
+    _pidBranches =  new PIDBranches ;
+    
+    _recBranches->initBranches( _tree ) ;
+    _pidBranches->initBranches( _tree ) ;
+  }
+  
+  unsigned nRel =  _relColNames.size()  ;
 
-    // usually a good idea to
-    printParameters() ;
-
-    _nRun = 0 ;
-    _nEvt = 0 ;
-
-    _tree = new TTree( "LCTuple" , "column wise ntuple with LCIO data") ;
-   
-    _mcpBranches =  new MCParticleBranches() ;
-    _recBranches =  new RecoParticleBranches() ;
-    _rmtBranches =  new LCRelationBranches() ;
-
+  if( nRel != _relPrefixes.size() ){
+    
+    std::stringstream ss ;
+    ss  << " collection parameters LCRelationCollections and LCRelationPrefixes don't have the same length : " 
+	<<   nRel  << " != " <<  _relPrefixes.size()
+	<< "\n  specify one prefix for every LCRelation collection !" ;
+    
+    throw Exception( ss.str() ) ;
+  }
+  
+  _relBranchesVec.resize( nRel ) ;
+  
+  for(unsigned i=0 ; i <nRel ; ++i) {
+    
+    streamlog_out(DEBUG) << " initialize relation branches for collection " << _relColNames[i] << " - with prefix \"" 
+			 << _relPrefixes[i] << "\"" << std::endl ;  
+    
+    _relBranchesVec[i] =  new LCRelationBranches ;
+    
+    _relBranchesVec[i]->initBranches( _tree ,  _relPrefixes[i] ) ;
+  }
+  
+  
 }
+//============================================================================================================================
 
 
 void LCTuple::processRunHeader( LCRunHeader* run) { 
-
-    _nRun++ ;
+  
+  _nRun++ ;
 } 
 
 
+//============================================================================================================================
 
 void LCTuple::processEvent( LCEvent * evt ) { 
+  
+  
+  // if( isFirstEvent() ) { 
+  // }
 
-
-  if( isFirstEvent() ) { 
-    
-    //=====================================================
-    //    initialize the branches 
-
-    _mcpBranches->initBranches( _tree ) ;
-
-    _recBranches->initBranches( _tree ) ;
-
-    _rmtBranches->initBranches( _tree , "r2m" ) ;
-
-  }
 
   //=====================================================
-  //     add the collection index to the objects 
-  
+  // get the available collections from the event
+
   LCCollection* mcpCol =  getCollection ( evt , _mcpColName ) ;
 
   LCCollection* recCol =  getCollection ( evt , _recColName ) ;
 
-  LCCollection* rmtCol =  getCollection ( evt , _rmtColName ) ;
+  unsigned  nRel = _relColNames.size() ;
+
+  std::vector<LCCollection*> relCols( nRel ) ;
+  
+  for( unsigned i=0; i < nRel ; ++i) {
+
+    relCols[i]  =  getCollection ( evt , _relColNames[i] ) ;
+  }
+
+
+  //=====================================================
+  //     add the collection index to the objects 
 
   if( mcpCol != 0 ) {
     
@@ -132,28 +198,70 @@ void LCTuple::processEvent( LCEvent * evt ) {
     }  
   }
 
+  // for the collection of ReconstructedParticles we also create
+  // a helper collection of ParticleID objects in order to
+  // store the relations
+  LCCollectionVec* pidCol = new LCCollectionVec( "ParticleID" ) ; 
+  pidCol->setTransient() ;
+  pidCol->setSubset() ;
+  evt->addCollection( pidCol , _recColName+"PID" ) ;
+  
   if( recCol != 0 ) {
     
     for(int i=0, nrc  = recCol->getNumberOfElements() ; i < nrc ; ++i ){
       
-      static_cast<lcio::ReconstructedParticle*>( recCol->getElementAt( i) )->ext<CollIndex>() = i + 1 ; 
+      lcio::ReconstructedParticle* rec = static_cast<lcio::ReconstructedParticle*>( recCol->getElementAt( i) ) ;
+      
+      rec->ext<CollIndex>() = i + 1 ; 
+      
+      const EVENT::ParticleIDVec & pids = rec->getParticleIDs() ;
+      
+      int npid = pids.size() ;
+      
+      for(int j=0; j<npid ; ++j){
+	
+	pidCol->addElement( pids[j] ) ;
+	
+ 	pids[j]->ext<CollIndex>() =  pidCol->getNumberOfElements()  ;
+      }
     }  
   }
   
+
+
   //================================================
   //    fill the ntuple arrays 
   
-  _mcpBranches->fill( mcpCol , evt ) ;
+  _evtBranches->fill( 0 , evt ) ;
 
-  _recBranches->fill( recCol , evt ) ;
+  if( mcpCol ) 
+    _mcpBranches->fill( mcpCol , evt ) ;
+  
+  if( recCol ) {
+    _recBranches->fill( recCol , evt ) ;
+    _pidBranches->fill( pidCol , evt ) ;
+  }
 
-  _rmtBranches->fill( rmtCol , evt ) ;
+
+  for( unsigned i=0; i < nRel ; ++i) {
+
+    if( relCols[i] == 0 )
+      continue ;
+
+    streamlog_out(DEBUG) << " filling branches for relation collection :" << _relColNames[i] 
+			 << " at " << relCols[i] << std::endl ; 
+
+    _relBranchesVec[i]->fill( relCols[i]  , evt ) ;
+  }
+
   //================================================
+  
   _tree->Fill() ;
-
+  
+  //================================================
 
   streamlog_out(DEBUG) << "   processing event: " << evt->getEventNumber() 
-		       << "   in run:  " << evt->getRunNumber() << std::endl ;
+		       << "   in run:  "          << evt->getRunNumber()   << std::endl ;
   
   
   _nEvt ++ ;
@@ -161,10 +269,15 @@ void LCTuple::processEvent( LCEvent * evt ) {
 
 
 
+
+//============================================================================================================================
+
 void LCTuple::check( LCEvent * evt ) { 
   // nothing to check here - could be used to fill checkplots in reconstruction processor
 }
 
+
+//============================================================================================================================
 
 void LCTuple::end(){ 
   

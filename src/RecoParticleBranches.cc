@@ -24,6 +24,8 @@ void RecoParticleBranches::initBranches( TTree* tree, const std::string& pre){
   tree->Branch( (pre+"rcrpz").c_str() , _rcrpz , (pre+"rcrpz[nrec]/F").c_str() ) ;
   tree->Branch( (pre+"rcgpi").c_str() , _rcgpi , (pre+"rcgpi[nrec]/F").c_str() ) ;
   tree->Branch( (pre+"rcpiu").c_str() , _rcpiu , (pre+"rcpiu[nrec]/I").c_str() ) ;
+  tree->Branch( (pre+"rcnpi").c_str() , _rcnpi , (pre+"rcnpi[nrec]/I").c_str() ) ;
+  tree->Branch( (pre+"rcfpi").c_str() , _rcfpi , (pre+"rcfpi[nrec]/I").c_str() ) ;
   tree->Branch( (pre+"rcmox").c_str() , _rcmox , (pre+"rcmox[nrec]/F").c_str() ) ;
   tree->Branch( (pre+"rcmoy").c_str() , _rcmoy , (pre+"rcmoy[nrec]/F").c_str() ) ;
   tree->Branch( (pre+"rcmoz").c_str() , _rcmoz , (pre+"rcmoz[nrec]/F").c_str() ) ;
@@ -64,6 +66,11 @@ void RecoParticleBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* 
     _rcrpz[ i ] = rec->getReferencePoint()[2] ;
     _rcgpi[ i ] = rec->getGoodnessOfPID() ;
     _rcpiu[ i ] = ( rec->getParticleIDUsed() ?   rec->getParticleIDUsed()->ext<CollIndex>() - 1  :  -1 )   ;
+
+    _rcnpi[ i ] = rec->getParticleIDs().size() ; 
+    _rcfpi[ i ] = ( rec->getParticleIDs().size() > 0 ?  rec->getParticleIDs()[0]->ext<CollIndex>() - 1  :  -1 )   ;
+
+
     _rcmox[ i ] = rec->getMomentum()[0] ;
     _rcmoy[ i ] = rec->getMomentum()[1] ;
     _rcmoz[ i ] = rec->getMomentum()[2] ;

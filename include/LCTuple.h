@@ -4,6 +4,7 @@
 #include "marlin/Processor.h"
 #include "lcio.h"
 #include <string>
+#include <vector>
 
 
 using namespace lcio ;
@@ -11,6 +12,7 @@ using namespace marlin ;
 
 class TTree ;
 class CWBranchesSet ;
+
 
 /** Creates a simple column wise ntuple in a ROOT tree from LCIO collections.
  
@@ -66,13 +68,17 @@ class LCTuple : public Processor {
    */
   std::string _mcpColName ;
   std::string _recColName ;
-  std::string _rmtColName ;
+
+  StringVec _relColNames ;
+  StringVec _relPrefixes ;
 
   TTree* _tree ;
 
+  CWBranchesSet* _evtBranches ;
   CWBranchesSet* _mcpBranches ;
   CWBranchesSet* _recBranches ;
-  CWBranchesSet* _rmtBranches ;
+  CWBranchesSet* _pidBranches ;
+  std::vector<CWBranchesSet*> _relBranchesVec ;
 
   int _nRun ;
   int _nEvt ;

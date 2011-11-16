@@ -42,12 +42,15 @@ private:
   float  _rcrpz[ LCT_RECOPARTICLE_MAX ] ;
   float  _rcgpi[ LCT_RECOPARTICLE_MAX ] ;
   int    _rcpiu[ LCT_RECOPARTICLE_MAX ] ;
+  int    _rcnpi[ LCT_RECOPARTICLE_MAX ] ;
+  int    _rcfpi[ LCT_RECOPARTICLE_MAX ] ;
   float  _rcmox[ LCT_RECOPARTICLE_MAX ] ;
   float  _rcmoy[ LCT_RECOPARTICLE_MAX ] ;
   float  _rcmoz[ LCT_RECOPARTICLE_MAX ] ;
   float  _rcmas[ LCT_RECOPARTICLE_MAX ] ;
   float  _rcene[ LCT_RECOPARTICLE_MAX ] ;
   float  _rccha[ LCT_RECOPARTICLE_MAX ] ;
+
   
   // EVENT::ParticleIDVec _pid ;
   // EVENT::ReconstructedParticleVec _particles ;
