@@ -168,28 +168,27 @@ void LCTuple::processEvent( LCEvent * evt ) {
   
   // if( isFirstEvent() ) { 
   // }
-
-
+  
+  
   //=====================================================
   // get the available collections from the event
-
+  
   LCCollection* mcpCol =  getCollection ( evt , _mcpColName ) ;
-
+  
   LCCollection* recCol =  getCollection ( evt , _recColName ) ;
-
+  
   unsigned  nRel = _relColNames.size() ;
-
+  
   std::vector<LCCollection*> relCols( nRel ) ;
   
   for( unsigned i=0; i < nRel ; ++i) {
-
+    
     relCols[i]  =  getCollection ( evt , _relColNames[i] ) ;
   }
-
-
+  
   //=====================================================
   //     add the collection index to the objects 
-
+  
   if( mcpCol != 0 ) {
     
     for(int i=0, nmc  = mcpCol->getNumberOfElements() ; i < nmc ; ++i ){
@@ -284,7 +283,15 @@ void LCTuple::end(){
   streamlog_out( MESSAGE ) << " processed " << _nEvt << " events in " << _nRun << " runs "
 			   << std::endl ;
 
-  delete  _mcpBranches  ;
+  delete _evtBranches ;
+  delete _mcpBranches ;
+  delete _recBranches ; 
+  delete _pidBranches ;
+
   
+  for(unsigned i=0 , nRel =_relBranchesVec.size() ; i <nRel ; 
+      delete _relBranchesVec[i++] )  ;
+  
+
 }
 
