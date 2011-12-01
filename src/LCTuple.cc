@@ -13,7 +13,6 @@
 #include "EventBranches.h"
 #include "MCParticleBranches.h"
 #include "RecoParticleBranches.h"
-//#include "PIDBranches.h"
 #include "LCRelationBranches.h"
 
 
@@ -39,6 +38,22 @@ inline lcio::LCCollection* getCollection(lcio::LCEvent* evt, const std::string n
     
     return 0 ;
   }
+}
+
+//------------------------------------------------------------------------------------------------
+
+/** helper for setting the index extension on */
+inline void addIndexToCollection( lcio::LCCollection* col ){
+  
+  if( col == 0 ) {  
+    return ; 
+  }
+    
+  for(int i=0, n  = col->getNumberOfElements() ; i < n; ++i ){
+    
+    col->getElementAt( i )->ext<CollIndex>() = i + 1 ; 
+  }  
+  
 }
 //------------------------------------------------------------------------------------------------
 
@@ -106,7 +121,6 @@ void LCTuple::init() {
   _evtBranches =  0 ;
   _mcpBranches =  0 ;
   _recBranches =  0 ; 
-  //  _pidBranches =  0 ;
   
   _evtBranches =  new EventBranches ;
   _evtBranches->initBranches( _tree ) ;
@@ -120,10 +134,8 @@ void LCTuple::init() {
   if( _recColName.size() ) {
     
     _recBranches =  new RecoParticleBranches ;
-    //    _pidBranches =  new PIDBranches ;
     
     _recBranches->initBranches( _tree ) ;
-    //    _pidBranches->initBranches( _tree ) ;
   }
   
   unsigned nRel =  _relColNames.size()  ;
@@ -188,55 +200,11 @@ void LCTuple::processEvent( LCEvent * evt ) {
   
   //=====================================================
   //     add the collection index to the objects 
-  
-  if( mcpCol != 0 ) {
-    
-    for(int i=0, nmc  = mcpCol->getNumberOfElements() ; i < nmc ; ++i ){
-      
-      static_cast<lcio::MCParticle*>( mcpCol->getElementAt( i) )->ext<CollIndex>() = i + 1 ; 
-    }  
-  }
 
-  if( recCol != 0 ) {
-    
-    for(int i=0, nrc  = recCol->getNumberOfElements() ; i < nrc ; ++i ){
-      
-      lcio::ReconstructedParticle* rec = static_cast<lcio::ReconstructedParticle*>( recCol->getElementAt( i) ) ;
-      
-      rec->ext<CollIndex>() = i + 1 ; 
-    }
-  }
-  // // for the collection of ReconstructedParticles we also create
-  // // a helper collection of ParticleID objects in order to
-  // // store the relations
-  // LCCollectionVec* pidCol = new LCCollectionVec( "ParticleID" ) ; 
-  // pidCol->setTransient() ;
-  // pidCol->setSubset() ;
-  // evt->addCollection( pidCol , _recColName+"PID" ) ;
-  
-  // if( recCol != 0 ) {
-    
-  //   for(int i=0, nrc  = recCol->getNumberOfElements() ; i < nrc ; ++i ){
-      
-  //     lcio::ReconstructedParticle* rec = static_cast<lcio::ReconstructedParticle*>( recCol->getElementAt( i) ) ;
-      
-  //     rec->ext<CollIndex>() = i + 1 ; 
-      
-  //     const EVENT::ParticleIDVec & pids = rec->getParticleIDs() ;
-      
-  //     int npid = pids.size() ;
-      
-  //     for(int j=0; j<npid ; ++j){
-	
-  // 	pidCol->addElement( pids[j] ) ;
-	
-  // 	pids[j]->ext<CollIndex>() =  pidCol->getNumberOfElements()  ;
-  //     }
-  //   }  
-  // }
-  
+  addIndexToCollection( mcpCol ) ;
 
-
+  addIndexToCollection( recCol ) ;
+  
   //================================================
   //    fill the ntuple arrays 
   
@@ -247,7 +215,6 @@ void LCTuple::processEvent( LCEvent * evt ) {
   
   if( recCol ) {
     _recBranches->fill( recCol , evt ) ;
-    //    _pidBranches->fill( pidCol , evt ) ;
   }
 
 
@@ -295,7 +262,6 @@ void LCTuple::end(){
   delete _evtBranches ;
   delete _mcpBranches ;
   delete _recBranches ; 
-  //  delete _pidBranches ;
 
   
   for(unsigned i=0 , nRel =_relBranchesVec.size() ; i <nRel ; 

@@ -14,16 +14,16 @@ void conversion( const char* FILEN){
   LCTuple->Draw("log10(rcene[r2mf[]]):log10(mcene[r2mt[]])","r2mw>0.99&&abs(rccha[r2mf[]])>0.5&&mcpdg[r2mt[]]==2212. ","",1000,0) ;
 
   // ...for electrons
-  LCTuple->Draw("log10(rcene[r2mf[]]):log10(mcene[r2mt[]])","r2mw>0.99&&abs(rccha[r2mf[]])>0.5&&abs(mcpdg[r2mt[]])==11. ","",1000,0) ;
+  // LCTuple->Draw("log10(rcene[r2mf[]]):log10(mcene[r2mt[]])","r2mw>0.99&&abs(rccha[r2mf[]])>0.5&&abs(mcpdg[r2mt[]])==11. ","",1000,0) ;
 
-  // and pions 
-  LCTuple->Draw("log10(rcene[r2mf[]]):log10(mcene[r2mt[]])","r2mw>0.99&&abs(rccha[r2mf[]])>0.5&&abs(mcpdg[r2mt[]])==211. ","",1000,0) ;
-
-
+  // // and pions 
+  // LCTuple->Draw("log10(rcene[r2mf[]]):log10(mcene[r2mt[]])","r2mw>0.99&&abs(rccha[r2mf[]])>0.5&&abs(mcpdg[r2mt[]])==211. ","",1000,0) ;
 
 
-  LCTuple->Draw("mcpdg[r2mt[]]","abs(pipdg[rcfpi[r2mf[]]])==13&&abs(mcpdg[r2mt[]])<1000.") ;
 
 
-  LCTuple->Draw("pipdg[rcfpi[r2mf[]]]","abs(mcpdg[r2mt[]])==13&&abs(mcpdg[r2mt[]])<1000.") ;
+  // LCTuple->Draw("mcpdg[r2mt[]]","abs(pipdg[rcfpi[r2mf[]]])==13&&abs(mcpdg[r2mt[]])<1000.") ;
+
+
+  // LCTuple->Draw("pipdg[rcfpi[r2mf[]]]","abs(mcpdg[r2mt[]])==13&&abs(mcpdg[r2mt[]])<1000.") ;
 }
