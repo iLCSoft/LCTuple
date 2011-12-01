@@ -22,8 +22,8 @@ void conversion( const char* FILEN){
 
 
 
-  LCTuple->Draw("mcpdg[r2mt[]]","abs(pipdg[rcfpi[r2mf[]]])==13&&abs(mcpdg[r2mt[]])<1000.")
+  LCTuple->Draw("mcpdg[r2mt[]]","abs(pipdg[rcfpi[r2mf[]]])==13&&abs(mcpdg[r2mt[]])<1000.") ;
 
 
-  LCTuple->Draw("pipdg[rcfpi[r2mf[]]]","abs(mcpdg[r2mt[]])==13&&abs(mcpdg[r2mt[]])<1000.")
+  LCTuple->Draw("pipdg[rcfpi[r2mf[]]]","abs(mcpdg[r2mt[]])==13&&abs(mcpdg[r2mt[]])<1000.") ;
 }

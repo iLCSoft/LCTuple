@@ -20,8 +20,8 @@
  <global>
   <parameter name="LCIOInputFiles"> infile.slcio </parameter>
   <!-- limit the number of processed records (run+evt): -->  
-  <parameter name="MaxRecordNumber" value="0" />  
-  <parameter name="SkipNEvents" value="0" />  
+  <parameter name="MaxRecordNumber" value="1000" />  
+  <parameter name="SkipNEvents" value="0"/>  
   <parameter name="SupressCheck" value="false" />  
   <parameter name="GearXMLFile"> gear_ILD_00.xml </parameter>  
   <parameter name="Verbosity" options="DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT">MESSAGE DEBUG  </parameter> 

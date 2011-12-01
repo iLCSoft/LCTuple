@@ -51,8 +51,12 @@ private:
   float  _rcene[ LCT_RECOPARTICLE_MAX ] ;
   float  _rccha[ LCT_RECOPARTICLE_MAX ] ;
 
-  
-  // EVENT::ParticleIDVec _pid ;
+  int    _npid   ;
+  int    _pityp[ LCT_PARTICLEID_MAX ] ;
+  int    _pipdg[ LCT_PARTICLEID_MAX ] ;
+  float  _pillh[ LCT_PARTICLEID_MAX ] ;
+  int    _pialg[ LCT_PARTICLEID_MAX ] ;
+
   // EVENT::ReconstructedParticleVec _particles ;
   // EVENT::ClusterVec _clusters ;
   // EVENT::TrackVec _tracks ;

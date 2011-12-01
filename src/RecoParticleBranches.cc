@@ -15,6 +15,7 @@ void RecoParticleBranches::initBranches( TTree* tree, const std::string& pre){
     throw lcio::Exception("  RecoParticleBranches::initBranches - invalid tree pointer !!! " ) ;
   }
 
+
   tree->Branch( (pre+"nrc").c_str() , &_nrc ,  (pre+"nrec/I").c_str() ) ;
 
   tree->Branch( (pre+"rctyp").c_str() , _rctyp , (pre+"rctyp[nrec]/I").c_str() ) ;
@@ -33,6 +34,12 @@ void RecoParticleBranches::initBranches( TTree* tree, const std::string& pre){
   tree->Branch( (pre+"rcene").c_str() , _rcene , (pre+"rcene[nrec]/F").c_str() ) ;
   tree->Branch( (pre+"rccha").c_str() , _rccha , (pre+"rccha[nrec]/F").c_str() ) ;
   
+  tree->Branch( (pre+"npid").c_str() , &_npid , (pre+"npid/I").c_str() ) ;
+
+  tree->Branch( (pre+"pityp").c_str() , _pityp , (pre+"pityp[npid]/I").c_str() ) ;
+  tree->Branch( (pre+"pipdg").c_str() , _pipdg , (pre+"pipdg[npid]/I").c_str() ) ;
+  tree->Branch( (pre+"pillh").c_str() , _pillh , (pre+"pillh[npid]/F").c_str() ) ;
+  tree->Branch( (pre+"pialg").c_str() , _pialg , (pre+"pialg[npid]/I").c_str() ) ;
   
 }
   
@@ -51,6 +58,40 @@ void RecoParticleBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* 
   
   _nrc  = col->getNumberOfElements() ;
   
+  //---------  create a helper vector with particleIDs first -------------------------------
+  std::vector<lcio::ParticleID*> pidV ;
+  pidV.reserve(  col->getNumberOfElements() * 4 ) ;
+
+  for(int i=0, nrc  = col->getNumberOfElements() ; i < nrc ; ++i ){
+    
+    lcio::ReconstructedParticle* rec = static_cast<lcio::ReconstructedParticle*>( col->getElementAt( i) ) ;
+
+    const EVENT::ParticleIDVec & pids = rec->getParticleIDs() ;
+      
+    for(int j=0, npid = pids.size() ; j<npid ; ++j){
+	
+      pidV.push_back( pids[j] ) ;
+	
+      pids[j]->ext<CollIndex>() =  pidV.size() ;
+    }
+  }
+
+  _npid = pidV.size() ;
+
+  //----------  fill the particleIDs ---------------------------------------
+  for(int i=0 ; i < _npid ; ++i){
+    
+    lcio::ParticleID* pid = pidV[i] ;
+    
+    _pityp[ i ] = pid->getType() ;
+    _pipdg[ i ] = pid->getPDG() ;
+    _pillh[ i ] = pid->getLikelihood() ;
+    _pialg[ i ] = pid->getAlgorithmType() ;
+  }
+
+
+
+  //------  fille the Reconstructed particle ----------------------------
   for(int i=0 ; i < _nrc ; ++i){
     
     lcio::ReconstructedParticle* rec = static_cast<lcio::ReconstructedParticle*>( col->getElementAt(i) ) ;
@@ -78,11 +119,6 @@ void RecoParticleBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* 
     _rcene[ i ] = rec->getEnergy() ;
     _rccha[ i ] = rec->getCharge() ;
 
-
-      //    _reca1[ i ] = ( p.size() > 1 ?  p[1]->ext<CollIndex>() - 1  :  -1 )  ;
-
-    // can we have more than two parents ????
-    
   }
 }
 
