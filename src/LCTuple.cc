@@ -13,6 +13,7 @@
 #include "EventBranches.h"
 #include "MCParticleBranches.h"
 #include "RecoParticleBranches.h"
+#include "TrackBranches.h"
 #include "LCRelationBranches.h"
 
 
@@ -42,7 +43,7 @@ inline lcio::LCCollection* getCollection(lcio::LCEvent* evt, const std::string n
 
 //------------------------------------------------------------------------------------------------
 
-/** helper for setting the index extension on */
+/** helper for setting the index extension */
 inline void addIndexToCollection( lcio::LCCollection* col ){
   
   if( col == 0 ) {  
@@ -53,7 +54,6 @@ inline void addIndexToCollection( lcio::LCCollection* col ){
     
     col->getElementAt( i )->ext<CollIndex>() = i + 1 ; 
   }  
-  
 }
 //------------------------------------------------------------------------------------------------
 
@@ -79,6 +79,20 @@ LCTuple::LCTuple() : Processor("LCTuple") {
 			   "RecoParticleCollection" , 
 			   "Name of the ReconstructedParticle collection"  ,
 			   _recColName ,
+			   std::string("")
+			   );
+  
+  registerInputCollection( LCIO::TRACK,
+			   "TrackCollection" , 
+			   "Name of the Track collection"  ,
+			   _trkColName ,
+			   std::string("")
+			   );
+  
+  registerInputCollection( LCIO::CLUSTER,
+			   "ClusterCollection" , 
+			   "Name of the Cluster collection"  ,
+			   _cluColName ,
 			   std::string("")
 			   );
   
@@ -121,6 +135,8 @@ void LCTuple::init() {
   _evtBranches =  0 ;
   _mcpBranches =  0 ;
   _recBranches =  0 ; 
+  _trkBranches =  0 ;
+  _cluBranches =  0 ; 
   
   _evtBranches =  new EventBranches ;
   _evtBranches->initBranches( _tree ) ;
@@ -132,14 +148,17 @@ void LCTuple::init() {
   }
   
   if( _recColName.size() ) {
-    
     _recBranches =  new RecoParticleBranches ;
-    
     _recBranches->initBranches( _tree ) ;
+  }
+
+  if( _trkColName.size() ) {
+    _trkBranches =  new TrackBranches ;
+    _trkBranches->initBranches( _tree ) ;
   }
   
   unsigned nRel =  _relColNames.size()  ;
-
+  
   if( nRel != _relPrefixes.size() ){
     
     std::stringstream ss ;
@@ -158,10 +177,8 @@ void LCTuple::init() {
 			 << _relPrefixes[i] << "\"" << std::endl ;  
     
     _relBranchesVec[i] =  new LCRelationBranches ;
-    
     _relBranchesVec[i]->initBranches( _tree ,  _relPrefixes[i] ) ;
   }
-  
   
 }
 //============================================================================================================================
@@ -178,9 +195,6 @@ void LCTuple::processRunHeader( LCRunHeader* run) {
 void LCTuple::processEvent( LCEvent * evt ) { 
   
   
-  // if( isFirstEvent() ) { 
-  // }
-  
   
   //=====================================================
   // get the available collections from the event
@@ -188,6 +202,8 @@ void LCTuple::processEvent( LCEvent * evt ) {
   LCCollection* mcpCol =  getCollection ( evt , _mcpColName ) ;
   
   LCCollection* recCol =  getCollection ( evt , _recColName ) ;
+
+  LCCollection* trkCol =  getCollection ( evt , _trkColName ) ;
   
   unsigned  nRel = _relColNames.size() ;
   
@@ -204,19 +220,20 @@ void LCTuple::processEvent( LCEvent * evt ) {
   addIndexToCollection( mcpCol ) ;
 
   addIndexToCollection( recCol ) ;
+
+  addIndexToCollection( trkCol ) ;
   
   //================================================
   //    fill the ntuple arrays 
   
   _evtBranches->fill( 0 , evt ) ;
 
-  if( mcpCol ) 
-    _mcpBranches->fill( mcpCol , evt ) ;
+  if( mcpCol ) _mcpBranches->fill( mcpCol , evt ) ;
   
-  if( recCol ) {
-    _recBranches->fill( recCol , evt ) ;
-  }
-
+  if( recCol ) _recBranches->fill( recCol , evt ) ;
+  
+  if( trkCol ) _trkBranches->fill( trkCol , evt ) ;
+  
 
   for( unsigned i=0; i < nRel ; ++i) {
 
@@ -243,8 +260,6 @@ void LCTuple::processEvent( LCEvent * evt ) {
 }
 
 
-
-
 //============================================================================================================================
 
 void LCTuple::check( LCEvent * evt ) { 
@@ -262,11 +277,11 @@ void LCTuple::end(){
   delete _evtBranches ;
   delete _mcpBranches ;
   delete _recBranches ; 
+  delete _trkBranches ; 
 
   
   for(unsigned i=0 , nRel =_relBranchesVec.size() ; i <nRel ; 
       delete _relBranchesVec[i++] )  ;
   
-
 }
 

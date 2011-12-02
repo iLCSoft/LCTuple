@@ -50,6 +50,8 @@ private:
   float  _rcmas[ LCT_RECOPARTICLE_MAX ] ;
   float  _rcene[ LCT_RECOPARTICLE_MAX ] ;
   float  _rccha[ LCT_RECOPARTICLE_MAX ] ;
+  int    _rcntr[ LCT_RECOPARTICLE_MAX ] ;
+  int    _rcftr[ LCT_RECOPARTICLE_MAX ] ;
 
   int    _npid   ;
   int    _pityp[ LCT_PARTICLEID_MAX ] ;

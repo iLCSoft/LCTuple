@@ -33,7 +33,10 @@ void RecoParticleBranches::initBranches( TTree* tree, const std::string& pre){
   tree->Branch( (pre+"rcmas").c_str() , _rcmas , (pre+"rcmas[nrec]/F").c_str() ) ;
   tree->Branch( (pre+"rcene").c_str() , _rcene , (pre+"rcene[nrec]/F").c_str() ) ;
   tree->Branch( (pre+"rccha").c_str() , _rccha , (pre+"rccha[nrec]/F").c_str() ) ;
+  tree->Branch( (pre+"rcntr").c_str() , _rcntr , (pre+"rcntr[nrec]/I").c_str() ) ;
+  tree->Branch( (pre+"rcftr").c_str() , _rcftr , (pre+"rcftr[nrec]/I").c_str() ) ;
   
+
   tree->Branch( (pre+"npid").c_str() , &_npid , (pre+"npid/I").c_str() ) ;
 
   tree->Branch( (pre+"pityp").c_str() , _pityp , (pre+"pityp[npid]/I").c_str() ) ;
@@ -91,7 +94,7 @@ void RecoParticleBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* 
 
 
 
-  //------  fille the Reconstructed particle ----------------------------
+  //------  fill the Reconstructed particle ----------------------------
   for(int i=0 ; i < _nrc ; ++i){
     
     lcio::ReconstructedParticle* rec = static_cast<lcio::ReconstructedParticle*>( col->getElementAt(i) ) ;
@@ -111,7 +114,6 @@ void RecoParticleBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* 
     _rcnpi[ i ] = rec->getParticleIDs().size() ; 
     _rcfpi[ i ] = ( rec->getParticleIDs().size() > 0 ?  rec->getParticleIDs()[0]->ext<CollIndex>() - 1  :  -1 )   ;
 
-
     _rcmox[ i ] = rec->getMomentum()[0] ;
     _rcmoy[ i ] = rec->getMomentum()[1] ;
     _rcmoz[ i ] = rec->getMomentum()[2] ;
@@ -119,6 +121,9 @@ void RecoParticleBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* 
     _rcene[ i ] = rec->getEnergy() ;
     _rccha[ i ] = rec->getCharge() ;
 
+    _rcntr[ i ] = rec->getTracks().size() ; 
+    _rcftr[ i ] = ( rec->getTracks().size() > 0 ?  rec->getTracks()[0]->ext<CollIndex>() - 1  :  -1 )   ;
+    
   }
 }
 

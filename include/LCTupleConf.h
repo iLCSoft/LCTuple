@@ -20,7 +20,12 @@ struct CollIndex : public lcrtrel::LCIntExtension<CollIndex> {} ;
 
 #define LCT_MCPARTICLE_MAX   1000000
 
-#define LCT_RECOPARTICLE_MAX 1000000
+#define LCT_RECOPARTICLE_MAX  100000
+
+#define LCT_TRACK_MAX         100000
+#define LCT_TRACKSTATE_MAX   1000000
+
+#define LCT_CLUSTER_MAX       100000
 
 #define LCT_RELATION_MAX     1000000
 
