@@ -38,8 +38,12 @@
   
   <!--Name of the MCParticle collection-->
   <parameter name="MCParticleCollection" type="string" lcioInType="MCParticle">MCParticlesSkimmed </parameter>
-  <!--Name of the ReconstructedParticle collection-->
+
+  <!--Name the ReconstructedParticle collection-->
   <parameter name="RecoParticleCollection" type="string" lcioInType="ReconstructedParticle">PandoraPFOs</parameter>
+
+  <!--Name of the Track collection-->
+  <parameter name="TrackCollection" type="string" lcioInType="LDCTracks">LDCTracks</parameter>
 
   <!--Names of LCRelation collections - need parallel prefix names in RelPrefixes-->
   <parameter name="LCRelationCollections" type="StringVec" lcioInType="LCRelation"> RecoMCTruthLink </parameter>
