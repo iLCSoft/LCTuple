@@ -104,7 +104,7 @@ void TrackBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* evt ){
   }
   
   
-  //------  fille the Tracks particle ----------------------------
+  //------  fill the Tracks particle ----------------------------
   for(int i=0 ; i < _ntrk ; ++i){
     
     lcio::Track* trk = static_cast<lcio::Track*>( col->getElementAt(i) ) ;
@@ -119,27 +119,27 @@ void TrackBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* evt ){
     _trnts[ i ] = trk->getTrackStates().size() ;
     _trfts[ i ] = ( _trnts[i]>0 ? trk->getTrackStates()[0]->ext<CollIndex>() -1  :  -1 )  ;
 
-    lcio::TrackState* ts ;
-    ts = const_cast<lcio::TrackState*> ( trk->getTrackState( lcio::TrackState::AtIP ) ) ;
+    const lcio::TrackState* ts ;
+
+    ts = trk->getTrackState( lcio::TrackState::AtIP )  ;
     _trsip[ i ] = ( ts ?  ts->ext<CollIndex>() - 1 : -1 ) ;   
     
-    ts = const_cast<lcio::TrackState*> ( trk->getTrackState( lcio::TrackState::AtFirstHit ) ) ;
+    ts = trk->getTrackState( lcio::TrackState::AtFirstHit ) ;
     _trsfh[ i ] = ( ts ?  ts->ext<CollIndex>() - 1 : -1 ) ;   
     
-    ts = const_cast<lcio::TrackState*> ( trk->getTrackState( lcio::TrackState::AtLastHit ) ) ;
+    ts =  trk->getTrackState( lcio::TrackState::AtLastHit ) ;
     _trslh[ i ] = ( ts ?  ts->ext<CollIndex>() - 1 : -1 ) ;   
-
-    ts = const_cast<lcio::TrackState*> ( trk->getTrackState( lcio::TrackState::AtCalorimeter ) ) ;
+    
+    ts = trk->getTrackState( lcio::TrackState::AtCalorimeter ) ;
     _trsca[ i ] = ( ts ?  ts->ext<CollIndex>() - 1 : -1 ) ;   
-
-
+    
+    
     int nshn = ( trk->getSubdetectorHitNumbers().size()   <  12  ?  
 		 trk->getSubdetectorHitNumbers().size()   :  12  ) ;
-
+    
     for( int j=0; j<nshn ; ++j )
       _trshn[ i ][ j ]  = trk->getSubdetectorHitNumbers()[j] ;
-
-
+    
   }
 }
 
