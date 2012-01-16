@@ -16,7 +16,7 @@ namespace EVENT{
 /** RecoParticleBranches holds branches created from a ReconstructedParticle collection
  * 
  * @author F. Gaede, DESY
- * @version $Id:$
+ * @version $Id$
  */
 
 class RecoParticleBranches : public CWBranchesSet {

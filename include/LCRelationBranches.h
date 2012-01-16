@@ -16,7 +16,7 @@ namespace EVENT{
 /** LCRelationBranches holds branches created from LCRelations.
  * 
  * @author F. Gaede, DESY
- * @version $Id:$
+ * @version $Id$
  */
 
 class LCRelationBranches : public CWBranchesSet {

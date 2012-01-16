@@ -16,7 +16,7 @@ namespace EVENT{
 /** TrackBranches holds branches created from a Track collection
  * 
  * @author F. Gaede, DESY
- * @version $Id:$
+ * @version $Id$
  */
 
 class TrackBranches : public CWBranchesSet {

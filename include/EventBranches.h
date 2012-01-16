@@ -16,7 +16,7 @@ namespace EVENT{
 /** EventBranches holds branches with data from LCEvent.
  * 
  * @author F. Gaede, DESY
- * @version $Id:$
+ * @version $Id$
  */
 
 class EventBranches : public CWBranchesSet {

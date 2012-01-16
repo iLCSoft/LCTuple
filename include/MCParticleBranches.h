@@ -16,7 +16,7 @@ namespace EVENT{
 /** MCParticleBranches holds branches created from MCParticleCollection
  * 
  * @author F. Gaede, DESY
- * @version $Id:$
+ * @version $Id$
  */
 
 class MCParticleBranches : public CWBranchesSet {

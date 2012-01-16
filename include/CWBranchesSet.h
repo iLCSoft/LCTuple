@@ -14,7 +14,7 @@ namespace EVENT{
  *  and thus typically have the same number of entries.
  * 
  * @author F. Gaede, DESY
- * @version $Id:$
+ * @version $Id$
  */
 
 class CWBranchesSet {
