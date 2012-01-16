@@ -20,7 +20,7 @@
  <global>
   <parameter name="LCIOInputFiles"> infile.slcio </parameter>
   <!-- limit the number of processed records (run+evt): -->  
-  <parameter name="MaxRecordNumber" value="1000" />  
+  <parameter name="MaxRecordNumber" value="10" />  
   <parameter name="SkipNEvents" value="0"/>  
   <parameter name="SupressCheck" value="false" />  
   <parameter name="GearXMLFile"> gear_ILD_00.xml </parameter>  
@@ -44,6 +44,9 @@
 
   <!--Name of the Track collection-->
   <parameter name="TrackCollection" type="string" lcioInType="LDCTracks">LDCTracks</parameter>
+
+  <!--Name of the SimTrackerHit collection-->
+  <parameter name="SimTrackerHitCollection" type="string" lcioInType="SimTrackerHit"> VXDCollection </parameter>
 
   <!--Names of LCRelation collections - need parallel prefix names in RelPrefixes-->
   <parameter name="LCRelationCollections" type="StringVec" lcioInType="LCRelation"> RecoMCTruthLink </parameter>
