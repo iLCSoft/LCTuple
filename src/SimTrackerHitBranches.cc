@@ -5,6 +5,7 @@
 #include "EVENT/LCCollection.h"
 #include "EVENT/SimTrackerHit.h"
 #include "EVENT/MCParticle.h"
+#include "streamlog/streamlog.h"
 
 #include "TTree.h"
 
@@ -39,6 +40,8 @@ void SimTrackerHitBranches::initBranches( TTree* tree, const std::string& pre){
 void SimTrackerHitBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* evt ){
   
   if( !col ) return ;
+
+  streamlog_out( DEBUG2 ) << " SimTrackerHitBranches::fill called ... " << std::endl ;
 
   if( col->getTypeName() != lcio::LCIO::SIMTRACKERHIT ){
 

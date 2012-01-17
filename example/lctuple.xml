@@ -33,6 +33,19 @@
   <parameter name="FileType" type="string">root </parameter>
  </processor>
 
+ <processor name="MyMergeCollections" type="MergeCollections">
+   <!--MergeCollections creates a transient subset collection that merges all input collections -->
+   <!--Names of all input collections-->
+   <parameter name="InputCollections" type="StringVec"> 
+     VXDCollection ETDCollection FTDCollection SETCollection SITCollection TPCCollection
+   </parameter>
+   <!--Name of output collection-->
+   <parameter name="OutputCollection" type="string">SimTrackerHits </parameter>
+   <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+   <!--parameter name="Verbosity" type="string">DEBUG </parameter-->
+ </processor>
+ 
+ 
  <processor name="MyLCTuple" type="LCTuple">
  <!--LCTuple creates a ROOT TTRee with a column wise ntuple from LCIO collections ....-->
   
