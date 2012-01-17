@@ -15,6 +15,7 @@
 #include "RecoParticleBranches.h"
 #include "TrackBranches.h"
 #include "SimTrackerHitBranches.h"
+#include "SimCalorimeterHitBranches.h"
 #include "LCRelationBranches.h"
 
 
@@ -97,6 +98,13 @@ LCTuple::LCTuple() : Processor("LCTuple") {
 			   std::string("")
 			   );
   
+  registerInputCollection( LCIO::SIMCALORIMETERHIT,
+			   "SimCalorimeterHitCollection" , 
+			   "Name of the SimCalorimeterHit collection"  ,
+			   _schColName ,
+			   std::string("")
+			   );
+  
   registerInputCollection( LCIO::CLUSTER,
 			   "ClusterCollection" , 
 			   "Name of the Cluster collection"  ,
@@ -146,11 +154,12 @@ void LCTuple::init() {
   _trkBranches =  0 ;
   _cluBranches =  0 ; 
   _sthBranches =  0 ;
+  _schBranches =  0 ;
   
   _evtBranches =  new EventBranches ;
   _evtBranches->initBranches( _tree ) ;
   
-
+  
   if( _mcpColName.size() )  {
     _mcpBranches =  new MCParticleBranches ;
     _mcpBranches->initBranches( _tree ) ;
@@ -169,6 +178,11 @@ void LCTuple::init() {
   if( _sthColName.size() ) {
     _sthBranches =  new SimTrackerHitBranches ;
     _sthBranches->initBranches( _tree ) ;
+  }
+  
+  if( _schColName.size() ) {
+    _schBranches =  new SimCalorimeterHitBranches ;
+    _schBranches->initBranches( _tree ) ;
   }
   
   unsigned nRel =  _relColNames.size()  ;
@@ -220,6 +234,8 @@ void LCTuple::processEvent( LCEvent * evt ) {
   LCCollection* trkCol =  getCollection ( evt , _trkColName ) ;
 
   LCCollection* sthCol =  getCollection ( evt , _sthColName ) ;
+
+  LCCollection* schCol =  getCollection ( evt , _schColName ) ;
   
   unsigned  nRel = _relColNames.size() ;
   
@@ -247,10 +263,12 @@ void LCTuple::processEvent( LCEvent * evt ) {
   if( mcpCol ) _mcpBranches->fill( mcpCol , evt ) ;
   
   if( recCol ) _recBranches->fill( recCol , evt ) ;
-  
+
   if( trkCol ) _trkBranches->fill( trkCol , evt ) ;
 
   if( sthCol ) _sthBranches->fill( sthCol , evt ) ;
+
+  if( schCol ) _schBranches->fill( schCol , evt ) ;
   
 
   for( unsigned i=0; i < nRel ; ++i) {

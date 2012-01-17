@@ -10,7 +10,7 @@ namespace EVENT{
   class LCEvent ;
 }
 
-/** CWBranchesSet holds a set of branches in a columnwise ntuple that are filled from on collection.
+/** CWBranchesSet holds a set of branches in a columnwise ntuple that are filled from one collection.
  *  and thus typically have the same number of entries.
  * 
  * @author F. Gaede, DESY
@@ -25,6 +25,7 @@ class CWBranchesSet {
 
   virtual void fill(const EVENT::LCCollection* col, EVENT::LCEvent* evt )=0 ;
 
+  virtual ~CWBranchesSet(){}
 
 } ;
 

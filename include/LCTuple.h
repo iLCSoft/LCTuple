@@ -71,6 +71,7 @@ class LCTuple : public Processor {
   std::string _trkColName ;
   std::string _cluColName ;
   std::string _sthColName ;
+  std::string _schColName ;
 
   StringVec _relColNames ;
   StringVec _relPrefixes ;
@@ -83,8 +84,10 @@ class LCTuple : public Processor {
   CWBranchesSet* _trkBranches ;
   CWBranchesSet* _cluBranches ;
   CWBranchesSet* _sthBranches ;
+  CWBranchesSet* _schBranches ;
+  
   std::vector<CWBranchesSet*> _relBranchesVec ;
-
+  
   int _nRun ;
   int _nEvt ;
 } ;
