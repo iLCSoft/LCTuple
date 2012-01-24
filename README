@@ -33,16 +33,20 @@
 
     // make plots with TTree:Draw(), e.g.
     root -l 
-    x conversion.C("./lctuple.root")
+    x /example_plots.C("./lctuple.root")
 
 
  
 -------------------------------------------------------------------------------------------
 
- Status:
- -------
 
-    first version - creates CWNT for MCParticle collection
+  --------
+ | v00-01 |
+  --------
 
-     
+       - first version creates CWNT for 
+        MCParticles, ReconstructedParticles, Tracks, Clusters 
 
+      - optionally also SimTrackerHits and SimCalorimeterHits can
+        be written to the ntuple
+  

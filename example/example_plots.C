@@ -42,4 +42,8 @@ void example_plots( const char* FILEN){
   // draw pt of charged reconstructed particles vs 1./omega of their track (using first track state of track)
   c1->cd( pad++ ) ;
   LCTuple->Draw("sqrt(rcmox*rcmox+rcmoy*rcmoy):1./abs(tsome[trfts[rcftr]])","abs(rccha)>0.5&&rcntr==1") ;
+
+
+  // draw cluster energy vs. Reco energy of neutrals
+  LCTuple->Draw("clene[r2ct[]]:rcene[r2cf[]]","rccha==0") ;
 }

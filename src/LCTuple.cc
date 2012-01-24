@@ -14,6 +14,7 @@
 #include "MCParticleBranches.h"
 #include "RecoParticleBranches.h"
 #include "TrackBranches.h"
+#include "ClusterBranches.h"
 #include "SimTrackerHitBranches.h"
 #include "SimCalorimeterHitBranches.h"
 #include "LCRelationBranches.h"
@@ -91,6 +92,13 @@ LCTuple::LCTuple() : Processor("LCTuple") {
 			   std::string("")
 			   );
 
+  registerInputCollection( LCIO::CLUSTER,
+			   "ClusterCollection" , 
+			   "Name of the Cluster collection"  ,
+			   _cluColName ,
+			   std::string("")
+			   );
+
   registerInputCollection( LCIO::SIMTRACKERHIT,
 			   "SimTrackerHitCollection" , 
 			   "Name of the SimTrackerHit collection"  ,
@@ -105,12 +113,6 @@ LCTuple::LCTuple() : Processor("LCTuple") {
 			   std::string("")
 			   );
   
-  registerInputCollection( LCIO::CLUSTER,
-			   "ClusterCollection" , 
-			   "Name of the Cluster collection"  ,
-			   _cluColName ,
-			   std::string("")
-			   );
   
   StringVec relColNames ;
   registerInputCollections( LCIO::LCRELATION,
@@ -175,6 +177,11 @@ void LCTuple::init() {
     _trkBranches->initBranches( _tree ) ;
   }
   
+  if( _cluColName.size() ) {
+    _cluBranches =  new ClusterBranches ;
+    _cluBranches->initBranches( _tree ) ;
+  }
+  
   if( _sthColName.size() ) {
     _sthBranches =  new SimTrackerHitBranches ;
     _sthBranches->initBranches( _tree ) ;
@@ -233,6 +240,8 @@ void LCTuple::processEvent( LCEvent * evt ) {
 
   LCCollection* trkCol =  getCollection ( evt , _trkColName ) ;
 
+  LCCollection* cluCol =  getCollection ( evt , _cluColName ) ;
+
   LCCollection* sthCol =  getCollection ( evt , _sthColName ) ;
 
   LCCollection* schCol =  getCollection ( evt , _schColName ) ;
@@ -254,20 +263,24 @@ void LCTuple::processEvent( LCEvent * evt ) {
   addIndexToCollection( recCol ) ;
 
   addIndexToCollection( trkCol ) ;
+
+  addIndexToCollection( cluCol ) ;
   
   //================================================
   //    fill the ntuple arrays 
   
   _evtBranches->fill( 0 , evt ) ;
-
+  
   if( mcpCol ) _mcpBranches->fill( mcpCol , evt ) ;
   
   if( recCol ) _recBranches->fill( recCol , evt ) ;
-
+  
   if( trkCol ) _trkBranches->fill( trkCol , evt ) ;
-
+  
+  if( cluCol ) _cluBranches->fill( cluCol , evt ) ;
+  
   if( sthCol ) _sthBranches->fill( sthCol , evt ) ;
-
+  
   if( schCol ) _schBranches->fill( schCol , evt ) ;
   
 

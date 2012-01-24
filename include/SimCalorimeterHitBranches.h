@@ -38,9 +38,9 @@ private:
   
   int    _scci0[ LCT_SIMCALORIMETERHIT_MAX ] ;
   int    _scci1[ LCT_SIMCALORIMETERHIT_MAX ] ;
-  double _scpox[ LCT_SIMCALORIMETERHIT_MAX ] ;
-  double _scpoy[ LCT_SIMCALORIMETERHIT_MAX ] ;
-  double _scpoz[ LCT_SIMCALORIMETERHIT_MAX ] ;
+  float  _scpox[ LCT_SIMCALORIMETERHIT_MAX ] ;
+  float  _scpoy[ LCT_SIMCALORIMETERHIT_MAX ] ;
+  float  _scpoz[ LCT_SIMCALORIMETERHIT_MAX ] ;
   float  _scene[ LCT_SIMCALORIMETERHIT_MAX ] ;
   
 } ;

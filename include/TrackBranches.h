@@ -62,7 +62,6 @@ private:
   float _tsrpy[ LCT_TRACKSTATE_MAX ] ;
   float _tsrpz[ LCT_TRACKSTATE_MAX ] ;
 
-  // EVENT::TrackStateVec _trackStates ;
   // EVENT::TrackVec _tracks ;
   // EVENT::TrackerHitVec _hits ;
   

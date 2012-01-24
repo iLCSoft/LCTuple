@@ -14,6 +14,7 @@
 <marlin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ilcsoft.desy.de/marlin/marlin.xsd">
  <execute>
   <processor name="MyAIDAProcessor"/>
+  <processor name="MyCreateRecoRelations"/>
   <processor name="MyLCTuple"/>  
  </execute>
 
@@ -23,7 +24,7 @@
   <parameter name="MaxRecordNumber" value="10" />  
   <parameter name="SkipNEvents" value="0"/>  
   <parameter name="SupressCheck" value="false" />  
-  <parameter name="GearXMLFile"> gear_ILD_00.xml </parameter>  
+  <parameter name="GearXMLFile"> gear_ILD_01_dev.xml gear_ILD_00.xml </parameter>  
   <parameter name="Verbosity" options="DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT">MESSAGE DEBUG  </parameter> 
   <parameter name="RandomSeed" value="1234567890" />
  </global>
@@ -46,28 +47,61 @@
  </processor>
  
  
+ <processor name="MyCreateRecoRelations" type="CreateRecoRelations">
+ <!--CreateRecoRelations creates transient collections with realtions from  ReconstructedParticles to Tracks and Clusters-->
+  <!--Name of output collection for relation ReconstructedParticles to Clusters-->
+  <parameter name="Reco2ClusterRelationName" type="string" lcioOutType="LCRelation">Reco2ClustersRelation </parameter>
+  <!--Name of output collection for relation ReconstructedParticles to ReconstructedParticles-->
+  <parameter name="Reco2RecoRelationName" type="string" lcioOutType="LCRelation">Reco2RecoRelation </parameter>
+  <!--Name of output collection for relation ReconstructedParticles to Tracks-->
+  <parameter name="Reco2TracksRelationName" type="string" lcioOutType="LCRelation">Reco2TracksRelation </parameter>
+  <!--Names of ReconstructedParticles input collections-->
+  <parameter name="RecoCollection" type="string" lcioInType="ReconstructedParticle">PandoraPFOs </parameter>
+  <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+  <!--parameter name="Verbosity" type="string">DEBUG </parameter-->
+</processor>
+
+
  <processor name="MyLCTuple" type="LCTuple">
  <!--LCTuple creates a ROOT TTRee with a column wise ntuple from LCIO collections ....-->
-  
-  <!--Name of the MCParticle collection-->
-  <parameter name="MCParticleCollection" type="string" lcioInType="MCParticle">MCParticlesSkimmed </parameter>
 
-  <!--Name the ReconstructedParticle collection-->
-  <parameter name="RecoParticleCollection" type="string" lcioInType="ReconstructedParticle">PandoraPFOs</parameter>
-
-  <!--Name of the Track collection-->
-  <parameter name="TrackCollection" type="string" lcioInType="LDCTracks">LDCTracks</parameter>
-
-  <!--Name of the SimTrackerHit collection-->
-  <parameter name="SimTrackerHitCollection" type="string" lcioInType="SimTrackerHit"> VXDCollection </parameter>
+  <!--Name of the Cluster collection-->
+  <parameter name="ClusterCollection" type="string" lcioInType="Cluster"> PandoraClusters </parameter>
 
   <!--Names of LCRelation collections - need parallel prefix names in RelPrefixes-->
-  <parameter name="LCRelationCollections" type="StringVec" lcioInType="LCRelation"> RecoMCTruthLink </parameter>
+  <parameter name="LCRelationCollections" type="StringVec" lcioInType="LCRelation">
+    RecoMCTruthLink 
+    Reco2ClustersRelation
+    Reco2TracksRelation
+    Reco2RecoRelation
+  </parameter>
+  
   <!-- Names of prefixes for variables from LCRelation collections - needs to be parallel to LCRelationCollections (one prefix per collection)-->
-  <parameter name="LCRelationPrefixes" type="StringVec">  r2m  </parameter>
+  <parameter name="LCRelationPrefixes" type="StringVec">  
+    r2m  
+    r2c  
+    r2t  
+    r2r  
+  </parameter>
+
+  <!--Name of the MCParticle collection-->
+  <parameter name="MCParticleCollection" type="string" lcioInType="MCParticle"> MCParticlesSkimmed</parameter>
+
+  <!--Name of the ReconstructedParticle collection-->
+  <parameter name="RecoParticleCollection" type="string" lcioInType="ReconstructedParticle"> PandoraPFOs</parameter>
+
+  <!--Name of the SimCalorimeterHit collection-->
+  <parameter name="SimCalorimeterHitCollection" type="string" lcioInType="SimCalorimeterHit"> </parameter>
+
+  <!--Name of the SimTrackerHit collection-->
+  <parameter name="SimTrackerHitCollection" type="string" lcioInType="SimTrackerHit"> </parameter>
+
+  <!--Name of the Track collection-->
+  <parameter name="TrackCollection" type="string" lcioInType="Track"> MarlinTrkTracks </parameter>
 
   <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
   <parameter name="Verbosity" type="string">DEBUG </parameter>
 </processor>
+
 
 </marlin>
