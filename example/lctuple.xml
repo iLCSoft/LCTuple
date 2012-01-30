@@ -14,6 +14,7 @@
 <marlin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ilcsoft.desy.de/marlin/marlin.xsd">
  <execute>
   <processor name="MyAIDAProcessor"/>
+  <processor name="MyMergeRPCollections"/>
   <processor name="MyCreateRecoRelations"/>
   <processor name="MyLCTuple"/>  
  </execute>
@@ -46,6 +47,17 @@
    <!--parameter name="Verbosity" type="string">DEBUG </parameter-->
  </processor>
  
+ <processor name="MyMergeRPCollections" type="MergeCollections">
+   <!--MergeCollections creates a transient subset collection that merges all input collections -->
+   <!--Names of all input collections-->
+   <parameter name="InputCollections" type="StringVec"> 
+     PandoraPFOs BuildUpVertex_RP
+   </parameter>
+   <!--Name of output collection-->
+   <parameter name="OutputCollection" type="string">MergedRPCollection </parameter>
+   <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+   <!--parameter name="Verbosity" type="string">DEBUG </parameter-->
+ </processor>
  
  <processor name="MyCreateRecoRelations" type="CreateRecoRelations">
  <!--CreateRecoRelations creates transient collections with realtions from  ReconstructedParticles to Tracks and Clusters-->
@@ -56,7 +68,7 @@
   <!--Name of output collection for relation ReconstructedParticles to Tracks-->
   <parameter name="Reco2TracksRelationName" type="string" lcioOutType="LCRelation">Reco2TracksRelation </parameter>
   <!--Names of ReconstructedParticles input collections-->
-  <parameter name="RecoCollection" type="string" lcioInType="ReconstructedParticle">PandoraPFOs </parameter>
+  <parameter name="RecoCollection" type="string" lcioInType="ReconstructedParticle">MergedRPCollection </parameter>
   <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
   <!--parameter name="Verbosity" type="string">DEBUG </parameter-->
 </processor>
@@ -84,11 +96,14 @@
     r2r  
   </parameter>
 
+  <!--Name of the Vertex collection-->
+  <parameter name="VertexCollection" type="string" lcioInType="Vertex"> BuildUpVertex </parameter>
+
   <!--Name of the MCParticle collection-->
   <parameter name="MCParticleCollection" type="string" lcioInType="MCParticle"> MCParticlesSkimmed</parameter>
 
   <!--Name of the ReconstructedParticle collection-->
-  <parameter name="RecoParticleCollection" type="string" lcioInType="ReconstructedParticle"> PandoraPFOs</parameter>
+  <parameter name="RecoParticleCollection" type="string" lcioInType="ReconstructedParticle"> MergedRPCollection</parameter>
 
   <!--Name of the SimCalorimeterHit collection-->
   <parameter name="SimCalorimeterHitCollection" type="string" lcioInType="SimCalorimeterHit"> </parameter>

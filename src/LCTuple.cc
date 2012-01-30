@@ -18,6 +18,7 @@
 #include "SimTrackerHitBranches.h"
 #include "SimCalorimeterHitBranches.h"
 #include "LCRelationBranches.h"
+#include "VertexBranches.h"
 
 
 
@@ -82,6 +83,13 @@ LCTuple::LCTuple() : Processor("LCTuple") {
 			   "RecoParticleCollection" , 
 			   "Name of the ReconstructedParticle collection"  ,
 			   _recColName ,
+			   std::string("")
+			   );
+
+  registerInputCollection( LCIO::VERTEX,
+			   "VertexCollection" , 
+			   "Name of the Vertex collection"  ,
+			   _vtxColName ,
 			   std::string("")
 			   );
   
@@ -157,6 +165,7 @@ void LCTuple::init() {
   _cluBranches =  0 ; 
   _sthBranches =  0 ;
   _schBranches =  0 ;
+  _vtxBranches =  0 ;
   
   _evtBranches =  new EventBranches ;
   _evtBranches->initBranches( _tree ) ;
@@ -191,6 +200,12 @@ void LCTuple::init() {
     _schBranches =  new SimCalorimeterHitBranches ;
     _schBranches->initBranches( _tree ) ;
   }
+
+  if( _vtxColName.size() ) {
+    _vtxBranches =  new VertexBranches ;
+    _vtxBranches->initBranches( _tree ) ;
+  }
+
   
   unsigned nRel =  _relColNames.size()  ;
   
@@ -245,7 +260,9 @@ void LCTuple::processEvent( LCEvent * evt ) {
   LCCollection* sthCol =  getCollection ( evt , _sthColName ) ;
 
   LCCollection* schCol =  getCollection ( evt , _schColName ) ;
-  
+
+  LCCollection* vtxCol =  getCollection ( evt , _vtxColName ) ;
+
   unsigned  nRel = _relColNames.size() ;
   
   std::vector<LCCollection*> relCols( nRel ) ;
@@ -265,7 +282,9 @@ void LCTuple::processEvent( LCEvent * evt ) {
   addIndexToCollection( trkCol ) ;
 
   addIndexToCollection( cluCol ) ;
-  
+
+  addIndexToCollection( vtxCol ) ;
+
   //================================================
   //    fill the ntuple arrays 
   
@@ -283,6 +302,7 @@ void LCTuple::processEvent( LCEvent * evt ) {
   
   if( schCol ) _schBranches->fill( schCol , evt ) ;
   
+  if( vtxCol ) _vtxBranches->fill( vtxCol , evt ) ;
 
   for( unsigned i=0; i < nRel ; ++i) {
 
@@ -327,7 +347,7 @@ void LCTuple::end(){
   delete _mcpBranches ;
   delete _recBranches ; 
   delete _trkBranches ; 
-
+  delete _vtxBranches ; 
   
   for(unsigned i=0 , nRel =_relBranchesVec.size() ; i <nRel ; 
       delete _relBranchesVec[i++] )  ;

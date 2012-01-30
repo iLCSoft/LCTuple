@@ -4,6 +4,7 @@
 #include "lcio.h"
 #include "EVENT/LCCollection.h"
 #include "EVENT/ReconstructedParticle.h"
+#include "EVENT/Vertex.h"
 
 #include "TTree.h"
 
@@ -35,7 +36,10 @@ void RecoParticleBranches::initBranches( TTree* tree, const std::string& pre){
   tree->Branch( (pre+"rccha").c_str() , _rccha , (pre+"rccha[nrec]/F").c_str() ) ;
   tree->Branch( (pre+"rcntr").c_str() , _rcntr , (pre+"rcntr[nrec]/I").c_str() ) ;
   tree->Branch( (pre+"rcftr").c_str() , _rcftr , (pre+"rcftr[nrec]/I").c_str() ) ;
-  
+
+  tree->Branch( (pre+"rcvts").c_str() , _rcvts , (pre+"rcvts[nrec]/I").c_str() ) ;
+  tree->Branch( (pre+"rcvte").c_str() , _rcvte , (pre+"rcvte[nrec]/I").c_str() ) ;
+  tree->Branch( (pre+"rccom").c_str() , _rccom , (pre+"rccom[nrec]/I").c_str() ) ;
 
   tree->Branch( (pre+"npid").c_str() , &_npid , (pre+"npid/I").c_str() ) ;
 
@@ -120,6 +124,10 @@ void RecoParticleBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* 
     _rcmas[ i ] = rec->getMass() ;
     _rcene[ i ] = rec->getEnergy() ;
     _rccha[ i ] = rec->getCharge() ;
+
+    _rcvts[ i ] = ( rec->getStartVertex() ?  rec->getStartVertex()->ext<CollIndex>() - 1  :  -1 )   ; 
+    _rcvte[ i ] = ( rec->getEndVertex() ?  rec->getEndVertex()->ext<CollIndex>() - 1  :  -1 )   ; 
+    _rccom[ i ] = rec->isCompound();
 
     _rcntr[ i ] = rec->getTracks().size() ; 
     _rcftr[ i ] = ( rec->getTracks().size() > 0 ?  rec->getTracks()[0]->ext<CollIndex>() - 1  :  -1 )   ;

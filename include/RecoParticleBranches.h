@@ -53,6 +53,10 @@ private:
   int    _rcntr[ LCT_RECOPARTICLE_MAX ] ;
   int    _rcftr[ LCT_RECOPARTICLE_MAX ] ;
 
+  int    _rcvts[ LCT_RECOPARTICLE_MAX ] ;
+  int    _rcvte[ LCT_RECOPARTICLE_MAX ] ;
+  int    _rccom[ LCT_RECOPARTICLE_MAX ] ;
+
   int    _npid   ;
   int    _pityp[ LCT_PARTICLEID_MAX ] ;
   int    _pipdg[ LCT_PARTICLEID_MAX ] ;

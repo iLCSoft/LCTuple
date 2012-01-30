@@ -27,6 +27,7 @@ struct CollIndex : public lcrtrel::LCIntExtension<CollIndex> {} ;
 #define LCT_SIMTRACKERHIT_MAX     1000000
 #define LCT_SIMCALORIMETERHIT_MAX 1000000
 #define LCT_PARTICLEID_MAX        1000000
+#define LCT_VERTEX_MAX               1000
 
 #define LCT_STRING_MAX       1024 
 
