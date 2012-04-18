@@ -1,5 +1,7 @@
 #include "MergeCollections.h"
 
+
+#include "LCTupleConf.h"
 #include <IMPL/LCCollectionVec.h>
 #include <IMPL/LCParametersImpl.h>
 
@@ -47,6 +49,13 @@ MergeCollections::MergeCollections() : Processor("MergeCollections") {
 			      colNames
 			      );
   
+  IntVec colIDs ;
+  registerProcessorParameter( "InputCollectionIDs" , 
+			      "Optional IDs for input collections - if given id will be added to all objects in merged collections as ext<CollID)" ,
+			      _inColIDs ,
+			      colIDs
+			      );
+
   registerProcessorParameter( "OutputCollection" , 
 			      "Name of output collection" ,
 			      _outColName ,
@@ -78,6 +87,7 @@ void MergeCollections::processRunHeader( LCRunHeader* run) {
 //============================================================================================================================
 
 void MergeCollections::processEvent( LCEvent * evt ) { 
+
   StringVec colNamesPresent;
   IntVec colNElements;
   IntVec colNIntParam;
@@ -86,34 +96,61 @@ void MergeCollections::processEvent( LCEvent * evt ) {
 
   unsigned nCol = _inColNames.size() ;
 
+  unsigned nColID = _inColIDs.size() ;
+  
+
+  if( nColID != 0  && nColID != nCol ) {
+    
+    std::stringstream err ;
+    err << " MergeCollections::processEvent : incompatible parameter vector sizes : InputCollections: " << nCol << " <->  InputCollectionIDs " << nColID ;
+    throw Exception( err.str() ) ;
+  }
+  
+
   //--- copy existing collections to a vector first
-  std::vector<LCCollection*> colVec ;
+  std::vector<LCCollection*> colVec( nCol )  ; ;
 
   for( unsigned i=0; i < nCol ; ++i) {
     LCCollection* col  =  getCollection ( evt , _inColNames[i] ) ;
 
     if( col != 0 ){ 
-      colVec.push_back( col ) ;
+      colVec[i] = col  ;
       colNamesPresent.push_back(_inColNames[i]);
+
     } else {
       streamlog_out(DEBUG2) << " input collection missing : " << _inColNames[i] << std::endl ;
     }
   }
 
-  // ---- now loop over existing collections 
+  // ---- now loop over  collections 
   LCCollectionVec* outCol = 0 ;
-  nCol = colVec.size() ;
-
+  bool first = false ;
+  
   for( unsigned k=0; k < nCol ; ++k) {
+    
     LCCollection* col  =  colVec[k] ;
-    if( k == 0 ){
+    
+    if( ! col ) continue ;
+    
+    if( first ){
+      
       // copy collection flags from first collections
       outCol = new LCCollectionVec( col->getTypeName() )  ;
+
       outCol->setFlag( col->getFlag() ) ;
+
+      first = false ;
     }
     int nEle = col->getNumberOfElements() ;
+
     for(int j=0; j < nEle ; ++j){
-      outCol->addElement(  col->getElementAt(j) ) ;
+
+      LCObject* elem = col->getElementAt(j) ;
+      
+      if( nColID != 0 )
+	elem->ext<CollID>() = _inColIDs[ k ] ;
+
+      outCol->addElement(  elem ) ;
     }
 
     int intParams = 0;
@@ -155,18 +192,26 @@ void MergeCollections::processEvent( LCEvent * evt ) {
     colNStringParam.push_back(stringParams);
   }
 
-  outCol->parameters().setValues("MergedCollection_InputCollections",colNamesPresent);
-  outCol->parameters().setValues("MergedCollection_NElements",colNElements);
-  outCol->parameters().setValues("MergedCollection_NIntParameters",colNIntParam);
-  outCol->parameters().setValues("MergedCollection_NFloatParameters",colNFloatParam);
-  outCol->parameters().setValues("MergedCollection_NStringParameters",colNStringParam);
 
   if( outCol ) {
+
+    outCol->parameters().setValues( "MergedCollectionNames" ,  _inColNames  )  ;
+    
+    if( nColID != 0  )
+      outCol->parameters().setValues( "MergedCollectionIDs" ,  _inColIDs  )  ;
+    
+    outCol->parameters().setValues("MergedCollection_NamesPresent",colNamesPresent);
+    outCol->parameters().setValues("MergedCollection_NElements",colNElements);
+    outCol->parameters().setValues("MergedCollection_NIntParameters",colNIntParam);
+    outCol->parameters().setValues("MergedCollection_NFloatParameters",colNFloatParam);
+    outCol->parameters().setValues("MergedCollection_NStringParameters",colNStringParam);
+    
     outCol->setTransient( false ) ;
     outCol->setSubset( true ) ;
+
     evt->addCollection( outCol, _outColName   ) ;
   }
-
+  
   streamlog_out(DEBUG) << "   processing event: " << evt->getEventNumber() 
 		       << "   in run:  "          << evt->getRunNumber()   << std::endl ;
 

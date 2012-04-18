@@ -7,6 +7,11 @@
 
 struct CollIndex : public lcrtrel::LCIntExtension<CollIndex> {} ;
 
+//==== define user extension for collection IDs
+struct CollID : public lcrtrel::LCIntExtension<CollID> {} ;
+
+
+
 // ===== define constants needed for LCTuple =================
 
 

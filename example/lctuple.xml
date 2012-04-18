@@ -41,6 +41,10 @@
    <parameter name="InputCollections" type="StringVec"> 
      VXDCollection ETDCollection FTDCollection SETCollection SITCollection TPCCollection
    </parameter>
+  <!--Optional IDs for input collections - if given id will be added to all objects in merged collections as ext<CollID>()-->
+   <parameter name="InputCollectionIDs" type="IntVec"> 
+     1  6  3  5  2  4
+   </parameter>
    <!--Name of output collection-->
    <parameter name="OutputCollection" type="string">SimTrackerHits </parameter>
    <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
@@ -53,9 +57,13 @@
    <parameter name="InputCollections" type="StringVec"> 
      PandoraPFOs BuildUpVertex_RP
    </parameter>
+  <!--Optional IDs for input collections - if given id will be added to all objects in merged collections as ext<CollID>()-->
+   <parameter name="InputCollectionIDs" type="IntVec"> 
+     47 11
+   </parameter>
    <!--Name of output collection-->
    <parameter name="OutputCollection" type="string">MergedRPCollection </parameter>
-   <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+    <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
    <!--parameter name="Verbosity" type="string">DEBUG </parameter-->
  </processor>
  

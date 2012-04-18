@@ -11,10 +11,13 @@ using namespace lcio ;
 using namespace marlin ;
 
 
-/** Helper processor that merges several input collections into a transient subset collections.
+/** Helper processor that merges several input collections into a transient subset collections. The names and optionally the IDs of the merged collections
+ *  are stored in collection parameters MergedCollectionNames and MergedCollectionIDs.
  *
- * @param InputCollections  Name of the input collections
- * @param OutputCollection  Name of the output collection
+ * @param InputCollections    Name of the input collections
+ * @param InputCollectionIDs  Optional IDs for input collections - if given, IDs will be added to all objects in merged collections as ext<CollID>()" 
+ *                            - it is the users responsibility to ensure uniqueness of the IDs across the event ( and that ID != 0 ) 
+ * @param OutputCollection    Name of the output collection
  * 
  * @author F. Gaede, DESY
  * @version $Id: MergeCollections.h 2946 2012-01-16 15:40:46Z gaede $
@@ -56,6 +59,7 @@ class MergeCollections : public Processor {
   /** Input collection name.
    */
   StringVec   _inColNames ;
+  IntVec      _inColIDs   ;
   std::string _outColName ; 
 
 
