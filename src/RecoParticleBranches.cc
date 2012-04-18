@@ -19,6 +19,7 @@ void RecoParticleBranches::initBranches( TTree* tree, const std::string& pre){
 
   tree->Branch( (pre+"nrc").c_str() , &_nrc ,  (pre+"nrec/I").c_str() ) ;
 
+  tree->Branch( (pre+"rccid").c_str() , _rccid , (pre+"rccid[nrec]/I").c_str() ) ;
   tree->Branch( (pre+"rctyp").c_str() , _rctyp , (pre+"rctyp[nrec]/I").c_str() ) ;
   tree->Branch( (pre+"rccov").c_str() , _rccov , (pre+"rccov[nrec][10]/F").c_str() ) ;
   tree->Branch( (pre+"rcrpx").c_str() , _rcrpx , (pre+"rcrpx[nrec]/F").c_str() ) ;
@@ -103,7 +104,8 @@ void RecoParticleBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* 
     
     lcio::ReconstructedParticle* rec = static_cast<lcio::ReconstructedParticle*>( col->getElementAt(i) ) ;
     
-    
+    _rccid[ i ] = rec->ext<CollID>() ;
+
     _rctyp[ i ] = rec->getType() ; 
 
     for( int j=0; j<10 ; ++j )

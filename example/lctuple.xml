@@ -25,7 +25,7 @@
   <parameter name="MaxRecordNumber" value="10" />  
   <parameter name="SkipNEvents" value="0"/>  
   <parameter name="SupressCheck" value="false" />  
-  <parameter name="GearXMLFile"> gear_ILD_01_dev.xml gear_ILD_00.xml </parameter>  
+  <parameter name="GearXMLFile"> gear_ILD_O1_v02.xml </parameter>  
   <parameter name="Verbosity" options="DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT">MESSAGE DEBUG  </parameter> 
   <parameter name="RandomSeed" value="1234567890" />
  </global>
@@ -55,11 +55,14 @@
    <!--MergeCollections creates a transient subset collection that merges all input collections -->
    <!--Names of all input collections-->
    <parameter name="InputCollections" type="StringVec"> 
-     PandoraPFOs BuildUpVertex_RP
+     PandoraPFOs     
+     BCALParticles   
+     BuildUpVertex_RP
+     PrimaryVertex_RP
    </parameter>
-  <!--Optional IDs for input collections - if given id will be added to all objects in merged collections as ext<CollID>()-->
+   <!--Optional IDs for input collections - if given id will be added to all objects in merged collections as ext<CollID>()-->
    <parameter name="InputCollectionIDs" type="IntVec"> 
-     47 11
+      101  102  103  104 
    </parameter>
    <!--Name of output collection-->
    <parameter name="OutputCollection" type="string">MergedRPCollection </parameter>
