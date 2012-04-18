@@ -24,7 +24,7 @@ void VertexBranches::initBranches( TTree* tree, const std::string& pre){
   tree->Branch( (pre+"vtchi").c_str() , _vtchi , (pre+"vtchi[nvt]/F").c_str() ) ;
   tree->Branch( (pre+"vtprb").c_str() , _vtprb , (pre+"vtprb[nvt]/F").c_str() ) ;
   tree->Branch( (pre+"vtcov").c_str() , _vtcov , (pre+"vtcov[nvt][6]/F").c_str() ) ;
-  tree->Branch( (pre+"vtpar").c_str() , _vtpar , (pre+"vtpar[nvt][6]/F").c_str() ) ;
+  //  tree->Branch( (pre+"vtpar").c_str() , _vtpar , (pre+"vtpar[nvt][6]/F").c_str() ) ;
 }
 
 
@@ -49,7 +49,7 @@ void VertexBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* evt ){
     _vtchi[i] = vtx->getChi2();
     _vtprb[i] = vtx->getProbability();
     for(int j=0; j<6 ; ++j) _vtcov[ i ][ j ]  = vtx->getCovMatrix()[j] ;
-    for(int j=0; j<6 ; ++j) _vtpar[ i ][ j ]  = vtx->getParameters()[j] ;
+    //    for(int j=0; j<6 ; ++j) _vtpar[ i ][ j ]  = vtx->getParameters()[j] ;
   }
 }
 
