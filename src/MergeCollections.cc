@@ -124,7 +124,7 @@ void MergeCollections::processEvent( LCEvent * evt ) {
 
   // ---- now loop over  collections 
   LCCollectionVec* outCol = 0 ;
-  bool first = false ;
+  bool first = true ;
   
   for( unsigned k=0; k < nCol ; ++k) {
     
@@ -162,7 +162,7 @@ void MergeCollections::processEvent( LCEvent * evt ) {
     for(int i=0; i< nIntParameters ; i++ ){
       IntVec intVec ;
       col->getParameters().getIntVals(  intKeys[i], intVec ) ;
-      const std::string newIntKey = colNamesPresent[k]+"_"+intKeys[i];
+      const std::string newIntKey = _inColNames[k]+"_"+intKeys[i];
       outCol->parameters().setValues(newIntKey,intVec);
       intParams++;
     }
@@ -172,7 +172,7 @@ void MergeCollections::processEvent( LCEvent * evt ) {
     for(int i=0; i< nFloatParameters ; i++ ){
       FloatVec floatVec ;
       col->getParameters().getFloatVals(  floatKeys[i], floatVec ) ;
-      const std::string newFloatKey = colNamesPresent[k]+"_"+floatKeys[i];
+      const std::string newFloatKey = _inColNames[k]+"_"+floatKeys[i];
       outCol->parameters().setValues(newFloatKey,floatVec);
       floatParams++;
     }
@@ -182,7 +182,7 @@ void MergeCollections::processEvent( LCEvent * evt ) {
     for(int i=0; i< nStringParameters ; i++ ){
       StringVec stringVec ;
       col->getParameters().getStringVals(  stringKeys[i], stringVec ) ;
-      const std::string newStringKey = colNamesPresent[k]+"_"+stringKeys[i];
+      const std::string newStringKey = _inColNames[k]+"_"+stringKeys[i];
       outCol->parameters().setValues(newStringKey,stringVec);
       stringParams++;
     }
