@@ -3,7 +3,7 @@
 
 #include "LCTupleConf.h" 
 
-#include "CWBranchesSet.h"
+#include "CollectionBranches.h"
 
 
 class TTree ;
@@ -19,7 +19,7 @@ namespace EVENT{
  * @version $Id: SimCalorimeterHitBranches.h 2945 2012-01-16 15:05:02Z gaede $
  */
 
-class SimCalorimeterHitBranches : public CWBranchesSet {
+class SimCalorimeterHitBranches : public CollectionBranches {
   
 public:
   
@@ -36,6 +36,8 @@ private:
   
   int    _nsch   ;    
   
+  int    _scori[ LCT_SIMCALORIMETERHIT_MAX ] ;
+
   int    _scci0[ LCT_SIMCALORIMETERHIT_MAX ] ;
   int    _scci1[ LCT_SIMCALORIMETERHIT_MAX ] ;
   float  _scpox[ LCT_SIMCALORIMETERHIT_MAX ] ;

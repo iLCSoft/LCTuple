@@ -16,38 +16,41 @@ void RecoParticleBranches::initBranches( TTree* tree, const std::string& pre){
     throw lcio::Exception("  RecoParticleBranches::initBranches - invalid tree pointer !!! " ) ;
   }
 
+  if (_writeparameters) CollectionBranches::initBranches(tree, (pre+"rc").c_str());
 
   tree->Branch( (pre+"nrc").c_str() , &_nrc ,  (pre+"nrec/I").c_str() ) ;
 
-  tree->Branch( (pre+"rccid").c_str() , _rccid , (pre+"rccid[nrec]/I").c_str() ) ;
-  tree->Branch( (pre+"rctyp").c_str() , _rctyp , (pre+"rctyp[nrec]/I").c_str() ) ;
-  tree->Branch( (pre+"rccov").c_str() , _rccov , (pre+"rccov[nrec][10]/F").c_str() ) ;
-  tree->Branch( (pre+"rcrpx").c_str() , _rcrpx , (pre+"rcrpx[nrec]/F").c_str() ) ;
-  tree->Branch( (pre+"rcrpy").c_str() , _rcrpy , (pre+"rcrpy[nrec]/F").c_str() ) ;
-  tree->Branch( (pre+"rcrpz").c_str() , _rcrpz , (pre+"rcrpz[nrec]/F").c_str() ) ;
-  tree->Branch( (pre+"rcgpi").c_str() , _rcgpi , (pre+"rcgpi[nrec]/F").c_str() ) ;
-  tree->Branch( (pre+"rcpiu").c_str() , _rcpiu , (pre+"rcpiu[nrec]/I").c_str() ) ;
-  tree->Branch( (pre+"rcnpi").c_str() , _rcnpi , (pre+"rcnpi[nrec]/I").c_str() ) ;
-  tree->Branch( (pre+"rcfpi").c_str() , _rcfpi , (pre+"rcfpi[nrec]/I").c_str() ) ;
-  tree->Branch( (pre+"rcmox").c_str() , _rcmox , (pre+"rcmox[nrec]/F").c_str() ) ;
-  tree->Branch( (pre+"rcmoy").c_str() , _rcmoy , (pre+"rcmoy[nrec]/F").c_str() ) ;
-  tree->Branch( (pre+"rcmoz").c_str() , _rcmoz , (pre+"rcmoz[nrec]/F").c_str() ) ;
-  tree->Branch( (pre+"rcmas").c_str() , _rcmas , (pre+"rcmas[nrec]/F").c_str() ) ;
-  tree->Branch( (pre+"rcene").c_str() , _rcene , (pre+"rcene[nrec]/F").c_str() ) ;
-  tree->Branch( (pre+"rccha").c_str() , _rccha , (pre+"rccha[nrec]/F").c_str() ) ;
-  tree->Branch( (pre+"rcntr").c_str() , _rcntr , (pre+"rcntr[nrec]/I").c_str() ) ;
-  tree->Branch( (pre+"rcftr").c_str() , _rcftr , (pre+"rcftr[nrec]/I").c_str() ) ;
+  tree->Branch( (pre+"rcori").c_str() , _rcori , (pre+"rcori["+pre+"nrec]/I").c_str() ) ;
 
-  tree->Branch( (pre+"rcvts").c_str() , _rcvts , (pre+"rcvts[nrec]/I").c_str() ) ;
-  tree->Branch( (pre+"rcvte").c_str() , _rcvte , (pre+"rcvte[nrec]/I").c_str() ) ;
-  tree->Branch( (pre+"rccom").c_str() , _rccom , (pre+"rccom[nrec]/I").c_str() ) ;
+  tree->Branch( (pre+"rccid").c_str() , _rccid , (pre+"rccid["+pre+"nrec]/I").c_str() ) ;
+  tree->Branch( (pre+"rctyp").c_str() , _rctyp , (pre+"rctyp["+pre+"nrec]/I").c_str() ) ;
+  tree->Branch( (pre+"rccov").c_str() , _rccov , (pre+"rccov["+pre+"nrec][10]/F").c_str() ) ;
+  tree->Branch( (pre+"rcrpx").c_str() , _rcrpx , (pre+"rcrpx["+pre+"nrec]/F").c_str() ) ;
+  tree->Branch( (pre+"rcrpy").c_str() , _rcrpy , (pre+"rcrpy["+pre+"nrec]/F").c_str() ) ;
+  tree->Branch( (pre+"rcrpz").c_str() , _rcrpz , (pre+"rcrpz["+pre+"nrec]/F").c_str() ) ;
+  tree->Branch( (pre+"rcgpi").c_str() , _rcgpi , (pre+"rcgpi["+pre+"nrec]/F").c_str() ) ;
+  tree->Branch( (pre+"rcpiu").c_str() , _rcpiu , (pre+"rcpiu["+pre+"nrec]/I").c_str() ) ;
+  tree->Branch( (pre+"rcnpi").c_str() , _rcnpi , (pre+"rcnpi["+pre+"nrec]/I").c_str() ) ;
+  tree->Branch( (pre+"rcfpi").c_str() , _rcfpi , (pre+"rcfpi["+pre+"nrec]/I").c_str() ) ;
+  tree->Branch( (pre+"rcmox").c_str() , _rcmox , (pre+"rcmox["+pre+"nrec]/F").c_str() ) ;
+  tree->Branch( (pre+"rcmoy").c_str() , _rcmoy , (pre+"rcmoy["+pre+"nrec]/F").c_str() ) ;
+  tree->Branch( (pre+"rcmoz").c_str() , _rcmoz , (pre+"rcmoz["+pre+"nrec]/F").c_str() ) ;
+  tree->Branch( (pre+"rcmas").c_str() , _rcmas , (pre+"rcmas["+pre+"nrec]/F").c_str() ) ;
+  tree->Branch( (pre+"rcene").c_str() , _rcene , (pre+"rcene["+pre+"nrec]/F").c_str() ) ;
+  tree->Branch( (pre+"rccha").c_str() , _rccha , (pre+"rccha["+pre+"nrec]/F").c_str() ) ;
+  tree->Branch( (pre+"rcntr").c_str() , _rcntr , (pre+"rcntr["+pre+"nrec]/I").c_str() ) ;
+  tree->Branch( (pre+"rcftr").c_str() , _rcftr , (pre+"rcftr["+pre+"nrec]/I").c_str() ) ;
+
+  tree->Branch( (pre+"rcvts").c_str() , _rcvts , (pre+"rcvts["+pre+"nrec]/I").c_str() ) ;
+  tree->Branch( (pre+"rcvte").c_str() , _rcvte , (pre+"rcvte["+pre+"nrec]/I").c_str() ) ;
+  tree->Branch( (pre+"rccom").c_str() , _rccom , (pre+"rccom["+pre+"nrec]/I").c_str() ) ;
 
   tree->Branch( (pre+"npid").c_str() , &_npid , (pre+"npid/I").c_str() ) ;
 
-  tree->Branch( (pre+"pityp").c_str() , _pityp , (pre+"pityp[npid]/I").c_str() ) ;
-  tree->Branch( (pre+"pipdg").c_str() , _pipdg , (pre+"pipdg[npid]/I").c_str() ) ;
-  tree->Branch( (pre+"pillh").c_str() , _pillh , (pre+"pillh[npid]/F").c_str() ) ;
-  tree->Branch( (pre+"pialg").c_str() , _pialg , (pre+"pialg[npid]/I").c_str() ) ;
+  tree->Branch( (pre+"pityp").c_str() , _pityp , (pre+"pityp["+pre+"npid]/I").c_str() ) ;
+  tree->Branch( (pre+"pipdg").c_str() , _pipdg , (pre+"pipdg["+pre+"npid]/I").c_str() ) ;
+  tree->Branch( (pre+"pillh").c_str() , _pillh , (pre+"pillh["+pre+"npid]/F").c_str() ) ;
+  tree->Branch( (pre+"pialg").c_str() , _pialg , (pre+"pialg["+pre+"npid]/I").c_str() ) ;
   
 }
   
@@ -63,7 +66,8 @@ void RecoParticleBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* 
     throw EVENT::Exception( exStr + col->getTypeName() ) ; 
   }
   
-  
+  if (_writeparameters) CollectionBranches::fill(col, evt);
+
   _nrc  = col->getNumberOfElements() ;
   
   //---------  create a helper vector with particleIDs first -------------------------------
@@ -103,6 +107,8 @@ void RecoParticleBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* 
   for(int i=0 ; i < _nrc ; ++i){
     
     lcio::ReconstructedParticle* rec = static_cast<lcio::ReconstructedParticle*>( col->getElementAt(i) ) ;
+
+    _rcori[i] = rec->ext<CollID>();
     
     _rccid[ i ] = rec->ext<CollID>() ;
 
@@ -136,25 +142,3 @@ void RecoParticleBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* 
     
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -78,6 +78,12 @@ LCTuple::LCTuple() : Processor("LCTuple") {
 			   _mcpColName ,
 			   std::string("")
 			   );
+
+  registerProcessorParameter( "WriteMCParticleCollectionParameters" ,
+                              "Switch to write out collection parameters",
+			      _mcpColWriteParameters ,
+			      false
+			      );
   
   registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE,
 			   "RecoParticleCollection" , 
@@ -86,6 +92,12 @@ LCTuple::LCTuple() : Processor("LCTuple") {
 			   std::string("")
 			   );
 
+  registerProcessorParameter( "WriteRecoParticleCollectionParameters" ,
+                              "Switch to write out collection parameters",
+			      _recColWriteParameters ,
+			      false
+			      );
+
   registerInputCollection( LCIO::VERTEX,
 			   "VertexCollection" , 
 			   "Name of the Vertex collection"  ,
@@ -93,12 +105,24 @@ LCTuple::LCTuple() : Processor("LCTuple") {
 			   std::string("")
 			   );
   
+  registerProcessorParameter( "WriteVertexCollectionParameters" ,
+                              "Switch to write out collection parameters",
+			      _vtxColWriteParameters ,
+			      false
+			      );
+
   registerInputCollection( LCIO::TRACK,
 			   "TrackCollection" , 
 			   "Name of the Track collection"  ,
 			   _trkColName ,
 			   std::string("")
 			   );
+
+  registerProcessorParameter( "WriteTrackCollectionParameters" ,
+                              "Switch to write out collection parameters",
+			      _trkColWriteParameters ,
+			      false
+			      );
 
   registerInputCollection( LCIO::CLUSTER,
 			   "ClusterCollection" , 
@@ -107,6 +131,12 @@ LCTuple::LCTuple() : Processor("LCTuple") {
 			   std::string("")
 			   );
 
+  registerProcessorParameter( "WriteClusterCollectionParameters" ,
+                              "Switch to write out collection parameters",
+			      _cluColWriteParameters ,
+			      false
+			      );
+
   registerInputCollection( LCIO::SIMTRACKERHIT,
 			   "SimTrackerHitCollection" , 
 			   "Name of the SimTrackerHit collection"  ,
@@ -114,12 +144,24 @@ LCTuple::LCTuple() : Processor("LCTuple") {
 			   std::string("")
 			   );
   
+  registerProcessorParameter( "WriteSimTrackerHitCollectionParameters" ,
+                              "Switch to write out collection parameters",
+			      _sthColWriteParameters ,
+			      false
+			      );
+
   registerInputCollection( LCIO::SIMCALORIMETERHIT,
 			   "SimCalorimeterHitCollection" , 
 			   "Name of the SimCalorimeterHit collection"  ,
 			   _schColName ,
 			   std::string("")
 			   );
+
+  registerProcessorParameter( "WriteSimCalorimeterHitCollectionParameters" ,
+                              "Switch to write out collection parameters",
+			      _schColWriteParameters ,
+			      false
+			      );
   
   
   StringVec relColNames ;
@@ -173,36 +215,43 @@ void LCTuple::init() {
   
   if( _mcpColName.size() )  {
     _mcpBranches =  new MCParticleBranches ;
+    _mcpBranches->writeParameters(_mcpColWriteParameters);
     _mcpBranches->initBranches( _tree ) ;
   }
   
   if( _recColName.size() ) {
     _recBranches =  new RecoParticleBranches ;
+    _recBranches->writeParameters(_recColWriteParameters);
     _recBranches->initBranches( _tree ) ;
   }
 
   if( _trkColName.size() ) {
     _trkBranches =  new TrackBranches ;
+    _trkBranches->writeParameters(_trkColWriteParameters);
     _trkBranches->initBranches( _tree ) ;
   }
   
   if( _cluColName.size() ) {
     _cluBranches =  new ClusterBranches ;
+    _cluBranches->writeParameters(_cluColWriteParameters);
     _cluBranches->initBranches( _tree ) ;
   }
   
   if( _sthColName.size() ) {
     _sthBranches =  new SimTrackerHitBranches ;
+    _sthBranches->writeParameters(_sthColWriteParameters);
     _sthBranches->initBranches( _tree ) ;
   }
   
   if( _schColName.size() ) {
     _schBranches =  new SimCalorimeterHitBranches ;
+    _schBranches->writeParameters(_schColWriteParameters);
     _schBranches->initBranches( _tree ) ;
   }
 
   if( _vtxColName.size() ) {
     _vtxBranches =  new VertexBranches ;
+    _vtxBranches->writeParameters(_vtxColWriteParameters);
     _vtxBranches->initBranches( _tree ) ;
   }
 
@@ -228,14 +277,13 @@ void LCTuple::init() {
     
     _relBranchesVec[i] =  new LCRelationBranches ;
     _relBranchesVec[i]->initBranches( _tree ,  _relPrefixes[i] ) ;
+streamlog_out(DEBUG) << "  okay!  " << std::endl ;
   }
-  
 }
 //============================================================================================================================
 
 
 void LCTuple::processRunHeader( LCRunHeader* run) { 
-  
   _nRun++ ;
 } 
 
@@ -243,8 +291,6 @@ void LCTuple::processRunHeader( LCRunHeader* run) {
 //============================================================================================================================
 
 void LCTuple::processEvent( LCEvent * evt ) { 
-  
-  
   
   //=====================================================
   // get the available collections from the event

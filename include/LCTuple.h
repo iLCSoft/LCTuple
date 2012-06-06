@@ -12,7 +12,7 @@ using namespace marlin ;
 
 class TTree ;
 class CWBranchesSet ;
-
+class CollectionBranches;
 
 /** Creates a simple column wise ntuple in a ROOT tree from LCIO collections.
  
@@ -74,19 +74,29 @@ class LCTuple : public Processor {
   std::string _schColName ;
   std::string _vtxColName ;
 
+  bool _mcpColWriteParameters ;
+  bool _recColWriteParameters ;
+  bool _trkColWriteParameters ;
+  bool _cluColWriteParameters ;
+  bool _sthColWriteParameters ;
+  bool _schColWriteParameters ;
+  bool _vtxColWriteParameters ;
+
+
+
   StringVec _relColNames ;
   StringVec _relPrefixes ;
 
   TTree* _tree ;
 
   CWBranchesSet* _evtBranches ;
-  CWBranchesSet* _mcpBranches ;
-  CWBranchesSet* _recBranches ;
-  CWBranchesSet* _trkBranches ;
-  CWBranchesSet* _cluBranches ;
-  CWBranchesSet* _sthBranches ;
-  CWBranchesSet* _schBranches ;
-  CWBranchesSet* _vtxBranches ;
+  CollectionBranches* _mcpBranches ;
+  CollectionBranches* _recBranches ;
+  CollectionBranches* _trkBranches ;
+  CollectionBranches* _cluBranches ;
+  CollectionBranches* _sthBranches ;
+  CollectionBranches* _schBranches ;
+  CollectionBranches* _vtxBranches ;
   
   std::vector<CWBranchesSet*> _relBranchesVec ;
   

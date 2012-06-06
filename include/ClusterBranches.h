@@ -3,7 +3,7 @@
 
 #include "LCTupleConf.h" 
 
-#include "CWBranchesSet.h"
+#include "CollectionBranches.h"
 
 
 class TTree ;
@@ -19,7 +19,7 @@ namespace EVENT{
  * @version $Id: ClusterBranches.h 2945 2012-01-16 15:05:02Z gaede $
  */
 
-class ClusterBranches : public CWBranchesSet {
+class ClusterBranches : public CollectionBranches {
   
 public:
   
@@ -35,6 +35,7 @@ public:
 private:
   
   int   _nclu ;
+  int   _clori[ LCT_CLUSTER_MAX ] ;
   int   _cltyp[ LCT_CLUSTER_MAX ] ;
   float _clene[ LCT_CLUSTER_MAX ] ;
   float _cleer[ LCT_CLUSTER_MAX ] ;

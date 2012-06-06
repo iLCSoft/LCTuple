@@ -3,7 +3,7 @@
 
 #include "LCTupleConf.h" 
 
-#include "CWBranchesSet.h"
+#include "CollectionBranches.h"
 
 
 class TTree ;

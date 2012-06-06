@@ -15,32 +15,35 @@ void MCParticleBranches::initBranches( TTree* tree, const std::string& pre){
     throw lcio::Exception("  MCParticleBranches::initBranches - invalid tree pointer !!! " ) ;
   }
 
+  if (_writeparameters) CollectionBranches::initBranches(tree, (pre+"mc").c_str());
 
   tree->Branch( (pre+"nmcp").c_str() , &_nmc , (pre+"nmcp/I").c_str() ) ;
 
-  tree->Branch( (pre+"mcpdg").c_str() , _mcpdg , (pre+"mcpdg[nmcp]/I").c_str() ) ;
-  tree->Branch( (pre+"mcgst").c_str() , _mcgst , (pre+"mcgst[nmcp]/I").c_str() ) ;
-  tree->Branch( (pre+"mcsst").c_str() , _mcsst , (pre+"mcsst[nmcp]/I").c_str() ) ;
-  tree->Branch( (pre+"mcvtx").c_str() , _mcvtx , (pre+"mcvtx[nmcp]/F").c_str() ) ;
-  tree->Branch( (pre+"mcvty").c_str() , _mcvty , (pre+"mcvty[nmcp]/F").c_str() ) ;
-  tree->Branch( (pre+"mcvtz").c_str() , _mcvtz , (pre+"mcvtz[nmcp]/F").c_str() ) ;
-  tree->Branch( (pre+"mcepx").c_str() , _mcepx , (pre+"mcepx[nmcp]/F").c_str() ) ;
-  tree->Branch( (pre+"mcepy").c_str() , _mcepy , (pre+"mcepy[nmcp]/F").c_str() ) ;
-  tree->Branch( (pre+"mcepz").c_str() , _mcepz , (pre+"mcepz[nmcp]/F").c_str() ) ;
-  tree->Branch( (pre+"mcmox").c_str() , _mcmox , (pre+"mcmox[nmcp]/F").c_str() ) ;
-  tree->Branch( (pre+"mcmoy").c_str() , _mcmoy , (pre+"mcmoy[nmcp]/F").c_str() ) ;
-  tree->Branch( (pre+"mcmoz").c_str() , _mcmoz , (pre+"mcmoz[nmcp]/F").c_str() ) ;
-  tree->Branch( (pre+"mcmas").c_str() , _mcmas , (pre+"mcmas[nmcp]/F").c_str() ) ;
-  tree->Branch( (pre+"mcene").c_str() , _mcene , (pre+"mcene[nmcp]/F").c_str() ) ;
-  tree->Branch( (pre+"mccha").c_str() , _mccha , (pre+"mccha[nmcp]/F").c_str() ) ;
-  tree->Branch( (pre+"mctim").c_str() , _mctim , (pre+"mctim[nmcp]/F").c_str() ) ;
-  tree->Branch( (pre+"mcspx").c_str() , _mcspx , (pre+"mcspx[nmcp]/F").c_str() ) ;
-  tree->Branch( (pre+"mcspy").c_str() , _mcspy , (pre+"mcspy[nmcp]/F").c_str() ) ;
-  tree->Branch( (pre+"mcspz").c_str() , _mcspz , (pre+"mcspz[nmcp]/F").c_str() ) ;
-  tree->Branch( (pre+"mccf0").c_str() , _mccf0 , (pre+"mccf0[nmcp]/I").c_str() ) ;
-  tree->Branch( (pre+"mccf1").c_str() , _mccf1 , (pre+"mccf1[nmcp]/I").c_str() ) ;
-  tree->Branch( (pre+"mcpa0").c_str() , _mcpa0 , (pre+"mcpa0[nmcp]/I").c_str() ) ;
-  tree->Branch( (pre+"mcpa1").c_str() , _mcpa1 , (pre+"mcpa1[nmcp]/I").c_str() ) ;
+  tree->Branch( (pre+"mcori").c_str() , _mcori , (pre+"mcori["+pre+"nmcp]/I").c_str() ) ;
+
+  tree->Branch( (pre+"mcpdg").c_str() , _mcpdg , (pre+"mcpdg["+pre+"nmcp]/I").c_str() ) ;
+  tree->Branch( (pre+"mcgst").c_str() , _mcgst , (pre+"mcgst["+pre+"nmcp]/I").c_str() ) ;
+  tree->Branch( (pre+"mcsst").c_str() , _mcsst , (pre+"mcsst["+pre+"nmcp]/I").c_str() ) ;
+  tree->Branch( (pre+"mcvtx").c_str() , _mcvtx , (pre+"mcvtx["+pre+"nmcp]/F").c_str() ) ;
+  tree->Branch( (pre+"mcvty").c_str() , _mcvty , (pre+"mcvty["+pre+"nmcp]/F").c_str() ) ;
+  tree->Branch( (pre+"mcvtz").c_str() , _mcvtz , (pre+"mcvtz["+pre+"nmcp]/F").c_str() ) ;
+  tree->Branch( (pre+"mcepx").c_str() , _mcepx , (pre+"mcepx["+pre+"nmcp]/F").c_str() ) ;
+  tree->Branch( (pre+"mcepy").c_str() , _mcepy , (pre+"mcepy["+pre+"nmcp]/F").c_str() ) ;
+  tree->Branch( (pre+"mcepz").c_str() , _mcepz , (pre+"mcepz["+pre+"nmcp]/F").c_str() ) ;
+  tree->Branch( (pre+"mcmox").c_str() , _mcmox , (pre+"mcmox["+pre+"nmcp]/F").c_str() ) ;
+  tree->Branch( (pre+"mcmoy").c_str() , _mcmoy , (pre+"mcmoy["+pre+"nmcp]/F").c_str() ) ;
+  tree->Branch( (pre+"mcmoz").c_str() , _mcmoz , (pre+"mcmoz["+pre+"nmcp]/F").c_str() ) ;
+  tree->Branch( (pre+"mcmas").c_str() , _mcmas , (pre+"mcmas["+pre+"nmcp]/F").c_str() ) ;
+  tree->Branch( (pre+"mcene").c_str() , _mcene , (pre+"mcene["+pre+"nmcp]/F").c_str() ) ;
+  tree->Branch( (pre+"mccha").c_str() , _mccha , (pre+"mccha["+pre+"nmcp]/F").c_str() ) ;
+  tree->Branch( (pre+"mctim").c_str() , _mctim , (pre+"mctim["+pre+"nmcp]/F").c_str() ) ;
+  tree->Branch( (pre+"mcspx").c_str() , _mcspx , (pre+"mcspx["+pre+"nmcp]/F").c_str() ) ;
+  tree->Branch( (pre+"mcspy").c_str() , _mcspy , (pre+"mcspy["+pre+"nmcp]/F").c_str() ) ;
+  tree->Branch( (pre+"mcspz").c_str() , _mcspz , (pre+"mcspz["+pre+"nmcp]/F").c_str() ) ;
+  tree->Branch( (pre+"mccf0").c_str() , _mccf0 , (pre+"mccf0["+pre+"nmcp]/I").c_str() ) ;
+  tree->Branch( (pre+"mccf1").c_str() , _mccf1 , (pre+"mccf1["+pre+"nmcp]/I").c_str() ) ;
+  tree->Branch( (pre+"mcpa0").c_str() , _mcpa0 , (pre+"mcpa0["+pre+"nmcp]/I").c_str() ) ;
+  tree->Branch( (pre+"mcpa1").c_str() , _mcpa1 , (pre+"mcpa1["+pre+"nmcp]/I").c_str() ) ;
 }
   
 
@@ -55,14 +58,16 @@ void MCParticleBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* ev
     throw EVENT::Exception( exStr + col->getTypeName() ) ; 
   }
 
+  if (_writeparameters) CollectionBranches::fill(col, evt);
 
   _nmc  = col->getNumberOfElements() ;
   
   for(int i=0 ; i < _nmc ; ++i){
     
     lcio::MCParticle* mcp = static_cast<lcio::MCParticle*>( col->getElementAt(i) ) ;
-    
-    
+
+    _mcori[i] = mcp->ext<CollID>();
+
     _mcpdg[ i ] = mcp->getPDG() ;
     _mcgst[ i ] = mcp->getGeneratorStatus() ;
     _mcsst[ i ] = mcp->getSimulatorStatus() ;
@@ -95,25 +100,3 @@ void MCParticleBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* ev
     
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

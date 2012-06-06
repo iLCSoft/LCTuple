@@ -3,7 +3,7 @@
 
 #include "LCTupleConf.h" 
 
-#include "CWBranchesSet.h"
+#include "CollectionBranches.h"
 
 
 class TTree ;
@@ -19,7 +19,7 @@ namespace EVENT{
  * @version $Id$
  */
 
-class TrackBranches : public CWBranchesSet {
+class TrackBranches : public CollectionBranches {
   
 public:
   
@@ -35,6 +35,8 @@ public:
 private:
   
   int   _ntrk ;
+
+  int   _trori[ LCT_TRACK_MAX ] ;
 
   int   _trtyp[ LCT_TRACK_MAX ] ;
   float _trch2[ LCT_TRACK_MAX ] ;

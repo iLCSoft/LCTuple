@@ -23,7 +23,7 @@ void EventBranches::initBranches( TTree* tree, const std::string& pre){
   tree->Branch( (pre+"evtim").c_str() , &_evtim , (pre+"evtim/L").c_str() ) ;
   tree->Branch( (pre+"evsig").c_str() , &_evsig , (pre+"evsig/F").c_str() ) ;
   tree->Branch( (pre+"evnch").c_str() , &_evnch , (pre+"evnch/I").c_str() ) ;
-  tree->Branch( (pre+"evpro").c_str() , &_evpro , (pre+"evpro[evnch]/C").c_str() ) ;
+  tree->Branch( (pre+"evpro").c_str() , &_evpro , (pre+"evpro["+pre+"evnch]/C").c_str() ) ;
 
 }
   

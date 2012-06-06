@@ -3,7 +3,7 @@
 
 #include "LCTupleConf.h" 
 
-#include "CWBranchesSet.h"
+#include "CollectionBranches.h"
 
 
 class TTree ;
@@ -18,7 +18,7 @@ namespace EVENT{
  * @author B. Vormwald, DESY
  */
 
-class VertexBranches : public CWBranchesSet {
+class VertexBranches : public CollectionBranches {
   
 public:
   VertexBranches() {} ;
@@ -28,8 +28,9 @@ public:
 
 private:
   int    _nvt   ;
+  int    _vtori[ LCT_VERTEX_MAX ] ;
   int    _vtpri[ LCT_VERTEX_MAX ] ;
-  char   _vttyp[ LCT_VERTEX_MAX ][32] ; //holds the algorithm type used for vertex finding
+  char   _vttyp[ LCT_VERTEX_MAX ][LCT_STRING_MAX] ; //holds the algorithm type used for vertex finding
 
   float  _vtxxx[ LCT_VERTEX_MAX ] ;
   float  _vtyyy[ LCT_VERTEX_MAX ] ;

@@ -16,34 +16,38 @@ void TrackBranches::initBranches( TTree* tree, const std::string& pre){
     throw lcio::Exception("  TrackBranches::initBranches - invalid tree pointer !!! " ) ;
   }
 
+  if (_writeparameters) CollectionBranches::initBranches(tree, (pre+"tr").c_str());
+
   tree->Branch( (pre+"ntrk").c_str() , &_ntrk ,  (pre+"ntrk/I").c_str() ) ;
-                                                                  
-  tree->Branch( (pre+"trtyp").c_str() , _trtyp , (pre+"trtyp[ntrk]/I").c_str() ) ;
-  tree->Branch( (pre+"trch2").c_str() , _trch2 , (pre+"trch2[ntrk]/F").c_str() ) ;
-  tree->Branch( (pre+"trndf").c_str() , _trndf , (pre+"trndf[ntrk]/I").c_str() ) ;
-  tree->Branch( (pre+"tredx").c_str() , _tredx , (pre+"tredx[ntrk]/F").c_str() ) ;
-  tree->Branch( (pre+"trede").c_str() , _trede , (pre+"trede[ntrk]/F").c_str() ) ;
-  tree->Branch( (pre+"trrih").c_str() , _trrih , (pre+"trrih[ntrk]/F").c_str() ) ;
-  tree->Branch( (pre+"trshn").c_str() , _trshn , (pre+"trshn[ntrk][12]/I").c_str() ) ;
-  tree->Branch( (pre+"trnts").c_str() , _trnts , (pre+"trnts[ntrk]/I").c_str() ) ;
-  tree->Branch( (pre+"trfts").c_str() , _trfts , (pre+"trfts[ntrk]/I").c_str() ) ;
-  tree->Branch( (pre+"trsip").c_str() , _trsip , (pre+"trsip[ntrk]/I").c_str() ) ;
-  tree->Branch( (pre+"trsfh").c_str() , _trsfh , (pre+"trsfh[ntrk]/I").c_str() ) ;
-  tree->Branch( (pre+"trslh").c_str() , _trslh , (pre+"trslh[ntrk]/I").c_str() ) ;
-  tree->Branch( (pre+"trsca").c_str() , _trsca , (pre+"trsca[ntrk]/I").c_str() ) ;
+
+  tree->Branch( (pre+"trori").c_str() , _trori , (pre+"trori["+pre+"ntrk]/I").c_str() ) ;
+
+  tree->Branch( (pre+"trtyp").c_str() , _trtyp , (pre+"trtyp["+pre+"ntrk]/I").c_str() ) ;
+  tree->Branch( (pre+"trch2").c_str() , _trch2 , (pre+"trch2["+pre+"ntrk]/F").c_str() ) ;
+  tree->Branch( (pre+"trndf").c_str() , _trndf , (pre+"trndf["+pre+"ntrk]/I").c_str() ) ;
+  tree->Branch( (pre+"tredx").c_str() , _tredx , (pre+"tredx["+pre+"ntrk]/F").c_str() ) ;
+  tree->Branch( (pre+"trede").c_str() , _trede , (pre+"trede["+pre+"ntrk]/F").c_str() ) ;
+  tree->Branch( (pre+"trrih").c_str() , _trrih , (pre+"trrih["+pre+"ntrk]/F").c_str() ) ;
+  tree->Branch( (pre+"trshn").c_str() , _trshn , (pre+"trshn["+pre+"ntrk][12]/I").c_str() ) ;
+  tree->Branch( (pre+"trnts").c_str() , _trnts , (pre+"trnts["+pre+"ntrk]/I").c_str() ) ;
+  tree->Branch( (pre+"trfts").c_str() , _trfts , (pre+"trfts["+pre+"ntrk]/I").c_str() ) ;
+  tree->Branch( (pre+"trsip").c_str() , _trsip , (pre+"trsip["+pre+"ntrk]/I").c_str() ) ;
+  tree->Branch( (pre+"trsfh").c_str() , _trsfh , (pre+"trsfh["+pre+"ntrk]/I").c_str() ) ;
+  tree->Branch( (pre+"trslh").c_str() , _trslh , (pre+"trslh["+pre+"ntrk]/I").c_str() ) ;
+  tree->Branch( (pre+"trsca").c_str() , _trsca , (pre+"trsca["+pre+"ntrk]/I").c_str() ) ;
 
   tree->Branch( (pre+"ntrst").c_str() , &_ntrst , (pre+"ntrst/I").c_str() ) ;
 
-  tree->Branch( (pre+"tsloc").c_str() , _tsloc , (pre+"tsloc[ntrst]/I").c_str() ) ;
-  tree->Branch( (pre+"tsdze").c_str() , _tsdze , (pre+"tsdze[ntrst]/F").c_str() ) ;
-  tree->Branch( (pre+"tsphi").c_str() , _tsphi , (pre+"tsphi[ntrst]/F").c_str() ) ;
-  tree->Branch( (pre+"tsome").c_str() , _tsome , (pre+"tsome[ntrst]/F").c_str() ) ;
-  tree->Branch( (pre+"tszze").c_str() , _tszze , (pre+"tszze[ntrst]/F").c_str() ) ;
-  tree->Branch( (pre+"tstnl").c_str() , _tstnl , (pre+"tstnl[ntrst]/F").c_str() ) ;
-  tree->Branch( (pre+"tscov").c_str() , _tscov , (pre+"tscov[ntrst][15]/F").c_str() ) ;
-  tree->Branch( (pre+"tsrpx").c_str() , _tsrpx , (pre+"tsrpx[ntrst]/F").c_str() ) ;
-  tree->Branch( (pre+"tsrpy").c_str() , _tsrpy , (pre+"tsrpy[ntrst]/F").c_str() ) ;
-  tree->Branch( (pre+"tsrpz").c_str() , _tsrpz , (pre+"tsrpz[ntrst]/F").c_str() ) ;
+  tree->Branch( (pre+"tsloc").c_str() , _tsloc , (pre+"tsloc["+pre+"ntrst]/I").c_str() ) ;
+  tree->Branch( (pre+"tsdze").c_str() , _tsdze , (pre+"tsdze["+pre+"ntrst]/F").c_str() ) ;
+  tree->Branch( (pre+"tsphi").c_str() , _tsphi , (pre+"tsphi["+pre+"ntrst]/F").c_str() ) ;
+  tree->Branch( (pre+"tsome").c_str() , _tsome , (pre+"tsome["+pre+"ntrst]/F").c_str() ) ;
+  tree->Branch( (pre+"tszze").c_str() , _tszze , (pre+"tszze["+pre+"ntrst]/F").c_str() ) ;
+  tree->Branch( (pre+"tstnl").c_str() , _tstnl , (pre+"tstnl["+pre+"ntrst]/F").c_str() ) ;
+  tree->Branch( (pre+"tscov").c_str() , _tscov , (pre+"tscov["+pre+"ntrst][15]/F").c_str() ) ;
+  tree->Branch( (pre+"tsrpx").c_str() , _tsrpx , (pre+"tsrpx["+pre+"ntrst]/F").c_str() ) ;
+  tree->Branch( (pre+"tsrpy").c_str() , _tsrpy , (pre+"tsrpy["+pre+"ntrst]/F").c_str() ) ;
+  tree->Branch( (pre+"tsrpz").c_str() , _tsrpz , (pre+"tsrpz["+pre+"ntrst]/F").c_str() ) ;
 
 }
   
@@ -59,6 +63,8 @@ void TrackBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* evt ){
     throw EVENT::Exception( exStr + col->getTypeName() ) ; 
   }
   
+  if (_writeparameters) CollectionBranches::fill(col, evt);
+
   _ntrk  = col->getNumberOfElements() ;
   
   //---------  create a helper vector with track states first -------------------------------
@@ -108,6 +114,8 @@ void TrackBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* evt ){
   for(int i=0 ; i < _ntrk ; ++i){
     
     lcio::Track* trk = static_cast<lcio::Track*>( col->getElementAt(i) ) ;
+
+    _trori[i] = trk->ext<CollID>();
     
     _trtyp[ i ] = trk->getType() ;
     _trch2[ i ] = trk->getChi2() ;

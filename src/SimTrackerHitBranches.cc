@@ -17,21 +17,24 @@ void SimTrackerHitBranches::initBranches( TTree* tree, const std::string& pre){
     throw lcio::Exception("  SimTrackerHitBranches::initBranches - invalid tree pointer !!! " ) ;
   }
 
+  if (_writeparameters) CollectionBranches::initBranches(tree, (pre+"st").c_str());
 
   tree->Branch( (pre+"nsth").c_str() , &_nsth , (pre+"nsth/I").c_str() ) ;
 
-  tree->Branch( (pre+"stci0").c_str() , _stci0 , (pre+"stci0[nsth]/I").c_str() ) ;
-  tree->Branch( (pre+"stci1").c_str() , _stci1 , (pre+"stci1[nsth]/I").c_str() ) ;
-  tree->Branch( (pre+"stpox").c_str() , _stpox , (pre+"stpox[nsth]/D").c_str() ) ;
-  tree->Branch( (pre+"stpoy").c_str() , _stpoy , (pre+"stpoy[nsth]/D").c_str() ) ;
-  tree->Branch( (pre+"stpoz").c_str() , _stpoz , (pre+"stpoz[nsth]/D").c_str() ) ;
-  tree->Branch( (pre+"stedp").c_str() , _stedp , (pre+"stedp[nsth]/F").c_str() ) ;
-  tree->Branch( (pre+"sttim").c_str() , _sttim , (pre+"sttim[nsth]/F").c_str() ) ;
-  tree->Branch( (pre+"stmox").c_str() , _stmox , (pre+"stmox[nsth]/F").c_str() ) ;
-  tree->Branch( (pre+"stmoy").c_str() , _stmoy , (pre+"stmoy[nsth]/F").c_str() ) ;
-  tree->Branch( (pre+"stmoz").c_str() , _stmoz , (pre+"stmoz[nsth]/F").c_str() ) ;
-  tree->Branch( (pre+"stptl").c_str() , _stptl , (pre+"stptl[nsth]/F").c_str() ) ;
-  tree->Branch( (pre+"stmcp").c_str() , _stmcp , (pre+"stmcp[nsth]/I").c_str() ) ;
+  tree->Branch( (pre+"stori").c_str() , _stori , (pre+"stori["+pre+"nsth]/I").c_str() ) ;
+
+  tree->Branch( (pre+"stci0").c_str() , _stci0 , (pre+"stci0["+pre+"nsth]/I").c_str() ) ;
+  tree->Branch( (pre+"stci1").c_str() , _stci1 , (pre+"stci1["+pre+"nsth]/I").c_str() ) ;
+  tree->Branch( (pre+"stpox").c_str() , _stpox , (pre+"stpox["+pre+"nsth]/D").c_str() ) ;
+  tree->Branch( (pre+"stpoy").c_str() , _stpoy , (pre+"stpoy["+pre+"nsth]/D").c_str() ) ;
+  tree->Branch( (pre+"stpoz").c_str() , _stpoz , (pre+"stpoz["+pre+"nsth]/D").c_str() ) ;
+  tree->Branch( (pre+"stedp").c_str() , _stedp , (pre+"stedp["+pre+"nsth]/F").c_str() ) ;
+  tree->Branch( (pre+"sttim").c_str() , _sttim , (pre+"sttim["+pre+"nsth]/F").c_str() ) ;
+  tree->Branch( (pre+"stmox").c_str() , _stmox , (pre+"stmox["+pre+"nsth]/F").c_str() ) ;
+  tree->Branch( (pre+"stmoy").c_str() , _stmoy , (pre+"stmoy["+pre+"nsth]/F").c_str() ) ;
+  tree->Branch( (pre+"stmoz").c_str() , _stmoz , (pre+"stmoz["+pre+"nsth]/F").c_str() ) ;
+  tree->Branch( (pre+"stptl").c_str() , _stptl , (pre+"stptl["+pre+"nsth]/F").c_str() ) ;
+  tree->Branch( (pre+"stmcp").c_str() , _stmcp , (pre+"stmcp["+pre+"nsth]/I").c_str() ) ;
 
 
 }
@@ -50,12 +53,15 @@ void SimTrackerHitBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent*
     throw EVENT::Exception( exStr + col->getTypeName() ) ; 
   }
 
+  if (_writeparameters) CollectionBranches::fill(col, evt);
 
   _nsth  = col->getNumberOfElements() ;
   
   for(int i=0 ; i < _nsth ; ++i){
     
     lcio::SimTrackerHit* hit = static_cast<lcio::SimTrackerHit*>( col->getElementAt(i) ) ;
+
+    _stori[i] = hit->ext<CollID>();
     
     _stci0[i] = hit->getCellID0() ;
     _stci1[i] = hit->getCellID1() ;

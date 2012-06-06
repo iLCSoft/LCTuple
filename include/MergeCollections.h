@@ -20,7 +20,7 @@ using namespace marlin ;
  * @param OutputCollection    Name of the output collection
  * 
  * @author F. Gaede, DESY
- * @version $Id: MergeCollections.h 2946 2012-01-16 15:40:46Z gaede $
+ * @author B. Vormwald, DESY
  */
 
 class MergeCollections : public Processor {

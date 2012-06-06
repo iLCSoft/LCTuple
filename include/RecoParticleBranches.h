@@ -3,7 +3,7 @@
 
 #include "LCTupleConf.h" 
 
-#include "CWBranchesSet.h"
+#include "CollectionBranches.h"
 
 
 class TTree ;
@@ -19,7 +19,7 @@ namespace EVENT{
  * @version $Id$
  */
 
-class RecoParticleBranches : public CWBranchesSet {
+class RecoParticleBranches : public CollectionBranches {
   
 public:
   
@@ -35,6 +35,7 @@ public:
 private:
   
   int    _nrc ;
+  int    _rcori[ LCT_RECOPARTICLE_MAX ] ;
   int    _rccid[ LCT_RECOPARTICLE_MAX ] ;
   int    _rctyp[ LCT_RECOPARTICLE_MAX ] ;
   float  _rccov[ LCT_RECOPARTICLE_MAX ][10] ;

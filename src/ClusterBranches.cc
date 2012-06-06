@@ -12,24 +12,27 @@
 void ClusterBranches::initBranches( TTree* tree, const std::string& pre){
 
   if( tree == 0 ){
-
     throw lcio::Exception("  ClusterBranches::initBranches - invalid tree pointer !!! " ) ;
   }
 
+  if (_writeparameters) CollectionBranches::initBranches(tree, (pre+"cl").c_str());
+
   tree->Branch( (pre+"nclu").c_str() , &_nclu ,  (pre+"nclu/I").c_str() ) ;
-                                                                  
-  tree->Branch( (pre+"cltyp").c_str() , _cltyp , (pre+"cltyp[nclu]/I").c_str() ) ;
-  tree->Branch( (pre+"clene").c_str() , _clene , (pre+"clene[nclu]/F").c_str() ) ;
-  tree->Branch( (pre+"cleer").c_str() , _cleer , (pre+"cleer[nclu]/F").c_str() ) ;
-  tree->Branch( (pre+"clpox").c_str() , _clpox , (pre+"clpox[nclu]/F").c_str() ) ;
-  tree->Branch( (pre+"clpoy").c_str() , _clpoy , (pre+"clpoy[nclu]/F").c_str() ) ;
-  tree->Branch( (pre+"clpoz").c_str() , _clpoz , (pre+"clpoz[nclu]/F").c_str() ) ;
-  tree->Branch( (pre+"clper").c_str() , _clper , (pre+"clper[nclu][6]/F").c_str() ) ;
-  tree->Branch( (pre+"clthe").c_str() , _clthe , (pre+"clthe[nclu]/F").c_str() ) ;
-  tree->Branch( (pre+"clphi").c_str() , _clphi , (pre+"clphi[nclu]/F").c_str() ) ;
-  tree->Branch( (pre+"clder").c_str() , _clder , (pre+"clder[nclu][3]/F").c_str() ) ;
-  tree->Branch( (pre+"clsha").c_str() , _clsha , (pre+"clsha[nclu][6]/F").c_str() ) ;
-  tree->Branch( (pre+"clsde").c_str() , _clsde , (pre+"clsde[nclu][12]/F").c_str() ) ;
+
+  tree->Branch( (pre+"clori").c_str() , _clori , (pre+"clori["+pre+"nclu]/I").c_str() ) ;
+
+  tree->Branch( (pre+"cltyp").c_str() , _cltyp , (pre+"cltyp["+pre+"nclu]/I").c_str() ) ;
+  tree->Branch( (pre+"clene").c_str() , _clene , (pre+"clene["+pre+"nclu]/F").c_str() ) ;
+  tree->Branch( (pre+"cleer").c_str() , _cleer , (pre+"cleer["+pre+"nclu]/F").c_str() ) ;
+  tree->Branch( (pre+"clpox").c_str() , _clpox , (pre+"clpox["+pre+"nclu]/F").c_str() ) ;
+  tree->Branch( (pre+"clpoy").c_str() , _clpoy , (pre+"clpoy["+pre+"nclu]/F").c_str() ) ;
+  tree->Branch( (pre+"clpoz").c_str() , _clpoz , (pre+"clpoz["+pre+"nclu]/F").c_str() ) ;
+  tree->Branch( (pre+"clper").c_str() , _clper , (pre+"clper["+pre+"nclu][6]/F").c_str() ) ;
+  tree->Branch( (pre+"clthe").c_str() , _clthe , (pre+"clthe["+pre+"nclu]/F").c_str() ) ;
+  tree->Branch( (pre+"clphi").c_str() , _clphi , (pre+"clphi["+pre+"nclu]/F").c_str() ) ;
+  tree->Branch( (pre+"clder").c_str() , _clder , (pre+"clder["+pre+"nclu][3]/F").c_str() ) ;
+  tree->Branch( (pre+"clsha").c_str() , _clsha , (pre+"clsha["+pre+"nclu][6]/F").c_str() ) ;
+  tree->Branch( (pre+"clsde").c_str() , _clsde , (pre+"clsde["+pre+"nclu][12]/F").c_str() ) ;
 
 }
   
@@ -45,6 +48,8 @@ void ClusterBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* evt )
     throw EVENT::Exception( exStr + col->getTypeName() ) ; 
   }
   
+  if (_writeparameters) CollectionBranches::fill(col, evt);
+
   _nclu  = col->getNumberOfElements() ;
   
 
@@ -57,6 +62,8 @@ void ClusterBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* evt )
     lcio::Cluster* clu = static_cast<lcio::Cluster*>( col->getElementAt(i) ) ;
 
     //    std::cout << " filling cluster " << i << " from evt: " <<  evt->getEventNumber() << std::endl ;
+
+    _clori[ i ] = clu->ext<CollID>();
 
     _cltyp[ i ] = clu->getType() ;
     _clene[ i ] = clu->getEnergy() ;

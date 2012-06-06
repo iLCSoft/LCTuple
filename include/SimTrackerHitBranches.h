@@ -3,7 +3,7 @@
 
 #include "LCTupleConf.h" 
 
-#include "CWBranchesSet.h"
+#include "CollectionBranches.h"
 
 
 class TTree ;
@@ -19,7 +19,7 @@ namespace EVENT{
  * @version $Id: SimTrackerHitBranches.h 2945 2012-01-16 15:05:02Z gaede $
  */
 
-class SimTrackerHitBranches : public CWBranchesSet {
+class SimTrackerHitBranches : public CollectionBranches {
   
 public:
   
@@ -35,6 +35,7 @@ public:
 private:
   
   int    _nsth   ;
+  int    _stori[ LCT_SIMTRACKERHIT_MAX ] ;
   int    _stci0[ LCT_SIMTRACKERHIT_MAX ] ;
   int    _stci1[ LCT_SIMTRACKERHIT_MAX ] ;
   double _stpox[ LCT_SIMTRACKERHIT_MAX ] ;
