@@ -10,7 +10,7 @@ void draw_etot( const char* FILEN ) {
   c1->Divide(1,2);
 
   c1->cd(1) ;
-  MyLCTuple->Draw("sum()","sum( mcene, Iteration$, nmcp,(mcgst==1)") ;       
+  MyLCTuple->Draw("sum()","sum( mcene, Iteration$, nmcp,(mcgst==1) )" ) ;       
 
   c1->cd(2) ;
   MyLCTuple->Draw("sum()","sum( rcene, Iteration$, nrec,(1) )") ;       
