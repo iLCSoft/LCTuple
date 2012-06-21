@@ -6,6 +6,7 @@
  from LCIO collections.
 
  F.Gaede, DESY, 2011
+ B.Vormwald, DESY 2012 
 
 -----------------------------------------------------
 
@@ -33,19 +34,30 @@
 
     // make plots with TTree:Draw(), e.g.
     root -l 
-    x /example_plots.C("./lctuple.root")
+    .x /example_plots.C("./lctuple.root")
+    
+    // see also other examples	
+    draw_simhits.C
+       - hit maps from sim hits r-z and r-phi
 
+    draw_mcp_vtx.C
+       - draw vertices of secondary MCParticles
 
+    draw_vtx_z.C
+       - draw tue and reconstructed z-vertex position
+
+    draw_etot.C
+       - draw true and reconstructed total energy
  
 -------------------------------------------------------------------------------------------
 
 
   --------
- | v00-01 |
+ | v01-00 |
   --------
 
        - first version creates CWNT for 
-        MCParticles, ReconstructedParticles, Tracks, Clusters 
+        MCParticles, ReconstructedParticles, Tracks, Clusters, LCRelations, Vertices
 
       - optionally also SimTrackerHits and SimCalorimeterHits can
         be written to the ntuple
