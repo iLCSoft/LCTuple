@@ -90,7 +90,7 @@ void MergeCollections::processEvent( LCEvent * evt ) {
   unsigned nCol = _inColNames.size() ;
   unsigned nColID = _inColIDs.size() ;
 
-  if(nColID != nCol ) {
+  if( isFirstEvent() && nColID != nCol ) {
     streamlog_out(WARNING) << " MergeCollections::processEvent : incompatible parameter vector sizes : InputCollections: " << nCol 
                            << " <->  InputCollectionIDs " << nColID << std::endl;
     streamlog_out(WARNING) << " MergeCollections::processEvent : standard numbering (0,1,2,...) used." << std::endl;
