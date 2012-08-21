@@ -187,7 +187,7 @@ LCTuple::LCTuple() : Processor("LCTuple") {
 
 void LCTuple::init() { 
   
-  streamlog_out(DEBUG) << "   init called  " << std::endl ;
+  streamlog_out(DEBUG) << "   init called  - create TTree with name : "  <<  name().c_str()  << " with columnwise ntuple with LCIO data" << std::endl ;
   
   // usually a good idea to
   printParameters() ;
@@ -195,7 +195,7 @@ void LCTuple::init() {
   _nRun = 0 ;
   _nEvt = 0 ;
   
-  _tree = new TTree( "LCTuple" , "columnwise ntuple with LCIO data") ;
+  _tree = new TTree( name().c_str() , "columnwise ntuple with LCIO data") ;
   
   //=====================================================
   //    initialize the branches 
