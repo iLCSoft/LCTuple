@@ -44,6 +44,11 @@ void MCParticleBranches::initBranches( TTree* tree, const std::string& pre){
   tree->Branch( (pre+"mccf1").c_str() , _mccf1 , (pre+"mccf1["+pre+"nmcp]/I").c_str() ) ;
   tree->Branch( (pre+"mcpa0").c_str() , _mcpa0 , (pre+"mcpa0["+pre+"nmcp]/I").c_str() ) ;
   tree->Branch( (pre+"mcpa1").c_str() , _mcpa1 , (pre+"mcpa1["+pre+"nmcp]/I").c_str() ) ;
+  tree->Branch( (pre+"mcda0").c_str() , _mcda0 , (pre+"mcda0["+pre+"nmcp]/I").c_str() ) ;
+  tree->Branch( (pre+"mcda1").c_str() , _mcda1 , (pre+"mcda1["+pre+"nmcp]/I").c_str() ) ;
+  tree->Branch( (pre+"mcda2").c_str() , _mcda2 , (pre+"mcda2["+pre+"nmcp]/I").c_str() ) ;
+  tree->Branch( (pre+"mcda3").c_str() , _mcda3 , (pre+"mcda3["+pre+"nmcp]/I").c_str() ) ;
+  tree->Branch( (pre+"mcda4").c_str() , _mcda4 , (pre+"mcda4["+pre+"nmcp]/I").c_str() ) ;
 }
   
 
@@ -97,6 +102,14 @@ void MCParticleBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* ev
     _mcpa1[ i ] = ( p.size() > 1 ?  p[1]->ext<CollIndex>() - 1  :  -1 )  ;
 
     // can we have more than two parents ????
-    
+
+    const lcio::MCParticleVec& p1 = mcp->getDaughters() ;
+
+ 	 _mcda0[ i ] = ( p1.size() > 0 ?  p1[0]->ext<CollIndex>() - 1  :  -1 )  ;
+    _mcda1[ i ] = ( p1.size() > 1 ?  p1[1]->ext<CollIndex>() - 1  :  -1 )  ;
+	 _mcda2[ i ] = ( p1.size() > 2 ?  p1[2]->ext<CollIndex>() - 1  :  -1 )  ;
+	 _mcda3[ i ] = ( p1.size() > 3 ?  p1[3]->ext<CollIndex>() - 1  :  -1 )  ;
+	 _mcda4[ i ] = ( p1.size() > 4 ?  p1[4]->ext<CollIndex>() - 1  :  -1 )  ;
+
   }
 }

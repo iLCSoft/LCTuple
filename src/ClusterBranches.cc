@@ -18,6 +18,7 @@ void ClusterBranches::initBranches( TTree* tree, const std::string& pre){
   if (_writeparameters) CollectionBranches::initBranches(tree, (pre+"cl").c_str());
 
   tree->Branch( (pre+"nclu").c_str() , &_nclu ,  (pre+"nclu/I").c_str() ) ;
+  tree->Branch( (pre+"nsd").c_str() , &_nsd ,  (pre+"nsd/I").c_str() ) ;
 
   tree->Branch( (pre+"clori").c_str() , _clori , (pre+"clori["+pre+"nclu]/I").c_str() ) ;
 
