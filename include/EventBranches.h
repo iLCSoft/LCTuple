@@ -39,9 +39,11 @@ private:
   float  _evwgt  ;
   long   _evtim  ;
   float  _evsig  ;
-  int    _evnch  ;
-  char   _evpro[LCT_STRING_MAX]  ;
-
+  float 	_evene 	;
+  float 	_evpoe	;
+  float 	_evpop   ;
+  int   	_evnch  	;
+  char _evpro[LCT_STRING_MAX]  ;
 } ;
 
 #endif

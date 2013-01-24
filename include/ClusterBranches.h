@@ -35,6 +35,7 @@ public:
 private:
   
   int   _nclu ;
+  int   _nsd ;
   int   _clori[ LCT_CLUSTER_MAX ] ;
   int   _cltyp[ LCT_CLUSTER_MAX ] ;
   float _clene[ LCT_CLUSTER_MAX ] ;
