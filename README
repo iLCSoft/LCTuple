@@ -52,10 +52,15 @@
 -------------------------------------------------------------------------------------------
 
   --------
- | v01-02 |
+ | v01-03 |
   --------
    -  added support for TrackerHits
 
+  --------
+ | v01-02 |
+  --------
+   - (J.List) added some variables: MCParticle daughters: mcda0-mcda4 , Event parameters: evene, evpoe, evpop
+             RecoParticles: cluster size: rcncl
 
   --------
  | v01-01 |
