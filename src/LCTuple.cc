@@ -18,6 +18,7 @@
 #include "SimTrackerHitBranches.h"
 #include "SimCalorimeterHitBranches.h"
 #include "LCRelationBranches.h"
+#include "TrackerHitBranches.h"
 #include "VertexBranches.h"
 
 
@@ -143,10 +144,23 @@ LCTuple::LCTuple() : Processor("LCTuple") {
 			   _sthColName ,
 			   std::string("")
 			   );
+
+  registerInputCollection( LCIO::TRACKERHIT,
+			   "TrackerHitCollection" , 
+			   "Name of the TrackerHit collection"  ,
+			   _trhColName ,
+			   std::string("")
+			   );
   
-  registerProcessorParameter( "WriteSimTrackerHitCollectionParameters" ,
+   registerProcessorParameter( "WriteSimTrackerHitCollectionParameters" ,
                               "Switch to write out collection parameters",
 			      _sthColWriteParameters ,
+			      false
+			      );
+
+ registerProcessorParameter( "WriteTrackerHitCollectionParameters" ,
+                              "Switch to write out collection parameters",
+			      _trhColWriteParameters ,
 			      false
 			      );
 
@@ -206,6 +220,7 @@ void LCTuple::init() {
   _trkBranches =  0 ;
   _cluBranches =  0 ; 
   _sthBranches =  0 ;
+  _trhBranches =  0 ;
   _schBranches =  0 ;
   _vtxBranches =  0 ;
   
@@ -241,6 +256,12 @@ void LCTuple::init() {
     _sthBranches =  new SimTrackerHitBranches ;
     _sthBranches->writeParameters(_sthColWriteParameters);
     _sthBranches->initBranches( _tree ) ;
+  }
+
+  if( _trhColName.size() ) {
+    _trhBranches =  new TrackerHitBranches ;
+    _trhBranches->writeParameters(_trhColWriteParameters);
+    _trhBranches->initBranches( _tree ) ;
   }
   
   if( _schColName.size() ) {
@@ -305,6 +326,8 @@ void LCTuple::processEvent( LCEvent * evt ) {
 
   LCCollection* sthCol =  getCollection ( evt , _sthColName ) ;
 
+  LCCollection* trhCol =  getCollection ( evt , _trhColName ) ;
+
   LCCollection* schCol =  getCollection ( evt , _schColName ) ;
 
   LCCollection* vtxCol =  getCollection ( evt , _vtxColName ) ;
@@ -345,6 +368,8 @@ void LCTuple::processEvent( LCEvent * evt ) {
   if( cluCol ) _cluBranches->fill( cluCol , evt ) ;
   
   if( sthCol ) _sthBranches->fill( sthCol , evt ) ;
+
+  if( trhCol ) _trhBranches->fill( trhCol , evt ) ;
   
   if( schCol ) _schBranches->fill( schCol , evt ) ;
   

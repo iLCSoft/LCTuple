@@ -71,6 +71,7 @@ class LCTuple : public Processor {
   std::string _trkColName ;
   std::string _cluColName ;
   std::string _sthColName ;
+  std::string _trhColName ;
   std::string _schColName ;
   std::string _vtxColName ;
 
@@ -79,6 +80,7 @@ class LCTuple : public Processor {
   bool _trkColWriteParameters ;
   bool _cluColWriteParameters ;
   bool _sthColWriteParameters ;
+  bool _trhColWriteParameters ;
   bool _schColWriteParameters ;
   bool _vtxColWriteParameters ;
 
@@ -95,6 +97,7 @@ class LCTuple : public Processor {
   CollectionBranches* _trkBranches ;
   CollectionBranches* _cluBranches ;
   CollectionBranches* _sthBranches ;
+  CollectionBranches* _trhBranches ;
   CollectionBranches* _schBranches ;
   CollectionBranches* _vtxBranches ;
   

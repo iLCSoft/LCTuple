@@ -52,6 +52,12 @@
 -------------------------------------------------------------------------------------------
 
   --------
+ | v01-02 |
+  --------
+   -  added support for TrackerHits
+
+
+  --------
  | v01-01 |
   --------
    -  only change : create the TTree with the name of the processor
