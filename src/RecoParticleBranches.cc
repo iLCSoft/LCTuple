@@ -18,7 +18,7 @@ void RecoParticleBranches::initBranches( TTree* tree, const std::string& pre){
 
   if (_writeparameters) CollectionBranches::initBranches(tree, (pre+"rc").c_str());
 
-  tree->Branch( (pre+"nrc").c_str() , &_nrc ,  (pre+"nrec/I").c_str() ) ;
+  tree->Branch( (pre+"nrec").c_str() , &_nrec ,  (pre+"nrec/I").c_str() ) ;
 
   tree->Branch( (pre+"rcori").c_str() , _rcori , (pre+"rcori["+pre+"nrec]/I").c_str() ) ;
 
@@ -69,14 +69,14 @@ void RecoParticleBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* 
   
   if (_writeparameters) CollectionBranches::fill(col, evt);
 
-  _nrc  = col->getNumberOfElements() ;
+  _nrec  = col->getNumberOfElements() ;
   
   //---------  create a helper vector with particleIDs first -------------------------------
 
   std::vector<lcio::ParticleID*> pidV ;
   pidV.reserve(  col->getNumberOfElements() * 4 ) ;
 
-  for(int i=0, nrc  = col->getNumberOfElements() ; i < nrc ; ++i ){
+  for(int i=0, nrec  = col->getNumberOfElements() ; i < nrec ; ++i ){
     
     lcio::ReconstructedParticle* rec = static_cast<lcio::ReconstructedParticle*>( col->getElementAt( i) ) ;
 
@@ -106,7 +106,7 @@ void RecoParticleBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* 
 
 
   //------  fill the Reconstructed particle ----------------------------
-  for(int i=0 ; i < _nrc ; ++i){
+  for(int i=0 ; i < _nrec ; ++i){
     
     lcio::ReconstructedParticle* rec = static_cast<lcio::ReconstructedParticle*>( col->getElementAt(i) ) ;
 

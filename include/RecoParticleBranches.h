@@ -34,7 +34,7 @@ public:
 
 private:
   
-  int    _nrc ;
+  int    _nrec ;
   int    _rcori[ LCT_RECOPARTICLE_MAX ] ;
   int    _rccid[ LCT_RECOPARTICLE_MAX ] ;
   int    _rctyp[ LCT_RECOPARTICLE_MAX ] ;
