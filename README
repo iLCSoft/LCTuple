@@ -6,7 +6,8 @@
  from LCIO collections.
 
  F.Gaede, DESY, 2011
- B.Vormwald, DESY 2012 
+ B.Vormwald, DESY, 2012 
+ F. Mueller, C. Duerig, A. Ebrahimi, DESY, 2015
 
 -----------------------------------------------------
 
@@ -51,6 +52,26 @@
  
 -------------------------------------------------------------------------------------------
 
+  --------
+ | v01-04 |
+  --------
+
+   - Added JetBranches which holds branches created from a jet collection
+     created by Satoru Jet Finder processor.
+     JetBranches has two steerable parameters which are optionally
+     set in the steering file:
+      * writeExtraParameters: if set to TRUE, the fill function
+        calculates some extra parameters using parameters provided
+        by the jet finding algorithm. Default value is FALSE.
+        See class data members for a list of extra parameters.
+      * writeTaggingParameters: if set to TRUE, the fill function
+        creates branches for jet parameters coming form flavor tagging
+        processor. If no flavor tagging processr is used, this should
+        be set to FALSE to prevent errors. Default value is FALSE.
+        See class data members for a list of extra parameters.
+   - Added isolated lepton branches
+   - Added MC particle from relation branches
+   - Added MC particle remove overlay branches
 
   --------
  | v01-03-01 |
