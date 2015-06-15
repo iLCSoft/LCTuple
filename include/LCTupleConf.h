@@ -35,11 +35,14 @@ struct CollID : public lcrtrel::LCIntExtension<CollID> {} ;
 #define LCT_CALORIMETERHIT_MAX    1000000
 #define LCT_PARTICLEID_MAX        1000000
 #define LCT_VERTEX_MAX               1000
+#define LCT_JET_MAX				       20
+#define LCT_ISOLEP_MAX             100000
 
 #define LCT_STRING_MAX       1024
 
 #define LCT_PARAMETERS_MAX        1000
 #define LCT_PARAMVALS_MAX         50
+
 
 
 //-------------------------------------------------------------------

@@ -55,7 +55,7 @@ void CollectionBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* ev
   int nMergedCollections = col->getParameters().getStringVals("MergedCollection_NamesPresent",mergedCollectionsNames).size();
 
   IntVec mergedCollectionsIDs;
-  int nMergedCollectionsID = col->getParameters().getIntVals("MergedCollection_IDsPresent",mergedCollectionsIDs).size();
+//  int nMergedCollectionsID = col->getParameters().getIntVals("MergedCollection_IDsPresent",mergedCollectionsIDs).size();
 
   streamlog_out( DEBUG2 ) << "found " << nMergedCollections << " merged collections" <<  std::endl ;
 

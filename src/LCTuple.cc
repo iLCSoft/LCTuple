@@ -12,6 +12,8 @@
 
 #include "EventBranches.h"
 #include "MCParticleBranches.h"
+#include "MCParticleRemoveOverlayBranches.h"
+#include "MCParticleFromRelationBranches.h"
 #include "RecoParticleBranches.h"
 #include "TrackBranches.h"
 #include "ClusterBranches.h"
@@ -20,7 +22,8 @@
 #include "LCRelationBranches.h"
 #include "TrackerHitBranches.h"
 #include "VertexBranches.h"
-
+#include "JetBranches.h"
+#include "IsoLepBranches.h"
 
 
 using namespace lcio ;
@@ -80,6 +83,13 @@ LCTuple::LCTuple() : Processor("LCTuple") {
 			   std::string("")
 			   );
 
+  registerInputCollection( LCIO::MCPARTICLE,
+			   "MCParticleRemoveOverlayCollection" ,
+			   "Name of the MCParticle collection where the overlay is removed"  ,
+			   _mcpRemoveOverlayColName ,
+			   std::string("")
+			   );
+
   registerProcessorParameter( "WriteMCParticleCollectionParameters" ,
                               "Switch to write out collection parameters",
 			      _mcpColWriteParameters ,
@@ -96,6 +106,45 @@ LCTuple::LCTuple() : Processor("LCTuple") {
   registerProcessorParameter( "WriteRecoParticleCollectionParameters" ,
                               "Switch to write out collection parameters",
 			      _recColWriteParameters ,
+			      false
+			      );
+
+  registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE,
+			   "JetCollection" , 
+			   "Name of the Jet collection"  ,
+			   _jetColName ,
+			   std::string("")
+			   );
+
+  registerProcessorParameter( "WriteJetCollectionParameters" ,
+                              "Switch to write out collection parameters",
+			      _jetColWriteParameters ,
+			      false
+			      );
+			      
+  registerProcessorParameter( "JetCollectionExtraParameters" ,
+                              "Switch to write out extra parameters calculated using information from Jet Finder",
+			      _jetColExtraParameters ,
+			      false
+			      );
+			      
+  registerProcessorParameter( "JetCollectionTaggingParameters" ,
+                              "Switch to write out jet parameters coming from LCFIPlus tagging processor",
+			      _jetColTaggingParameters ,
+			      false
+			      );
+			      
+			     
+registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE,
+			   "IsoLepCollection" , 
+			   "Name of the IsoLep collection"  ,
+			   _isolepColName ,
+			   std::string("")
+			   );
+
+registerProcessorParameter( "WriteIsoLepCollectionParameters" ,
+                              "Switch to write out collection parameters",
+			      _isolepColWriteParameters ,
 			      false
 			      );
 
@@ -194,6 +243,21 @@ LCTuple::LCTuple() : Processor("LCTuple") {
 			      relPrefixes
 			      );
   
+  registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE,
+  			   "PFOwithRelationCollection" ,
+  			   "Name of the PFO collection with Relation"  ,
+  			   _pfoRelName ,
+  			   std::string("")
+  	  	  	   );
+
+  registerInputCollection( LCIO::LCRELATION,
+  			    "LCRelationwithPFOCollections" ,
+  			    "Names of LCRelation collections of PFO"  ,
+  			    _relName ,
+  			    std::string("")
+  	  	  	  	);
+
+
   
 }
 
@@ -216,13 +280,18 @@ void LCTuple::init() {
   
   _evtBranches =  0 ;
   _mcpBranches =  0 ;
+  _mcpremoveoverlayBranches =  0 ;
   _recBranches =  0 ; 
+  _jetBranches =  0 ;
+  _isolepBranches = 0;
   _trkBranches =  0 ;
   _cluBranches =  0 ; 
   _sthBranches =  0 ;
   _trhBranches =  0 ;
   _schBranches =  0 ;
   _vtxBranches =  0 ;
+  _mcRelBranches = 0 ;
+
   
   _evtBranches =  new EventBranches ;
   _evtBranches->initBranches( _tree ) ;
@@ -234,10 +303,30 @@ void LCTuple::init() {
     _mcpBranches->initBranches( _tree ) ;
   }
   
+  if( _mcpRemoveOverlayColName.size() )  {
+    _mcpremoveoverlayBranches =  new MCParticleRemoveOverlayBranches ;
+    _mcpremoveoverlayBranches->writeParameters(_mcpColWriteParameters);
+    _mcpremoveoverlayBranches->initBranches( _tree ) ;
+  }
+
   if( _recColName.size() ) {
     _recBranches =  new RecoParticleBranches ;
     _recBranches->writeParameters(_recColWriteParameters);
     _recBranches->initBranches( _tree ) ;
+  }
+
+  if( _jetColName.size() ) {
+    _jetBranches = new JetBranches ;
+    _jetBranches->writeParameters(_jetColWriteParameters);
+	_jetBranches->writeExtraParameters(_jetColExtraParameters); /* pass the value to JetBranches */
+	_jetBranches->writeTaggingParameters(_jetColTaggingParameters); /* pass the value to JetBranches */
+    _jetBranches->initBranches( _tree );
+  }
+
+  if( _isolepColName.size() ) {
+    _isolepBranches = new IsoLepBranches ;
+    _isolepBranches->writeParameters(_isolepColWriteParameters);
+    _isolepBranches->initBranches( _tree ) ;
   }
 
   if( _trkColName.size() ) {
@@ -276,6 +365,12 @@ void LCTuple::init() {
     _vtxBranches->initBranches( _tree ) ;
   }
 
+  if( _pfoRelName.size() && _relName.size() )  {
+      _mcRelBranches =  new MCParticleFromRelationBranches ;
+      _mcRelBranches->writeParameters(_mcpColWriteParameters);
+      _mcRelBranches->initBranches( _tree ) ;
+    }
+
   
   unsigned nRel =  _relColNames.size()  ;
   
@@ -300,6 +395,7 @@ void LCTuple::init() {
     _relBranchesVec[i]->initBranches( _tree ,  _relPrefixes[i] ) ;
 streamlog_out(DEBUG) << "  okay!  " << std::endl ;
   }
+
 }
 //============================================================================================================================
 
@@ -316,9 +412,16 @@ void LCTuple::processEvent( LCEvent * evt ) {
   //=====================================================
   // get the available collections from the event
   
+
   LCCollection* mcpCol =  getCollection ( evt , _mcpColName ) ;
   
+  LCCollection* mcpRemoveOverlayCol =  getCollection ( evt , _mcpRemoveOverlayColName ) ;
+
   LCCollection* recCol =  getCollection ( evt , _recColName ) ;
+
+  LCCollection* jetCol =  getCollection ( evt , _jetColName ) ;
+  
+  LCCollection* isolepCol =  getCollection ( evt , _isolepColName ) ;
 
   LCCollection* trkCol =  getCollection ( evt , _trkColName ) ;
 
@@ -332,6 +435,11 @@ void LCTuple::processEvent( LCEvent * evt ) {
 
   LCCollection* vtxCol =  getCollection ( evt , _vtxColName ) ;
 
+  LCCollection* relCol =  getCollection ( evt , _relName ) ;
+
+  LCCollection* pfoRelCol =  getCollection ( evt , _pfoRelName ) ;
+
+
   unsigned  nRel = _relColNames.size() ;
   
   std::vector<LCCollection*> relCols( nRel ) ;
@@ -344,15 +452,26 @@ void LCTuple::processEvent( LCEvent * evt ) {
   //=====================================================
   //     add the collection index to the objects 
 
-  addIndexToCollection( mcpCol ) ;
+  addIndexToCollection( mcpCol );
+
+  addIndexToCollection( mcpRemoveOverlayCol ) ;
 
   addIndexToCollection( recCol ) ;
+
+  addIndexToCollection( jetCol ) ;
+  
+  addIndexToCollection( isolepCol ) ; 
 
   addIndexToCollection( trkCol ) ;
 
   addIndexToCollection( cluCol ) ;
 
   addIndexToCollection( vtxCol ) ;
+
+  addIndexToCollection( relCol ) ;
+
+  addIndexToCollection( pfoRelCol ) ;
+
 
   //================================================
   //    fill the ntuple arrays 
@@ -361,7 +480,13 @@ void LCTuple::processEvent( LCEvent * evt ) {
   
   if( mcpCol ) _mcpBranches->fill( mcpCol , evt ) ;
   
+  if( mcpRemoveOverlayCol ) _mcpremoveoverlayBranches->fill( mcpRemoveOverlayCol , evt ) ;
+
   if( recCol ) _recBranches->fill( recCol , evt ) ;
+  
+  if( jetCol ) _jetBranches->fill (jetCol , evt ) ;		// @ebrahimi:  removed: && jetCol->getNumberOfElements()==2
+  
+  if( isolepCol ) _isolepBranches->fill (isolepCol , evt ) ;
   
   if( trkCol ) _trkBranches->fill( trkCol , evt ) ;
   
@@ -374,6 +499,9 @@ void LCTuple::processEvent( LCEvent * evt ) {
   if( schCol ) _schBranches->fill( schCol , evt ) ;
   
   if( vtxCol ) _vtxBranches->fill( vtxCol , evt ) ;
+
+  if( relCol && pfoRelCol ) _mcRelBranches->fill( relCol, pfoRelCol , evt ) ;
+
 
   for( unsigned i=0; i < nRel ; ++i) {
 
@@ -416,9 +544,13 @@ void LCTuple::end(){
 
   delete _evtBranches ;
   delete _mcpBranches ;
+  delete _mcpremoveoverlayBranches ;
   delete _recBranches ; 
+  delete _jetBranches ;
+  delete _isolepBranches ; 
   delete _trkBranches ; 
   delete _vtxBranches ; 
+  delete _mcRelBranches ;
   
   for(unsigned i=0 , nRel =_relBranchesVec.size() ; i <nRel ; 
       delete _relBranchesVec[i++] )  ;

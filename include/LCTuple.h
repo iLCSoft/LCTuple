@@ -5,6 +5,9 @@
 #include "lcio.h"
 #include <string>
 #include <vector>
+#include "MCParticleFromRelationBranches.h"
+
+#include "JetBranches.h"
 
 
 using namespace lcio ;
@@ -67,16 +70,25 @@ class LCTuple : public Processor {
   /** Input collection name.
    */
   std::string _mcpColName ;
+  std::string _mcpRemoveOverlayColName ;
   std::string _recColName ;
+  std::string _jetColName ;
+  std::string _isolepColName ;  
   std::string _trkColName ;
   std::string _cluColName ;
   std::string _sthColName ;
   std::string _trhColName ;
   std::string _schColName ;
   std::string _vtxColName ;
+  std::string _pfoRelName ;
+  std::string _relName ;
+
+
 
   bool _mcpColWriteParameters ;
   bool _recColWriteParameters ;
+  bool _jetColWriteParameters ;
+  bool _isolepColWriteParameters ; 
   bool _trkColWriteParameters ;
   bool _cluColWriteParameters ;
   bool _sthColWriteParameters ;
@@ -84,6 +96,9 @@ class LCTuple : public Processor {
   bool _schColWriteParameters ;
   bool _vtxColWriteParameters ;
 
+
+  bool _jetColExtraParameters ;                 /* Enables writing extra jet parameters */
+  bool _jetColTaggingParameters ;               /* Enables writing jet tagging parameters */
 
 
   StringVec _relColNames ;
@@ -93,13 +108,18 @@ class LCTuple : public Processor {
 
   CWBranchesSet* _evtBranches ;
   CollectionBranches* _mcpBranches ;
+  CollectionBranches* _mcpremoveoverlayBranches ;
   CollectionBranches* _recBranches ;
+//  CollectionBranches* _jetBranches ;
+  JetBranches* _jetBranches ;
+  CollectionBranches* _isolepBranches ;
   CollectionBranches* _trkBranches ;
   CollectionBranches* _cluBranches ;
   CollectionBranches* _sthBranches ;
   CollectionBranches* _trhBranches ;
   CollectionBranches* _schBranches ;
   CollectionBranches* _vtxBranches ;
+  MCParticleFromRelationBranches* _mcRelBranches ;
   
   std::vector<CWBranchesSet*> _relBranchesVec ;
   
@@ -108,6 +128,3 @@ class LCTuple : public Processor {
 } ;
 
 #endif
-
-
-
