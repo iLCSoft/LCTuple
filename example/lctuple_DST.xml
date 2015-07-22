@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<!-- ?xml-stylesheet type="text/xsl" href="http://ilcsoft.desy.de/marlin/marlin.xsl"? -->
+<!-- ?xml-stylesheet type="text/xsl" href="marlin.xsl"? -->
+
+<!-- Loading shared library : /Users/fgaede/marlin/mymarlin/lib/libmymarlin.0.1.0.dylib (libmymarlin.dylib)-->
+
+<!--##########################################
+    #                                        #
+    #     Example steering file for marlin   #
+    #                                        #
+    ##########################################-->
+
+
+<marlin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ilcsoft.desy.de/marlin/marlin.xsd">
+ <execute>
+  <processor name="MyAIDAProcessor"/>
+  <processor name="MyMergeRPCollections"/>
+  <processor name="MyMergeVTXCollections"/>
+  <processor name="MyMergeCLUCollections"/>
+  <processor name="MyCreateRecoRelations"/>
+  <processor name="MyLCTuple"/>  
+ </execute>
+
+ <global>
+  <parameter name="LCIOInputFiles"> infile.slcio </parameter>
+  <!-- limit the number of processed records (run+evt): -->  
+  <parameter name="MaxRecordNumber" value="0" />  
+  <parameter name="SkipNEvents" value="0"/>  
+  <parameter name="SupressCheck" value="false" />  
+  <parameter name="GearXMLFile"> GearOutput.xml </parameter>  
+  <parameter name="Verbosity" options="DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT">DEBUG  </parameter> 
+  <parameter name="RandomSeed" value="1234567890" />
+ </global>
+
+ <processor name="MyAIDAProcessor" type="AIDAProcessor">
+  <parameter name="FileName" type="string">lctuple </parameter>
+  <parameter name="FileType" type="string">root </parameter>
+ </processor>
+
+ <processor name="MyMergeRPCollections" type="MergeCollections">
+   <!--MergeCollections creates a transient subset collection that merges all input collections -->
+   <!--Names of all input collections-->
+   <parameter name="InputCollections" type="StringVec"> 
+     PandoraPFOs     
+     BCALParticles   
+     PrimaryVertex_RP
+     BuildUpVertex_RP
+     BuildUpVertex_V0_RP
+   </parameter>
+   <!--Optional IDs for input collections - if given id will be added to all objects in merged collections as ext<CollID>()-->
+   <parameter name="InputCollectionIDs" type="IntVec"> 
+      101  102  103  104  105
+   </parameter>
+   <!--Name of output collection-->
+   <parameter name="OutputCollection" type="string">MergedRPCollection </parameter>
+    <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+   <!--parameter name="Verbosity" type="string">DEBUG </parameter-->
+ </processor>
+ 
+ <processor name="MyMergeCLUCollections" type="MergeCollections">
+   <!--MergeCollections creates a transient subset collection that merges all input collections -->
+   <!--Names of all input collections-->
+   <parameter name="InputCollections" type="StringVec"> 
+     PandoraClusters     
+     BCALClusters   
+   </parameter>
+   <!--Optional IDs for input collections - if given id will be added to all objects in merged collections as ext<CollID>()-->
+   <parameter name="InputCollectionIDs" type="IntVec"> 
+      101  102
+   </parameter>
+   <!--Name of output collection-->
+   <parameter name="OutputCollection" type="string">MergedCLUCollection </parameter>
+    <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+   <!--parameter name="Verbosity" type="string">DEBUG </parameter-->
+ </processor>
+ 
+ <processor name="MyMergeVTXCollections" type="MergeCollections">
+   <!--MergeCollections creates a transient subset collection that merges all input collections -->
+   <!--Names of all input collections-->
+   <parameter name="InputCollections" type="StringVec"> 
+     PrimaryVertex
+     BuildUpVertex
+     BuildUpVertex_V0
+   </parameter>
+   <!--Optional IDs for input collections - if given id will be added to all objects in merged collections as ext<CollID>()-->
+   <parameter name="InputCollectionIDs" type="IntVec"> 
+      103  104  105
+   </parameter>
+   <!--Name of output collection-->
+   <parameter name="OutputCollection" type="string">MergedVTXCollection </parameter>
+    <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+   <!--parameter name="Verbosity" type="string">DEBUG </parameter-->
+ </processor>
+ 
+ <processor name="MyCreateRecoRelations" type="CreateRecoRelations">
+ <!--CreateRecoRelations creates transient collections with realtions from  ReconstructedParticles to Tracks and Clusters-->
+  <!--Name of output collection for relation ReconstructedParticles to Clusters-->
+  <parameter name="Reco2ClusterRelationName" type="string" lcioOutType="LCRelation">Reco2ClustersRelation </parameter>
+  <!--Name of output collection for relation ReconstructedParticles to ReconstructedParticles-->
+  <parameter name="Reco2RecoRelationName" type="string" lcioOutType="LCRelation">Reco2RecoRelation </parameter>
+  <!--Name of output collection for relation ReconstructedParticles to Tracks-->
+  <parameter name="Reco2TracksRelationName" type="string" lcioOutType="LCRelation">Reco2TracksRelation </parameter>
+  <!--Names of ReconstructedParticles input collections-->
+  <parameter name="RecoCollection" type="string" lcioInType="ReconstructedParticle">MergedRPCollection </parameter>
+  <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+  <!--parameter name="Verbosity" type="string">DEBUG </parameter-->
+</processor>
+
+
+ <processor name="MyLCTuple" type="LCTuple">
+ <!--LCTuple creates a ROOT TTRee with a column wise ntuple from LCIO collections ....-->
+
+  <!--Names of LCRelation collections - need parallel prefix names in RelPrefixes-->
+  <parameter name="LCRelationCollections" type="StringVec" lcioInType="LCRelation">
+    RecoMCTruthLink 
+    Reco2ClustersRelation
+    Reco2TracksRelation
+    Reco2RecoRelation
+  </parameter>
+  
+  <!-- Names of prefixes for variables from LCRelation collections - needs to be parallel to LCRelationCollections (one prefix per collection)-->
+  <parameter name="LCRelationPrefixes" type="StringVec">  
+    r2m  
+    r2c  
+    r2t  
+    r2r  
+  </parameter>
+
+  <!--Name of the MCParticle collection-->
+  <parameter name="MCParticleCollection" type="string" lcioInType="MCParticle"> MCParticlesSkimmed</parameter>
+
+  <!--Name of the Track collection-->
+  <parameter name="TrackCollection" type="string" lcioInType="Track"> MarlinTrkTracks </parameter>
+
+  <!--Name of the Vertex collection-->
+  <parameter name="VertexCollection" type="string" lcioInType="Vertex"> MergedVTXCollection </parameter>
+
+  <!--Name of the Cluster collection-->
+  <parameter name="ClusterCollection" type="string" lcioInType="Cluster"> MergedCLUCollection </parameter>
+
+  <!--Name of the ReconstructedParticle collection-->
+  <parameter name="RecoParticleCollection" type="string" lcioInType="ReconstructedParticle"> MergedRPCollection</parameter>
+
+  <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+  <parameter name="Verbosity" type="string">WARNING </parameter>
+</processor>
+
+
+</marlin>
