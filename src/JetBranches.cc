@@ -63,6 +63,16 @@ void JetBranches::initBranches( TTree* tree, const std::string& pre){
    tree->Branch( (pre+"jmas").c_str() , _jmas , (pre+"jmas["+pre+"njet]/F").c_str() ) ;
    tree->Branch( (pre+"jene").c_str() , _jene , (pre+"jene["+pre+"njet]/F").c_str() ) ;
    tree->Branch( (pre+"jcha").c_str() , _jcha , (pre+"jcha["+pre+"njet]/F").c_str() ) ;
+   tree->Branch( (pre+"jcov0").c_str() , _jcov0 , (pre+"jcov0["+pre+"njet]/F").c_str() ) ;
+   tree->Branch( (pre+"jcov1").c_str() , _jcov1 , (pre+"jcov1["+pre+"njet]/F").c_str() ) ;
+   tree->Branch( (pre+"jcov2").c_str() , _jcov2 , (pre+"jcov2["+pre+"njet]/F").c_str() ) ;
+   tree->Branch( (pre+"jcov3").c_str() , _jcov3 , (pre+"jcov3["+pre+"njet]/F").c_str() ) ;
+   tree->Branch( (pre+"jcov4").c_str() , _jcov4 , (pre+"jcov4["+pre+"njet]/F").c_str() ) ;
+   tree->Branch( (pre+"jcov5").c_str() , _jcov5 , (pre+"jcov5["+pre+"njet]/F").c_str() ) ;
+   tree->Branch( (pre+"jcov6").c_str() , _jcov6 , (pre+"jcov6["+pre+"njet]/F").c_str() ) ;
+   tree->Branch( (pre+"jcov7").c_str() , _jcov7 , (pre+"jcov7["+pre+"njet]/F").c_str() ) ;
+   tree->Branch( (pre+"jcov8").c_str() , _jcov8 , (pre+"jcov8["+pre+"njet]/F").c_str() ) ;
+   tree->Branch( (pre+"jcov9").c_str() , _jcov9 , (pre+"jcov9["+pre+"njet]/F").c_str() ) ;
 
    //------------  Tagging Branches --------------//
    if(_writeTaggingParameters) { 
@@ -141,6 +151,16 @@ void JetBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* evt )
 	  _jmas[ i ] = 0;
 	  _jene[ i ] = 0;
 	  _jcha[ i ] = 0;
+	  _jcov0[ i ] = 0;
+	  _jcov1[ i ] = 0;
+	  _jcov2[ i ] = 0;
+	  _jcov3[ i ] = 0;
+	  _jcov4[ i ] = 0;
+	  _jcov5[ i ] = 0;
+	  _jcov6[ i ] = 0;
+	  _jcov7[ i ] = 0;
+	  _jcov8[ i ] = 0;
+	  _jcov9[ i ] = 0;
 	  // Extra parameters
 	  _jmom[ i ]  = 0;
 	  _jcost[ i ] = 0;
@@ -209,12 +229,22 @@ void JetBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* evt )
 	  lcio::ReconstructedParticle* jet = static_cast<lcio::ReconstructedParticle*>( col->getElementAt(i) ) ;
 
 	  // Write default jet parameters
-	  _jmox[ i ] = jet->getMomentum()[0] ;
-	  _jmoy[ i ] = jet->getMomentum()[1] ;
-	  _jmoz[ i ] = jet->getMomentum()[2] ;
-	  _jmas[ i ] = jet->getMass() ;
-	  _jene[ i ] = jet->getEnergy() ;
-	  _jcha[ i ] = jet->getCharge() ;
+	  _jmox[ i ] = jet->getMomentum()[0];
+	  _jmoy[ i ] = jet->getMomentum()[1];
+	  _jmoz[ i ] = jet->getMomentum()[2];
+	  _jmas[ i ] = jet->getMass();
+	  _jene[ i ] = jet->getEnergy();
+	  _jcha[ i ] = jet->getCharge();
+	  _jcov0[ i ] = jet->getCovMatrix()[0];
+	  _jcov1[ i ] = jet->getCovMatrix()[1];
+	  _jcov2[ i ] = jet->getCovMatrix()[2];
+	  _jcov3[ i ] = jet->getCovMatrix()[3];
+	  _jcov4[ i ] = jet->getCovMatrix()[4];
+	  _jcov5[ i ] = jet->getCovMatrix()[5];
+	  _jcov6[ i ] = jet->getCovMatrix()[6];
+	  _jcov7[ i ] = jet->getCovMatrix()[7];
+	  _jcov8[ i ] = jet->getCovMatrix()[8];
+	  _jcov9[ i ] = jet->getCovMatrix()[9];
 
 	  // write tagginf parameters if it is enabled
 	  if(_writeTaggingParameters) {

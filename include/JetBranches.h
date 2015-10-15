@@ -96,6 +96,16 @@ class JetBranches : public CollectionBranches
 	  float  _jmas[ LCT_JET_MAX ] ;             /* Jet Mass */
 	  float  _jene[ LCT_JET_MAX ] ;             /* Jet Energy */
 	  float  _jcha[ LCT_JET_MAX ] ;             /* Jet Charge */
+      float  _jcov0[ LCT_JET_MAX ] ;            /* Jet Covariance matrix element 0 */
+      float  _jcov1[ LCT_JET_MAX ] ;            /* Jet Covariance matrix element 1 */
+      float  _jcov2[ LCT_JET_MAX ] ;            /* Jet Covariance matrix element 2 */
+      float  _jcov3[ LCT_JET_MAX ] ;            /* Jet Covariance matrix element 3 */
+      float  _jcov4[ LCT_JET_MAX ] ;            /* Jet Covariance matrix element 4 */
+      float  _jcov5[ LCT_JET_MAX ] ;            /* Jet Covariance matrix element 5 */
+      float  _jcov6[ LCT_JET_MAX ] ;            /* Jet Covariance matrix element 6 */
+      float  _jcov7[ LCT_JET_MAX ] ;            /* Jet Covariance matrix element 7 */
+      float  _jcov8[ LCT_JET_MAX ] ;            /* Jet Covariance matrix element 8 */
+      float  _jcov9[ LCT_JET_MAX ] ;            /* Jet Covariance matrix element 9 */
 
 	  // Used for tagging parameters
       float  _btag[ LCT_JET_MAX ] ;             /* ? */
