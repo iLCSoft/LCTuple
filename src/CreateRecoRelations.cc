@@ -106,7 +106,7 @@ void CreateRecoRelations::processEvent( LCEvent * evt ) {
   LCRelationNavigator relR( LCIO::RECONSTRUCTEDPARTICLE, LCIO::TRACK ) ;
 
 
-  int nEle = col->getNumberOfElements() ;
+  int nEle = ( col ?  col->getNumberOfElements() : 0 ) ; 
   
   for(int i=0; i < nEle ; ++i){
     
