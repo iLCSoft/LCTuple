@@ -4,6 +4,24 @@
  ======================
 
  --------
+| v01-05 |
+ --------
+
+F.Gaede
+ - protect against missing collections in CreateRecoRelations.cc
+
+S.Lu
+ -  Implement CalorimeterHitBranches into LCTuple.
+
+A.Ebrahimi
+ - Added covariance matrix histograms to jet branches
+
+J.List
+ - added lctuple_DST.xml  to convert current DST to root
+
+
+
+ --------
 | v01-04 |
  --------
 
