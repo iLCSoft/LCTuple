@@ -1,4 +1,6 @@
 // draw sim hits
+#include "TFile.h"
+#include "TTree.h"
 
 
 /** Helper function for radius
@@ -18,7 +20,8 @@ int sub(int cellid){
 
 void draw_simhits( const char* FILEN ) {
   
-  TFile f(FILEN) ;
+  TFile *f = new TFile(FILEN) ;
+  TTree *MyLCTuple = (TTree*)f->Get("MyLCTuple");
   
   c1 = new TCanvas("C1","Some example plots from LCTuple",1000 , 1000 );
   //  c1->Divide(1,2);

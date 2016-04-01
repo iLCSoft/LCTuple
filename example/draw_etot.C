@@ -1,10 +1,13 @@
+#include "TFile.h"
+#include "TTree.h"
 
 void draw_etot( const char* FILEN ) {
 
 
   std::string pdfFile( std::string( FILEN ) + std::string( "_etot.pdf" ) ) ;
 
-  TFile f(FILEN) ;
+  TFile *f = new TFile(FILEN) ;
+  TTree *MyLCTuple = (TTree*)f->Get("MyLCTuple") ;
 
   c1 = new TCanvas("C1","Total energy - McTruth vs. PFOs",-5);
   c1->Divide(1,2);
