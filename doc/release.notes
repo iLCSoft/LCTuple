@@ -3,6 +3,19 @@
   LCTuple release notes
  ======================
 
+
+ --------
+| v01-06 |
+ --------
+
+F.Gaede
+	- made compatible with c++11
+	- removed -ansi -pedantic -Wno-long-long
+
+S.Lu
+	- Added root headers and declared the parameters to fix the error: use of undeclared identifier 'MyLCTuple' in ROOT 6.06/02.
+
+
  --------
 | v01-05 |
  --------
