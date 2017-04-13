@@ -1,3 +1,5 @@
+# v01-07
+
 # v01-04
 * Added JetBranches which holds branches created from a jet collection created by Satoru Jet Finder processor. JetBranches has two steerable parameters which are optionally set in the steering file:
   * writeExtraParameters: if set to TRUE, the fill function calculates some extra parameters using parameters provided by the jet finding algorithm. Default value is FALSE. See class data members for a list of extra parameters.
