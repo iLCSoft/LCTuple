@@ -54,6 +54,7 @@ private:
   float  _rccha[ LCT_RECOPARTICLE_MAX ] ;
   int    _rcntr[ LCT_RECOPARTICLE_MAX ] ;
   int    _rcncl[ LCT_RECOPARTICLE_MAX ] ;
+  int    _rcnrp[ LCT_RECOPARTICLE_MAX ] ;
   int    _rcftr[ LCT_RECOPARTICLE_MAX ] ;
 
   int    _rcvts[ LCT_RECOPARTICLE_MAX ] ;

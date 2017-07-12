@@ -1,3 +1,9 @@
+# v01-08
+
+ S.Sasikumar:
+  - add parameter rcnrp ( ReconstructedParticle::getParticles().size() ) to RecoParticle branch
+  
+
 # v01-07
 
 # v01-04

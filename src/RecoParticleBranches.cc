@@ -40,6 +40,7 @@ void RecoParticleBranches::initBranches( TTree* tree, const std::string& pre){
   tree->Branch( (pre+"rccha").c_str() , _rccha , (pre+"rccha["+pre+"nrec]/F").c_str() ) ;
   tree->Branch( (pre+"rcntr").c_str() , _rcntr , (pre+"rcntr["+pre+"nrec]/I").c_str() ) ;
   tree->Branch( (pre+"rcncl").c_str() , _rcncl , (pre+"rcncl["+pre+"nrec]/I").c_str() ) ;
+  tree->Branch( (pre+"rcnrp").c_str() , _rcnrp , (pre+"rcnrp["+pre+"nrec]/I").c_str() ) ;
   tree->Branch( (pre+"rcftr").c_str() , _rcftr , (pre+"rcftr["+pre+"nrec]/I").c_str() ) ;
 
   tree->Branch( (pre+"rcvts").c_str() , _rcvts , (pre+"rcvts["+pre+"nrec]/I").c_str() ) ;
@@ -140,7 +141,10 @@ void RecoParticleBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* 
     _rccom[ i ] = rec->isCompound();
 
     _rcntr[ i ] = rec->getTracks().size() ; 
-	 _rcncl[ i ] = rec->getClusters().size() ; 
+    _rcncl[ i ] = rec->getClusters().size() ; 
+
+    _rcnrp[ i ] = rec->getParticles().size();
+
     _rcftr[ i ] = ( rec->getTracks().size() > 0 ?  rec->getTracks()[0]->ext<CollIndex>() - 1  :  -1 )   ;
     
   }
