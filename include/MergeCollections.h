@@ -61,7 +61,7 @@ class MergeCollections : public Processor {
   StringVec   _inColNames ;
   IntVec      _inColIDs   ;
   std::string _outColName ; 
-
+  int         _collectionParameterIndex ;
 
   int _nRun ;
   int _nEvt ;
