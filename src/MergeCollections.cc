@@ -54,6 +54,13 @@ MergeCollections::MergeCollections() : Processor("MergeCollections") {
 			      _outColName ,
 			      std::string("MergedCollection")
 			      );
+
+  registerProcessorParameter( "CollectionParameterIndex",
+			      "Index of input collection  that is used to copy the  collection parameters from " ,
+			      _collectionParameterIndex ,
+			      int(0)
+                              );
+
 }
 
 //============================================================================================================================
@@ -71,7 +78,7 @@ void MergeCollections::init() {
 //============================================================================================================================
 
 
-void MergeCollections::processRunHeader( LCRunHeader* run) { 
+void MergeCollections::processRunHeader( LCRunHeader* ) {
   _nRun++ ;
 }
 
@@ -117,6 +124,8 @@ void MergeCollections::processEvent( LCEvent * evt ) {
   bool first = true ;
 
   for( unsigned k=0; k < nCol ; ++k) {
+
+
     LCCollection* col  =  colVec[k] ;
     if( ! col ) continue ;
     if( first ){
@@ -146,6 +155,8 @@ void MergeCollections::processEvent( LCEvent * evt ) {
       const std::string newIntKey = _inColNames[k]+"_"+intKeys[i];
       outCol->parameters().setValues(newIntKey,intVec);
       intParams++;
+      if( unsigned(_collectionParameterIndex) == k )
+	outCol->parameters().setValues(intKeys[i],intVec);
     }
 
     StringVec floatKeys ;
@@ -156,6 +167,8 @@ void MergeCollections::processEvent( LCEvent * evt ) {
       const std::string newFloatKey = _inColNames[k]+"_"+floatKeys[i];
       outCol->parameters().setValues(newFloatKey,floatVec);
       floatParams++;
+      if( unsigned(_collectionParameterIndex) == k )
+	outCol->parameters().setValues(floatKeys[i],floatVec);
     }
 
     StringVec stringKeys ;
@@ -166,6 +179,8 @@ void MergeCollections::processEvent( LCEvent * evt ) {
       const std::string newStringKey = _inColNames[k]+"_"+stringKeys[i];
       outCol->parameters().setValues(newStringKey,stringVec);
       stringParams++;
+      if( unsigned(_collectionParameterIndex) == k )
+	outCol->parameters().setValues(stringKeys[i],stringVec);
     }
 
     colNElements.push_back(nEle);
@@ -199,7 +214,7 @@ void MergeCollections::processEvent( LCEvent * evt ) {
 
 //============================================================================================================================
 
-void MergeCollections::check( LCEvent * evt ) { 
+void MergeCollections::check( LCEvent * ) {
   // nothing to check here - could be used to fill checkplots in reconstruction processor
 }
 
