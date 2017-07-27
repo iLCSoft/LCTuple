@@ -1,3 +1,14 @@
+# v01-09
+
+* 2017-07-26 Frank Gaede ([PR#2](https://github.com/iLCSoft/LCTuple/pull/2))
+  - add collection parameters to output collection in MergeCollections
+         - add parameter CollectionParameterIndex
+          - copy the collection parameters from the given input collection
+             to the output collection
+          - note: this is done in addition to the collection parameters from all
+             collections that are added under a new name w/ the collection name
+             prepended
+
 # v01-08
 
 # v01-08
