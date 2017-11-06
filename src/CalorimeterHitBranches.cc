@@ -30,6 +30,7 @@ void CalorimeterHitBranches::initBranches( TTree* tree, const std::string& pre){
   tree->Branch( (pre+"capoy").c_str() , _capoy , (pre+"capoy["+pre+"ncah]/F").c_str() ) ;
   tree->Branch( (pre+"capoz").c_str() , _capoz , (pre+"capoz["+pre+"ncah]/F").c_str() ) ;
   tree->Branch( (pre+"caene").c_str() , _caene , (pre+"caene["+pre+"ncah]/F").c_str() ) ;
+  tree->Branch( (pre+"catim").c_str() , _catim , (pre+"catim["+pre+"ncah]/F").c_str() ) ;
   
   
 }
@@ -64,6 +65,7 @@ void CalorimeterHitBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent
     _capoy[i] = hit->getPosition()[1] ;
     _capoz[i] = hit->getPosition()[2] ;
     _caene[i] = hit->getEnergy() ;
+    _catim[i] = hit->getTime() ;
     
   }
 }

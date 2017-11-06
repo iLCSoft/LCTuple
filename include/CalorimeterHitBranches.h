@@ -44,6 +44,7 @@ private:
   float  _capoy[ LCT_CALORIMETERHIT_MAX ] ;
   float  _capoz[ LCT_CALORIMETERHIT_MAX ] ;
   float  _caene[ LCT_CALORIMETERHIT_MAX ] ;
+  float  _catim[ LCT_CALORIMETERHIT_MAX ] ;
   
 } ;
 
