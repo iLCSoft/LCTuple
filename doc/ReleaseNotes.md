@@ -1,3 +1,8 @@
+# v01-10
+
+* 2017-11-06 Frank Gaede ([PR#3](https://github.com/ilcsoft/LCTuple/pull/3))
+  - add CalorimeterHit::getTime() as 'catim'
+
 # v01-09
 
 * 2017-07-26 Frank Gaede ([PR#2](https://github.com/iLCSoft/LCTuple/pull/2))
