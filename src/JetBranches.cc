@@ -32,6 +32,7 @@
 
 #include "EVENT/Vertex.h"
 
+using namespace lcio;
 
 /* #####   FUNCTION DEFINITIONS  -  EXPORTED FUNCTIONS   ############################ */
 

@@ -118,7 +118,7 @@ class JetBranches : public CollectionBranches
 	  int ictag;                                /* ? */
 	  int iotag;                                /* ? */
 	  int ibcat;                                /* ? */
-	  PIDHandler *pid;
+	  lcio::PIDHandler *pid;
       int _jnpid   ;                            /* ? */
 
 	  // Used for extra parameters
