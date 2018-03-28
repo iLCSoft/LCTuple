@@ -1,3 +1,8 @@
+# v01-11
+
+* 2018-03-13 Marko Petric ([PR#4](https://github.com/iLCSoft/LCTuple/pull/4))
+  -  Fix for iLCSoft/LCIO#35
+
 # v01-10
 
 * 2017-11-06 Frank Gaede ([PR#3](https://github.com/ilcsoft/LCTuple/pull/3))
