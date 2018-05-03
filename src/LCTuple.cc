@@ -31,39 +31,43 @@ using namespace lcio ;
 using namespace marlin ;
 
 
-
-/** helper function to get collection safely */
-inline lcio::LCCollection* getCollection(lcio::LCEvent* evt, const std::string name ){
-  
-  if( name.size() == 0 )
-    return 0 ;
-  
-  try{
+namespace LCTuple_helper {
+  /** helper function to get collection safely */
+  inline lcio::LCCollection* getCollection(lcio::LCEvent* evt, const std::string name ){
     
-    return evt->getCollection( name ) ;
+    if( name.size() == 0 )
+      return 0 ;
     
-  } catch( lcio::DataNotAvailableException& e ){
-    
-    streamlog_out( DEBUG2 ) << "getCollection :  DataNotAvailableException : " << name <<  std::endl ;
-    
-    return 0 ;
+    try{
+      
+      return evt->getCollection( name ) ;
+      
+    } catch( lcio::DataNotAvailableException& e ){
+      
+      streamlog_out( DEBUG2 ) << "getCollection :  DataNotAvailableException : " << name <<  std::endl ;
+      
+      return 0 ;
+    }
   }
-}
-
-//------------------------------------------------------------------------------------------------
-
-/** helper for setting the index extension */
-inline void addIndexToCollection( lcio::LCCollection* col ){
   
-  if( col == 0 ) {  
-    return ; 
+  //------------------------------------------------------------------------------------------------
+  
+  /** helper for setting the index extension */
+  inline void addIndexToCollection( lcio::LCCollection* col ){
+    
+    if( col == 0 ) {  
+      return ; 
+    }
+    
+    for(int i=0, n  = col->getNumberOfElements() ; i < n; ++i ){
+      
+      col->getElementAt( i )->ext<CollIndex>() = i + 1 ; 
+    }  
   }
-    
-  for(int i=0, n  = col->getNumberOfElements() ; i < n; ++i ){
-    
-    col->getElementAt( i )->ext<CollIndex>() = i + 1 ; 
-  }  
+
 }
+using namespace LCTuple_helper ;
+
 //------------------------------------------------------------------------------------------------
 
 
@@ -257,7 +261,18 @@ registerProcessorParameter( "WriteIsoLepCollectionParameters" ,
 			      _relPrefixes ,
 			      relPrefixes
 			      );
-  
+
+  StringVec pidBranchDefinition = {"Algorithm:TOFEstimators50ps", "tof50",
+				   "TOFFirstHit", "TOFClosestHits", "TOFClosestHitsError", "TOFFlightLength", "TOFLastTrkHit", "TOFLastTrkHitFlightLength", 
+				   "fh",          "ch",             "che",                 "len",             "th",            "thl"  } ;
+
+  registerProcessorParameter( "PIDBranchDefinition" , 
+			      "Definition of PID branches added to the ReconstructedParticle branches - for every algorithm:  "
+			      "Algorithm:Name branchPrefix Parameter0 branch0  Parameter1 branch1  Parameter2 branch2 ..."  ,
+			      _pidBranchDefinition ,
+			      pidBranchDefinition
+			      );
+
   registerInputCollection( LCIO::RECONSTRUCTEDPARTICLE,
   			   "PFOwithRelationCollection" ,
   			   "Name of the PFO collection with Relation"  ,
@@ -330,15 +345,16 @@ void LCTuple::init() {
     _recBranches->writeParameters(_recColWriteParameters);
     _recBranches->initBranches( _tree ) ;
 
-    std::vector<std::string> pNames = {"TOFFirstHit", "TOFClosestHits", "TOFClosestHitsError", "TOFFlightLength", "TOFLastTrkHit", "TOFLastTrkHitFlightLength" } ;
-    std::vector<std::string> bNames = {"fh", "ch", "che", "len", "th", "thl" } ;
+    decodePIDBranchDefinitions() ;
 
-    _pidBranchesVec.push_back( new PIDBranches ) ;
-    PIDBranches* pidb = _pidBranchesVec.back() ;
+    for( auto d : _pidBranchDefs ) {
+
+      _pidBranchesVec.push_back( new PIDBranches ) ;
+      PIDBranches* pidb = _pidBranchesVec.back() ;
     
-    pidb->defineBranches( "TOFEstimators50ps", pNames, bNames ) ;
-    pidb->initBranches( _tree , "tof50_" ) ;
-
+      pidb->defineBranches( d.algoName, d.pNames, d.bNames ) ;
+      pidb->initBranches( _tree , d.prefix ) ;
+    }
   }
   
 
@@ -600,3 +616,58 @@ void LCTuple::end(){
   
 }
 
+
+
+void LCTuple::decodePIDBranchDefinitions(){
+
+  std::vector<int> algoStart ;
+  const std::string algoString("Algorithm:" ) ; 
+
+  if( !parameterSet( "PIDBranchDefinition") )
+    return ;
+
+  // count the algorithms
+  for(unsigned i=0,N=_pidBranchDefinition.size();i<N;++i){
+    if( _pidBranchDefinition[i].find(algoString) != std::string::npos ){
+      algoStart.push_back(i) ;
+    }
+  }
+  int algoNum = algoStart.size();
+  _pidBranchDefs.resize( algoNum ) ;
+
+  algoStart.push_back( _pidBranchDefinition.size() ) ; // add one start index after end of definition string
+
+  for(unsigned i=0,N=_pidBranchDefs.size();i<N;++i){
+
+    PIDBranchDef& d = _pidBranchDefs[i] ;
+    int index = algoStart[i] ;
+
+    d.algoName= _pidBranchDefinition[index].substr( algoString.size(),_pidBranchDefinition[index].size() ) ;
+    ++index ;
+    d.prefix  = _pidBranchDefinition[index++] ;
+
+
+    streamlog_out( DEBUG5 ) << " found PID algorithm : " << d.algoName
+			    << " branches will be created with prefix: " <<  d.prefix
+			    << std::endl ;
+
+
+    int nParam =  (algoStart[i+1]-index) / 2 ;
+
+    streamlog_out( DEBUG5 ) << "       parameters: " ;
+
+    for(int j=0;j<nParam;++j){
+      d.pNames.push_back( _pidBranchDefinition[index++] ) ;
+      streamlog_out( DEBUG5 ) << d.pNames.back() << " " ;
+    }
+    streamlog_out( DEBUG5 ) << std::endl ;
+
+    streamlog_out( DEBUG5 ) << "       branch names: " ;
+
+    for(int j=0;j<nParam;++j){
+      d.bNames.push_back( _pidBranchDefinition[index++] ) ;
+      streamlog_out( DEBUG5 ) << d.bNames.back() << " " ;
+    }
+    streamlog_out( DEBUG5 ) << std::endl ;
+  } 
+}
