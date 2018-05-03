@@ -329,7 +329,18 @@ void LCTuple::init() {
     _recBranches =  new RecoParticleBranches ;
     _recBranches->writeParameters(_recColWriteParameters);
     _recBranches->initBranches( _tree ) ;
+
+    std::vector<std::string> pNames = {"TOFFirstHit", "TOFClosestHits", "TOFClosestHitsError", "TOFFlightLength", "TOFLastTrkHit", "TOFLastTrkHitFlightLength" } ;
+    std::vector<std::string> bNames = {"fh", "ch", "che", "len", "th", "thl" } ;
+
+    _pidBranchesVec.push_back( new PIDBranches ) ;
+    PIDBranches* pidb = _pidBranchesVec.back() ;
+    
+    pidb->defineBranches( "TOFEstimators50ps", pNames, bNames ) ;
+    pidb->initBranches( _tree , "tof50_" ) ;
+
   }
+  
 
   if( _jetColName.size() ) {
     _jetBranches = new JetBranches ;
@@ -506,8 +517,12 @@ void LCTuple::processEvent( LCEvent * evt ) {
   
   if( mcpRemoveOverlayCol ) _mcpremoveoverlayBranches->fill( mcpRemoveOverlayCol , evt ) ;
 
-  if( recCol ) _recBranches->fill( recCol , evt ) ;
-  
+  if( recCol ) {
+    _recBranches->fill( recCol , evt ) ;
+
+    for( auto pidb : _pidBranchesVec ) pidb->fill( recCol , evt ) ;
+  }
+
   if( jetCol ) _jetBranches->fill (jetCol , evt ) ;		// @ebrahimi:  removed: && jetCol->getNumberOfElements()==2
   
   if( isolepCol ) _isolepBranches->fill (isolepCol , evt ) ;
@@ -577,6 +592,8 @@ void LCTuple::end(){
   delete _trkBranches ; 
   delete _vtxBranches ; 
   delete _mcRelBranches ;
+  
+  for( auto pidb : _pidBranchesVec ) delete pidb ;
   
   for(unsigned i=0 , nRel =_relBranchesVec.size() ; i <nRel ; 
       delete _relBranchesVec[i++] )  ;
