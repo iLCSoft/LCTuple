@@ -9,6 +9,8 @@
 
 #include "TTree.h"
 
+using namespace lcio ;
+
 void PIDBranches::defineBranches(const std::string& algorithmName,
 				 const std::vector<std::string>& paramNames,
 				 const std::vector<std::string>& branchNames) {
