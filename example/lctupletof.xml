@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<!-- ?xml-stylesheet type="text/xsl" href="http://ilcsoft.desy.de/marlin/marlin.xsl"? -->
+<!-- ?xml-stylesheet type="text/xsl" href="marlin.xsl"? -->
+
+<!-- Loading shared library : /Users/fgaede/marlin/mymarlin/lib/libmymarlin.0.1.0.dylib (libmymarlin.dylib)-->
+
+<!--##########################################
+    #                                        #
+    #     Example steering file for marlin   #
+    #     writes an LCTuple with PandoraPFOs #
+    #     and TOF parameters                 #
+    ##########################################-->
+
+
+<marlin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ilcsoft.desy.de/marlin/marlin.xsd">
+ <execute>
+  <processor name="MyAIDAProcessor"/>
+  <processor name="MyLCTuple"/>  
+ </execute>
+
+ <global>
+  <parameter name="LCIOInputFiles"> infile.slcio </parameter>
+  <!-- limit the number of processed records (run+evt): -->  
+  <parameter name="MaxRecordNumber" value="10" />  
+  <parameter name="SkipNEvents" value="0"/>  
+  <parameter name="SupressCheck" value="false" />  
+  <parameter name="GearXMLFile"></parameter>  
+  <parameter name="Verbosity" options="DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT">DEBUG  </parameter> 
+  <parameter name="RandomSeed" value="1234567890" />
+ </global>
+
+ <processor name="MyAIDAProcessor" type="AIDAProcessor">
+  <parameter name="FileName" type="string">lctuple </parameter>
+  <parameter name="FileType" type="string">root </parameter>
+ </processor>
+
+ <processor name="MyLCTuple" type="LCTuple">
+ <!--LCTuple creates a ROOT TTRee with a column wise ntuple from LCIO collections ....-->
+
+ <!--Name of the ReconstructedParticle collection-->
+  <parameter name="RecoParticleCollection" type="string" lcioInType="ReconstructedParticle"> PandoraPFOs </parameter>
+
+  <!--Definition of PID branches added to the ReconstructedParticle branches - for every algorithm:
+      Algorithm:Name branchPrefix Parameter0 branch0  Parameter1 branch1  Parameter2 branch2 ...-->
+  <parameter name="PIDBranchDefinition" type="StringVec">
+    Algorithm:TOFEstimators0ps tof0
+    TOFFirstHit TOFClosestHits TOFClosestHitsError TOFFlightLength TOFLastTrkHit TOFLastTrkHitFlightLength
+    fh          ch             che                 len             th            thl
+    Algorithm:TOFEstimators10ps tof10
+    TOFFirstHit TOFClosestHits TOFClosestHitsError TOFFlightLength TOFLastTrkHit TOFLastTrkHitFlightLength
+    fh          ch             che                 len             th            thl
+    Algorithm:TOFEstimators50ps tof50
+    TOFFirstHit TOFClosestHits TOFClosestHitsError TOFFlightLength TOFLastTrkHit TOFLastTrkHitFlightLength
+    fh          ch             che                 len             th            thl
+  </parameter>
+  <!-- can also add other PID algorithms, eg: 
+    Algorithm:dEdxPID dedx
+    electronLikelihood muonLikelihood  pionLikelihood kaonLikelihood protonLikelihood hadronLikelihood
+    lhe                lhmu            lhpi           lhk            lhp              lhhad
+ -->
+
+  
+
+  <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+  <parameter name="Verbosity" type="string">DEBUG5 </parameter>
+</processor>
+
+
+</marlin>

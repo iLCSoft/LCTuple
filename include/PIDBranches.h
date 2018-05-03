@@ -16,8 +16,12 @@ namespace EVENT{
 }
 
 /** PIDBranches holds branches for ParticleID objects attached to the  elements of the ReconstructedParticle collection
+ *  These branches have to run parallel to the ReconstructedParticle branches.
+ *  The actual branch names and parameters have to be defined outside of the class, e.g. in 
+ *  the LCTuple processor parameter PIDBranchDefinition.
  * 
  * @author F. Gaede, DESY
+ * @date May, 2018
  * @version $Id$
  */
 

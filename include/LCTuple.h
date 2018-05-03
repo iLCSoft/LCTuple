@@ -37,6 +37,13 @@ class CollectionBranches;
 
 class LCTuple : public Processor {
   
+  struct PIDBranchDef{
+    std::string algoName{} ;
+    std::string prefix{} ;
+    std::vector<std::string> pNames{} ;
+    std::vector<std::string> bNames{} ;
+  } ;
+
  public:
   
   virtual Processor*  newProcessor() { return new LCTuple ; }
@@ -67,6 +74,8 @@ class LCTuple : public Processor {
   
   
  protected:
+
+  void decodePIDBranchDefinitions() ;
 
   /** Input collection name.
    */
@@ -107,6 +116,8 @@ class LCTuple : public Processor {
   StringVec _relColNames {};
   StringVec _relPrefixes {};
 
+  StringVec _pidBranchDefinition {};
+  
   TTree* _tree {};
 
   CWBranchesSet* _evtBranches {};
@@ -130,6 +141,8 @@ class LCTuple : public Processor {
   
   int _nRun {};
   int _nEvt {};
+
+  std::vector<PIDBranchDef> _pidBranchDefs ;
 } ;
 
 #endif
