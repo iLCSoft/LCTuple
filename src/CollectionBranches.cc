@@ -46,7 +46,7 @@ void CollectionBranches::initBranches( TTree* tree, const std::string& pre){
 }
 
 
-void CollectionBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* evt ){
+void CollectionBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* /*evt*/ ){
 
   if( !col ) return ;
   streamlog_out( DEBUG2 ) << "entered CollectionBranch fill" <<  std::endl ;

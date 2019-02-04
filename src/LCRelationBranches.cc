@@ -23,7 +23,7 @@ void LCRelationBranches::initBranches( TTree* tree, const std::string& pre){
 }
   
 
-void LCRelationBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* evt ){
+void LCRelationBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* /*evt*/ ){
   
   if( !col ) return ;
 

@@ -88,7 +88,7 @@ void CreateRecoRelations::init() {
 //============================================================================================================================
 
 
-void CreateRecoRelations::processRunHeader( LCRunHeader* run) { 
+void CreateRecoRelations::processRunHeader( LCRunHeader* /*run*/) { 
   
   _nRun++ ;
 } 
@@ -151,7 +151,7 @@ void CreateRecoRelations::processEvent( LCEvent * evt ) {
 
 //============================================================================================================================
 
-void CreateRecoRelations::check( LCEvent * evt ) { 
+void CreateRecoRelations::check( LCEvent * /*evt*/ ) { 
   // nothing to check here - could be used to fill checkplots in reconstruction processor
 }
 
