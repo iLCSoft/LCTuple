@@ -34,21 +34,21 @@ public:
 
 private:
   
-  int   _nclu ;
-  int   _nsd ;
-  int   _clori[ LCT_CLUSTER_MAX ] ;
-  int   _cltyp[ LCT_CLUSTER_MAX ] ;
-  float _clene[ LCT_CLUSTER_MAX ] ;
-  float _cleer[ LCT_CLUSTER_MAX ] ;
-  float _clpox[ LCT_CLUSTER_MAX ] ;
-  float _clpoy[ LCT_CLUSTER_MAX ] ;
-  float _clpoz[ LCT_CLUSTER_MAX ] ;
-  float _clper[ LCT_CLUSTER_MAX ][ 6] ; // position error cov matrix
-  float _clthe[ LCT_CLUSTER_MAX ] ;
-  float _clphi[ LCT_CLUSTER_MAX ] ;
-  float _clder[ LCT_CLUSTER_MAX ][ 3] ;  // direction error cov matrix
-  float _clsha[ LCT_CLUSTER_MAX ][ 6] ;  // shape variable - fixed  to 6 for now 
-  float _clsde[ LCT_CLUSTER_MAX ][12] ;  // subdetector fractions - limited to 12 
+  int   _nclu {};
+  int   _nsd {};
+  int   _clori[ LCT_CLUSTER_MAX ] {};
+  int   _cltyp[ LCT_CLUSTER_MAX ] {};
+  float _clene[ LCT_CLUSTER_MAX ] {};
+  float _cleer[ LCT_CLUSTER_MAX ] {};
+  float _clpox[ LCT_CLUSTER_MAX ] {};
+  float _clpoy[ LCT_CLUSTER_MAX ] {};
+  float _clpoz[ LCT_CLUSTER_MAX ] {};
+  float _clper[ LCT_CLUSTER_MAX ][ 6] {}; // position error cov matrix
+  float _clthe[ LCT_CLUSTER_MAX ] {};
+  float _clphi[ LCT_CLUSTER_MAX ] {};
+  float _clder[ LCT_CLUSTER_MAX ][ 3] {};  // direction error cov matrix
+  float _clsha[ LCT_CLUSTER_MAX ][ 6] {};  // shape variable - fixed  to 6 for now 
+  float _clsde[ LCT_CLUSTER_MAX ][12] {};  // subdetector fractions - limited to 12 
   
   // ignored for now:
   // EVENT::ClusterVec        _clusters ;

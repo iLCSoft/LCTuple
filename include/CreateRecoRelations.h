@@ -59,15 +59,15 @@ class CreateRecoRelations : public Processor {
   /** Input collection name.
    */
 
-  std::string _inColReco ; 
-  std::string _outColR2T ; 
-  std::string _outColR2C ; 
-  std::string _outColR2R ; 
+  std::string _inColReco {} ; 
+  std::string _outColR2T {} ; 
+  std::string _outColR2C {} ; 
+  std::string _outColR2R {} ; 
 
 
 
-  int _nRun ;
-  int _nEvt ;
+  int _nRun {} ;
+  int _nEvt {} ;
 } ;
 
 #endif

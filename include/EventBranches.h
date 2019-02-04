@@ -34,16 +34,16 @@ public:
 
 private:
 
-  int    _evevt  ;    
-  int    _evrun  ;
-  float  _evwgt  ;
-  long   _evtim  ;
-  float  _evsig  ;
-  float 	_evene 	;
-  float 	_evpoe	;
-  float 	_evpop   ;
-  int   	_evnch  	;
-  char _evpro[LCT_STRING_MAX]  ;
+  int    _evevt {} ;    
+  int    _evrun {} ;
+  float  _evwgt {} ;
+  long   _evtim {} ;
+  float  _evsig {} ;
+  float 	_evene {}	;
+  float 	_evpoe {}	;
+  float 	_evpop {} ;
+  int   	_evnch {} ;
+  char _evpro[LCT_STRING_MAX] {} ;
 } ;
 
 #endif

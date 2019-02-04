@@ -142,7 +142,7 @@ class LCTuple : public Processor {
   int _nRun {};
   int _nEvt {};
 
-  std::vector<PIDBranchDef> _pidBranchDefs ;
+  std::vector<PIDBranchDef> _pidBranchDefs {} ;
 } ;
 
 #endif
