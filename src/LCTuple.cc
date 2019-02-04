@@ -449,7 +449,7 @@ streamlog_out(DEBUG) << "  okay!  " << std::endl ;
 //============================================================================================================================
 
 
-void LCTuple::processRunHeader( LCRunHeader* run) { 
+void LCTuple::processRunHeader( LCRunHeader* /*run*/) { 
   _nRun++ ;
 } 
 
@@ -587,7 +587,7 @@ void LCTuple::processEvent( LCEvent * evt ) {
 
 //============================================================================================================================
 
-void LCTuple::check( LCEvent * evt ) { 
+void LCTuple::check( LCEvent * /*evt*/ ) { 
   // nothing to check here - could be used to fill checkplots in reconstruction processor
 }
 
