@@ -85,7 +85,7 @@ void JetBranches::initBranches( TTree* tree, const std::string& pre){
 
 	  tree->Branch( (pre+"jnpid" ).c_str() , &_jnpid   ,  (pre+"jnpid/I").c_str() ) ;
 	  tree->Branch( (pre+"npfojet").c_str(), &_njetpfo , (pre+"npfojet["+pre+"njet]/I").c_str() ) ;
-    tree->Branch( (pre+"npfojet").c_str(), &_jetpfoori , (pre+"pfoori["+pre+"njet][500]/I").c_str() ) ;
+    tree->Branch( (pre+"pfoori").c_str(), &_jetpfoori , (pre+"pfoori["+pre+"njet][500]/I").c_str() ) ;
    } // end if
 
 
