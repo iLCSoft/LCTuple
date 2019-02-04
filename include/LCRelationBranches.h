@@ -34,10 +34,10 @@ public:
 
 private:
   
-  int    _nrel   ;
-  int    _from[ LCT_RELATION_MAX ] ;
-  int    _to  [ LCT_RELATION_MAX ] ;
-  float  _wgt [ LCT_RELATION_MAX ] ;
+  int    _nrel  {} ;
+  int    _from[ LCT_RELATION_MAX ] {};
+  int    _to  [ LCT_RELATION_MAX ] {};
+  float  _wgt [ LCT_RELATION_MAX ] {};
 
 } ;
 

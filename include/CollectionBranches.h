@@ -31,19 +31,19 @@ public:
   virtual void writeParameters(bool writeparameters){ _writeparameters=writeparameters; };
 
 protected:
-  bool _writeparameters;
+  bool _writeparameters{};
 
-  int    _npar ;
-  std::vector<std::string> _parName;
-  std::vector<std::string> _parOrigin;
-  int    _parOriginID[ LCT_PARAMETERS_MAX ];
+  int    _npar {} ;
+  std::vector<std::string> _parName {};
+  std::vector<std::string> _parOrigin {};
+  int    _parOriginID[ LCT_PARAMETERS_MAX ] {};
 
-  int    _parIntN[ LCT_PARAMETERS_MAX ];
-  int    _parFloatN[ LCT_PARAMETERS_MAX ];
-  int    _parStringN[ LCT_PARAMETERS_MAX ];
+  int    _parIntN[ LCT_PARAMETERS_MAX ] {};
+  int    _parFloatN[ LCT_PARAMETERS_MAX ] {};
+  int    _parStringN[ LCT_PARAMETERS_MAX ] {};
 
-  int    _parIntVal[ LCT_PARAMETERS_MAX ][ LCT_PARAMVALS_MAX ] ;
-  float  _parFloatVal[ LCT_PARAMETERS_MAX ][ LCT_PARAMVALS_MAX ] ;
+  int    _parIntVal[ LCT_PARAMETERS_MAX ][ LCT_PARAMVALS_MAX ] {};
+  float  _parFloatVal[ LCT_PARAMETERS_MAX ][ LCT_PARAMVALS_MAX ] {};
   //Not yet implemented! 2D vector of strings not well supported by TTree
   //std::vector<std::vector<std::string> > _parStringVal;
   //char** _parStringVal[ LCT_PARAMETERS_MAX ][ LCT_PARAMVALS_MAX ][ LCT_STRING_MAX ] ;

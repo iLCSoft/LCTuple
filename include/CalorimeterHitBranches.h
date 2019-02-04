@@ -34,17 +34,17 @@ public:
 
 private:
   
-  int    _ncah   ;    
+  int    _ncah  {} ;    
   
-  int    _caori[ LCT_CALORIMETERHIT_MAX ] ;
+  int    _caori[ LCT_CALORIMETERHIT_MAX ] {} ;
 		     
-  int    _caci0[ LCT_CALORIMETERHIT_MAX ] ;
-  int    _caci1[ LCT_CALORIMETERHIT_MAX ] ;
-  float  _capox[ LCT_CALORIMETERHIT_MAX ] ;
-  float  _capoy[ LCT_CALORIMETERHIT_MAX ] ;
-  float  _capoz[ LCT_CALORIMETERHIT_MAX ] ;
-  float  _caene[ LCT_CALORIMETERHIT_MAX ] ;
-  float  _catim[ LCT_CALORIMETERHIT_MAX ] ;
+  int    _caci0[ LCT_CALORIMETERHIT_MAX ] {} ;
+  int    _caci1[ LCT_CALORIMETERHIT_MAX ] {} ;
+  float  _capox[ LCT_CALORIMETERHIT_MAX ] {} ;
+  float  _capoy[ LCT_CALORIMETERHIT_MAX ] {} ;
+  float  _capoz[ LCT_CALORIMETERHIT_MAX ] {} ;
+  float  _caene[ LCT_CALORIMETERHIT_MAX ] {} ;
+  float  _catim[ LCT_CALORIMETERHIT_MAX ] {} ;
   
 } ;
 

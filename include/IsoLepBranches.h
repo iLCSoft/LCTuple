@@ -39,30 +39,30 @@ public:
 	
 	
 private:
-	int   _niso ;
-	int   npid ;
+	int   _niso {} ;
+	int   npid {} ;
 	
-	int   isonpi[ LCT_ISOLEP_MAX ];
-    int   isotyp[ LCT_ISOLEP_MAX ];
-	float isomox[ LCT_ISOLEP_MAX ];
-	float isomoy[ LCT_ISOLEP_MAX ];
-	float isomoz[ LCT_ISOLEP_MAX ];
-	float isoene[ LCT_ISOLEP_MAX ];
-	float isocha[ LCT_ISOLEP_MAX ];
-	float isoncl[ LCT_ISOLEP_MAX ];
-	int   isoori[ LCT_ISOLEP_MAX ];
-	int   pipdg [ LCT_PARTICLEID_MAX ];
+	int   isonpi[ LCT_ISOLEP_MAX ] {} ;
+    int   isotyp[ LCT_ISOLEP_MAX ] {} ;
+	float isomox[ LCT_ISOLEP_MAX ] {} ;
+	float isomoy[ LCT_ISOLEP_MAX ] {} ;
+	float isomoz[ LCT_ISOLEP_MAX ] {} ;
+	float isoene[ LCT_ISOLEP_MAX ] {} ;
+	float isocha[ LCT_ISOLEP_MAX ] {} ;
+	float isoncl[ LCT_ISOLEP_MAX ] {} ;
+	int   isoori[ LCT_ISOLEP_MAX ] {} ;
+	int   pipdg [ LCT_PARTICLEID_MAX ] {} ;
 
-	float _IsoEmiss ;
-	float _IsoMass  ;
-	float _IsoEvis  ; 
-	float _IsoPxvis ;
-	float _IsoPyvis ;
-	float _IsoPzvis ;
-	float _IsoPtvis ;
-	float _IsoTheta ;
- 	float _IsoCosTheta ;
- 	float _IsoPtot ;
+	float _IsoEmiss {} ;
+	float _IsoMass {} ;
+	float _IsoEvis {} ; 
+	float _IsoPxvis {} ;
+	float _IsoPyvis {} ;
+	float _IsoPzvis {} ;
+	float _IsoPtvis {} ;
+	float _IsoTheta {} ;
+ 	float _IsoCosTheta {} ;
+ 	float _IsoPtot {} ;
 	
 } ;
 
