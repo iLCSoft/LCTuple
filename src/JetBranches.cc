@@ -85,6 +85,7 @@ void JetBranches::initBranches( TTree* tree, const std::string& pre){
 
 	  tree->Branch( (pre+"jnpid" ).c_str() , &_jnpid   ,  (pre+"jnpid/I").c_str() ) ;
 	  tree->Branch( (pre+"npfojet").c_str(), &_njetpfo , (pre+"npfojet["+pre+"njet]/I").c_str() ) ;
+    tree->Branch( (pre+"npfojet").c_str(), &_jetpfoori , (pre+"pfoori["+pre+"njet][500]/I").c_str() ) ;
    } // end if
 
 
@@ -258,7 +259,16 @@ void JetBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* evt )
 		 _bctag[ i ] = _ctag[ i ] / ( _ctag[ i ] + _btag[ i ] );
 		 _bcat[ i ]  = pidvec[ ibcat ] ;
 
-		 _njetpfo[ i ] = jet->getParticles().size() ;
+     auto particles = jet->getParticles();
+
+		 _njetpfo[ i ] = particles.size() ;
+     
+     int nparticles = std::min<int>( particles.size() , LCT_JET_PARTICLES_MAX ); // check array limit ...
+     memset( &_jetpfoori[ i ][0], -1, LCT_JET_PARTICLES_MAX ); // init indices
+     
+     for( int partid = 0 ; partid < nparticles ; ++partid ) {
+       _jetpfoori[ i ][ partid ] = particles[partid]->ext<CollIndex>() ;
+     }
 	  } // end if
 
 	  // Calculate and write extra jet parameters if it is enabled
