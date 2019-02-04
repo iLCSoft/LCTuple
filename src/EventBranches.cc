@@ -32,7 +32,7 @@ void EventBranches::initBranches( TTree* tree, const std::string& pre){
 }
   
 
-void EventBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* evt ){
+void EventBranches::fill(const EVENT::LCCollection* /*col*/, EVENT::LCEvent* evt ){
   
   _evevt = evt->getEventNumber()  ;    
   _evrun = evt->getRunNumber()  ;
