@@ -49,6 +49,8 @@ class LCTuple : public Processor {
   virtual Processor*  newProcessor() { return new LCTuple ; }
   
   
+  LCTuple(const LCTuple &) = delete ;
+  LCTuple& operator =(const LCTuple &) = delete ;
   LCTuple() ;
   
   /** Called at the begin of the job before anything is read.

@@ -64,6 +64,8 @@ class JetBranches : public CollectionBranches
    public:
 	  /* ====================  LIFECYCLE     ======================================= */
       JetBranches () {};                        /* constructor */
+      JetBranches(const JetBranches&) = delete ;
+      JetBranches& operator=(const JetBranches&) = delete ;
 	  virtual ~JetBranches() {} ;               /* Destructor */
 
 	  /* ====================  ACCESSORS     ======================================= */
