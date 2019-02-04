@@ -94,7 +94,7 @@ void IsoLepBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* evt )
 	    
 	    const EVENT::ParticleIDVec & pids = isolep->getParticleIDs() ;
 	    
-	    for(int j=0, npid = pids.size() ; j<npid ; ++j)
+	    for(int j=0, npids = pids.size() ; j<npids ; ++j)
 	    {
 	      pidV.push_back( pids[j] ) ;
 	      
