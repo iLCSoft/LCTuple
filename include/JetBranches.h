@@ -140,6 +140,7 @@ class JetBranches : public CollectionBranches
       float  _jMmissq{};                          /* Missing mass squared */
 
       unsigned int _njetpfo[ LCT_JET_MAX ] {};             /* Number of PFOs in a jet */
+      int _jetpfoori[ LCT_JET_MAX ][ LCT_JET_PARTICLES_MAX ] {} ; /* PFOs collection indexes for each jet */
 
 
 }; /* -----  end of class JetBranches  ----- */
