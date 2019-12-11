@@ -1,3 +1,14 @@
+# v01-12
+
+* 2019-03-26 Ete Remi ([PR#7](https://github.com/iLCSoft/LCTuple/pull/7))
+  - Jet branches: added individual particles collection indices to a new output branch `pfoori`
+  - Fixed various warning, making this package warning free
+
+* 2018-05-04 Frank Gaede ([PR#5](https://github.com/iLCSoft/LCTuple/pull/5))
+  - add possibility to store arbitrary PID parameters for the ReconstructedParticle branch
+      - parameter and branches need to be defined in  `PIDBranchDefinition` parameter of LCTuple
+      - see [../example/lctupletof.xml](../example/lctupletof.xml) for details
+
 # v01-11
 
 * 2018-03-13 Marko Petric ([PR#4](https://github.com/iLCSoft/LCTuple/pull/4))
