@@ -28,7 +28,8 @@ void TrackerHitBranches::initBranches( TTree* tree, const std::string& pre){
   tree->Branch( (pre+"thpoy").c_str() , _thpoy , (pre+"thpoy["+pre+"ntrh]/D").c_str() ) ;
   tree->Branch( (pre+"thpoz").c_str() , _thpoz , (pre+"thpoz["+pre+"ntrh]/D").c_str() ) ;
   tree->Branch( (pre+"thedp").c_str() , _thedp , (pre+"thedp["+pre+"ntrh]/F").c_str() ) ;
-
+  tree->Branch( (pre+"thtim").c_str() , _thtim , (pre+"thtim["+pre+"ntrh]/F").c_str() ) ;
+  
   tree->Branch( (pre+"thcov").c_str() , _thcov , (pre+"thcov["+pre+"ntrh][6]/F").c_str() ) ;
 
   tree->Branch( (pre+"thtyp").c_str() , _thtyp , (pre+"thtyp["+pre+"ntrh]/F").c_str() ) ;
