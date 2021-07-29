@@ -39,12 +39,12 @@ void EventBranches::fill(const EVENT::LCCollection* /*col*/, EVENT::LCEvent* evt
   _evwgt = evt->getWeight()  ;
   _evtim = evt->getTimeStamp()  ;
   
-  _evsig = evt->getParameters().getFloatVal("CrossSection_fb")   ;
+  _evsig = evt->getParameters().getFloatVal("crossSection")   ;
   _evene = evt->getParameters().getFloatVal("Energy")  ;
-  _evpoe = evt->getParameters().getFloatVal("Pol_em")  ;
-  _evpop = evt->getParameters().getFloatVal("Pol_ep")  ;
+  _evpoe = evt->getParameters().getFloatVal("polarization1")  ;
+  _evpop = evt->getParameters().getFloatVal("polarization2")  ;
 
-  std::string proc =  evt->getParameters().getStringVal("Process") ;
+  std::string proc =  evt->getParameters().getStringVal("processName") ;
   _evnch = (int) proc.size()  ;
   
   for(int i=0 ; i < _evnch ; ++i ) {
