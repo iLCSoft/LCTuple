@@ -1,5 +1,5 @@
 # LCTuple
-[![Build Status](https://travis-ci.org/iLCSoft/LCTuple.svg?branch=master)](https://travis-ci.org/iLCSoft/LCTuple)
+[![linux](https://github.com/iLCSoft/LCTuple/actions/workflows/linux.yaml/badge.svg)](https://github.com/iLCSoft/LCTuple/actions/workflows/linux.yaml)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/12360/badge.svg)](https://scan.coverity.com/projects/ilcsoft-lctuple)
 
 Marlin package that creates a ROOT TTree with a column wise ntuple from LCIO collections.
