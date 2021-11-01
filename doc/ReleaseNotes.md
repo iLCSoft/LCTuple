@@ -1,3 +1,14 @@
+# v01-13
+
+* 2021-08-24 Andre Sailer ([PR#12](https://github.com/iLCSoft/LCTuple/pull/12))
+  - CI: build against LCG_99python2 gcc8 and LCG_100 gcc10, clang11
+
+* 2021-08-02 Thomas Madlener ([PR#11](https://github.com/iLCSoft/LCTuple/pull/11))
+  - Migrate CI to github actions and remove travis CI
+
+* 2020-03-05 gianelle ([PR#9](https://github.com/iLCSoft/LCTuple/pull/9))
+  - TrackerHitBranches: add branch to store the time of the tracker hits
+
 # v01-12
 
 * 2019-03-26 Ete Remi ([PR#7](https://github.com/iLCSoft/LCTuple/pull/7))
