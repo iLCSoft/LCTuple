@@ -1,3 +1,11 @@
+# v01-14
+
+* 2022-06-29 Kollassery Swathi Sasikumar ([PR#10](https://github.com/iLCSoft/LCTuple/pull/10))
+  - Changed the names of parameter in the event header to the names that are used in MC2020
+
+* 2022-06-28 Thomas Madlener ([PR#13](https://github.com/iLCSoft/LCTuple/pull/13))
+  - Make doxygen cmake config work with newer cmake versions (>= 3.17)
+
 # v01-13
 
 * 2021-08-24 Andre Sailer ([PR#12](https://github.com/iLCSoft/LCTuple/pull/12))
